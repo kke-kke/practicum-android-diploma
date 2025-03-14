@@ -44,7 +44,7 @@ dependencies {
     implementation(libs.androidX.core)
     implementation(libs.androidX.appCompat)
     implementation(libs.androidX.room)
-    implementation (libs.androidX.lifecycle.viewmodel)
+    implementation(libs.androidX.lifecycle.viewmodel)
     implementation(libs.androidX.navigation.fragment.ktx)
     implementation(libs.androidX.navigation.ui.ktx)
     implementation(libs.androidX.fragment.ktx)
@@ -63,7 +63,7 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
-    implementation (libs.koin)
+    implementation(libs.koin)
     implementation(libs.peko)
 
     // region Unit tests
