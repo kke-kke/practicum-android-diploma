@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Pocket Job</string>
+    <string name="main_page">Главная</string>
+    <string name="favorites">Избранное</string>
+    <string name="team">Команда</string>
+    <string name="job_search">Поиск вакансий</string>
+    <string name="filters">Настройки фильтрации</string>
+    <string name="job_place">Место работы</string>
+    <string name="industry_filter">Выбор отрасли</string>
+    <string name="job">Вакансия</string>
 </resources>
