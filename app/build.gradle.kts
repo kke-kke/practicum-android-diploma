@@ -2,7 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("ru.practicum.android.diploma.plugins.developproperties")
-    id("kotlin-kapt")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -49,7 +49,7 @@ dependencies {
     implementation(libs.androidX.navigation.ui.ktx)
     implementation(libs.androidX.fragment.ktx)
     implementation(libs.androidX.room.runtime)
-    kapt(libs.androidX.room.compiler)
+    ksp(libs.androidX.room.compiler)
 
     implementation(libs.kotlinX.coroutines.android)
 
@@ -65,6 +65,8 @@ dependencies {
     implementation(libs.retrofit.converter.gson)
     implementation(libs.koin)
     implementation(libs.peko)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging.interceptor)
 
     // region Unit tests
     testImplementation(libs.unitTests.junit)
