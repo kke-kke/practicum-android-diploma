@@ -4,5 +4,7 @@
         <item name="colorOnBackground">@color/yp_white</item>
         <item name="backgroundColor">@color/yp_gray</item>
         <item name="colorOnSecondary">@color/yp_white</item>
+        <item name="android:statusBarColor">@color/yp_black</item>
+        <item name="android:navigationBarColor">@color/yp_black</item>
     </style>
 </resources>
