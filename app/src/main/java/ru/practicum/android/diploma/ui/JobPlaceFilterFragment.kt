@@ -9,11 +9,17 @@ import ru.practicum.android.diploma.databinding.FragmentJobPlaceFilterBinding
 
 class JobPlaceFilterFragment : Fragment() {
 
-    private lateinit var jobPlaceBinding: FragmentJobPlaceFilterBinding
+    private var _binding: FragmentJobPlaceFilterBinding? = null
+    private val jobPlaceBinding get() = _binding!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        jobPlaceBinding = FragmentJobPlaceFilterBinding.inflate(inflater, container, false)
+        _binding = FragmentJobPlaceFilterBinding.inflate(inflater, container, false)
         return jobPlaceBinding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

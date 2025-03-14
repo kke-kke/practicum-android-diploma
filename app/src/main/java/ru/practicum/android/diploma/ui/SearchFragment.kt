@@ -8,11 +8,18 @@ import androidx.fragment.app.Fragment
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
 
 class SearchFragment : Fragment() {
-    private lateinit var searchBinding: FragmentSearchBinding
+
+    private var _binding: FragmentSearchBinding? = null
+    private val searchBinding get() = _binding!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        searchBinding = FragmentSearchBinding.inflate(inflater, container, false)
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
         return searchBinding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

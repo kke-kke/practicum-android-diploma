@@ -9,11 +9,17 @@ import ru.practicum.android.diploma.databinding.FragmentFilterBinding
 
 class FilterFragment : Fragment() {
 
-    private lateinit var filterBinding: FragmentFilterBinding
+    private var _binding: FragmentFilterBinding? = null
+    private val filterBinding get() = _binding!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        filterBinding = FragmentFilterBinding.inflate(inflater, container, false)
+        _binding = FragmentFilterBinding.inflate(inflater, container, false)
         return filterBinding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

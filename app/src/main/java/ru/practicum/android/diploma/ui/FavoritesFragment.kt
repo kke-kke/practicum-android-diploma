@@ -9,11 +9,17 @@ import ru.practicum.android.diploma.databinding.FragmentFavoritesBinding
 
 class FavoritesFragment : Fragment() {
 
-    private lateinit var favoritesBinding: FragmentFavoritesBinding
+    private var _binding: FragmentFavoritesBinding? = null
+    private val favoritesBinding get() = _binding!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        favoritesBinding = FragmentFavoritesBinding.inflate(inflater, container, false)
+        _binding = FragmentFavoritesBinding.inflate(inflater, container, false)
         return favoritesBinding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

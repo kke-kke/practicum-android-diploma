@@ -9,11 +9,17 @@ import ru.practicum.android.diploma.databinding.FragmentTeamBinding
 
 class TeamFragment : Fragment() {
 
-    private lateinit var teamBinding: FragmentTeamBinding
+    private var _binding: FragmentTeamBinding? = null
+    private val teamBinding get() = _binding!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        teamBinding = FragmentTeamBinding.inflate(inflater, container, false)
+        _binding = FragmentTeamBinding.inflate(inflater, container, false)
         return teamBinding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

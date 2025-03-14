@@ -9,11 +9,17 @@ import ru.practicum.android.diploma.databinding.FragmentIndustryFilterBinding
 
 class IndustryFilterFragment : Fragment() {
 
-    private lateinit var industryFilterBinding: FragmentIndustryFilterBinding
+    private var _binding: FragmentIndustryFilterBinding? = null
+    private val industryFilterBinding get() = _binding!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        industryFilterBinding = FragmentIndustryFilterBinding.inflate(inflater, container, false)
+        _binding = FragmentIndustryFilterBinding.inflate(inflater, container, false)
         return industryFilterBinding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }
