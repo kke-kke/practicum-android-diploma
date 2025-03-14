@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("ru.practicum.android.diploma.plugins.developproperties")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -42,10 +43,30 @@ android {
 dependencies {
     implementation(libs.androidX.core)
     implementation(libs.androidX.appCompat)
+    implementation(libs.androidX.room)
+    implementation(libs.androidX.lifecycle.viewmodel)
+    implementation(libs.androidX.navigation.fragment.ktx)
+    implementation(libs.androidX.navigation.ui.ktx)
+    implementation(libs.androidX.fragment.ktx)
+    implementation(libs.androidX.room.runtime)
+    ksp(libs.androidX.room.compiler)
+
+    implementation(libs.kotlinX.coroutines.android)
 
     // UI layer libraries
     implementation(libs.ui.material)
     implementation(libs.ui.constraintLayout)
+
+    // Tools libraries
+    implementation(libs.glide)
+    annotationProcessor(libs.glide.compiler)
+    implementation(libs.gson)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.koin)
+    implementation(libs.peko)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging.interceptor)
 
     // region Unit tests
     testImplementation(libs.unitTests.junit)
