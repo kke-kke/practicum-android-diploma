@@ -1,10 +1,10 @@
 package ru.practicum.android.diploma.data.dto.dto_models
 
-data class AreasResponse(
-    val items: List<AreasDTO>
-)
+import com.google.gson.annotations.SerializedName
+
 data class AreasDTO(
-    val id: String,
-    val name: String,
-    val areas: List<AreasDTO>?
+    @SerializedName("id") val id: String? = null,
+    @SerializedName("name") val name: String? = null,
+    @SerializedName("parent_id") val parentID: String? = null,
+    @SerializedName("areas") val areas: List<AreasDTO>? = null
 )

@@ -10,6 +10,7 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.data.network.ApiService
 import ru.practicum.android.diploma.data.network.NetworkClient
 import ru.practicum.android.diploma.data.network.call
+import ru.practicum.android.diploma.domain.models.Response
 import ru.practicum.android.diploma.util.Constants
 
 class RootActivity : AppCompatActivity() {
@@ -21,13 +22,23 @@ class RootActivity : AppCompatActivity() {
         networkRequestExample(accessToken = BuildConfig.HH_ACCESS_TOKEN)
 
         CoroutineScope(Dispatchers.IO).launch {
-            println(
-                NetworkClient()
-                    .getClient(hhApiUrl = Constants.HH_API_URL)
-                    .create(ApiService::class.java)
-                    .searchVacancies("дизайнер")
-                    .call()
-            )
+            //println(
+                //kotlin.runCatching {
+                    val result = NetworkClient()
+                        .getClient(baseUrl = Constants.BASE_URL)
+                        .create(ApiService::class.java)
+                        .getAreas()
+                        .call()
+            when(result){
+                is Response.Error -> TODO()
+                is Response.Success -> println(
+                    result.data
+                )
+            }
+
+
+                //}
+            //)
 
         }
     }

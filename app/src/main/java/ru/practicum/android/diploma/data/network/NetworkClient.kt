@@ -11,7 +11,7 @@ class NetworkClient() {
 
     private val accessToken = BuildConfig.HH_ACCESS_TOKEN
 
-    fun getClient(hhApiUrl: String): Retrofit {
+    fun getClient(baseUrl: String): Retrofit {
 
         val logging = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
@@ -29,7 +29,7 @@ class NetworkClient() {
         }
 
         val retrofit = Retrofit.Builder()
-            .baseUrl(hhApiUrl)
+            .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .client(httpClient.build())
             .build()
