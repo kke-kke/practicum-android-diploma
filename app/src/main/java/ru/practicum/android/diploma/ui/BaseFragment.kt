@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 
-abstract class BaseFragment<T : ViewBinding>: Fragment() {
+abstract class BaseFragment<T : ViewBinding> : Fragment() {
 
     private var _binding: T? = null
-    private val binding get() = _binding ?: throw IllegalStateException("Binding must not be null")
+    private val binding get() = checkNotNull(_binding) { "Binding must not be null" }
 
     abstract fun onCreateBinding(inflater: LayoutInflater, container: ViewGroup?): T
 
