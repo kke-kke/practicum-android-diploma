@@ -7,7 +7,7 @@ import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface VacancyDao {
+interface VacancyDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertVacancy(vacancy: VacancyEntity)
 
