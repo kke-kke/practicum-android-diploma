@@ -23,13 +23,15 @@ class RootActivity : AppCompatActivity() {
 
         rootBinding.bottomNavigationView.setupWithNavController(navController)
 
+        val setOfVisibleFragments = arrayOf(
+            R.id.searchFragment,
+            R.id.favoritesFragment,
+            R.id.teamFragment
+        )
+
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            rootBinding.bottomNavigationView.isVisible = destination.id == R.id.searchFragment
-                || destination.id == R.id.favoritesFragment
-                || destination.id == R.id.teamFragment
-            rootBinding.navBarDivider.isVisible = destination.id == R.id.searchFragment
-                || destination.id == R.id.favoritesFragment
-                || destination.id == R.id.teamFragment
+            rootBinding.bottomNavigationView.isVisible = destination.id in setOfVisibleFragments
+            rootBinding.navBarDivider.isVisible = destination.id in setOfVisibleFragments
         }
 
         // Пример использования access token для HeadHunter API
