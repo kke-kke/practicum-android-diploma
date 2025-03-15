@@ -1,25 +1,13 @@
 package ru.practicum.android.diploma.ui
 
-import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import ru.practicum.android.diploma.databinding.FragmentJobPlaceFilterBinding
 
-class JobPlaceFilterFragment : Fragment() {
+class JobPlaceFilterFragment : BaseFragment<FragmentJobPlaceFilterBinding>() {
 
-    private var _binding: FragmentJobPlaceFilterBinding? = null
-    private val jobPlaceBinding get() = _binding!!
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        _binding = FragmentJobPlaceFilterBinding.inflate(inflater, container, false)
-        return jobPlaceBinding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun onCreateBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentJobPlaceFilterBinding {
+        return FragmentJobPlaceFilterBinding.inflate(inflater, container, false)
     }
 
 }
