@@ -8,7 +8,9 @@ val databaseModule = module {
     // Database
     single {
         Room.databaseBuilder(
-            androidContext(), AppDatabase::class.java, Constants.DATABASE_NAME
+            androidContext(),
+            AppDatabase::class.java,
+            Constants.DATABASE_NAME
         ).build()
     }
     // Dao
