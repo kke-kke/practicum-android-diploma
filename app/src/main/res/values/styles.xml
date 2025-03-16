@@ -45,6 +45,5 @@
     <style name="team_member_text_style" parent="text_style">
         <item name="android:fontFamily">@font/ys_display_medium</item>
         <item name="android:layout_marginTop">18dp</item>
-        <item name="android:layout_marginStart">16dp</item>
     </style>
 </resources>
