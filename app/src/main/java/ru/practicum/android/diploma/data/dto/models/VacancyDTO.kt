@@ -28,7 +28,7 @@ data class EmployerDTO(
 )
 
 data class LogoUrlsDTO(
-    @SerializedName("original") val original: String? = null
+    @SerializedName("90") val logo: String? = null
 )
 
 data class SnippetDTO(
