@@ -7,12 +7,11 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.practicum.android.diploma.BuildConfig
 
-class NetworkClient() {
+class NetworkClient {
 
     private val accessToken = BuildConfig.HH_ACCESS_TOKEN
 
     fun getClient(baseUrl: String): Retrofit {
-
         val logging = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         }

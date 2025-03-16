@@ -5,10 +5,10 @@ import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Path
 import retrofit2.http.Query
-import ru.practicum.android.diploma.data.dto.dto_models.AreasDTO
-import ru.practicum.android.diploma.data.dto.dto_models.IndustryDTO
-import ru.practicum.android.diploma.data.dto.dto_models.VacanciesResponse
-import ru.practicum.android.diploma.data.dto.dto_models.VacancyDTO
+import ru.practicum.android.diploma.data.dto.models.AreasDTO
+import ru.practicum.android.diploma.data.dto.models.IndustryDTO
+import ru.practicum.android.diploma.data.dto.models.VacanciesResponse
+import ru.practicum.android.diploma.data.dto.models.VacancyDTO
 
 interface ApiService {
     @Headers(
