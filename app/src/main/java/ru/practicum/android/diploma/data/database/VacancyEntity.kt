@@ -1,7 +1,10 @@
 package ru.practicum.android.diploma.data.database
 
+import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 
 @Entity(tableName = "vacancies")
 data class VacancyEntity(
@@ -9,12 +12,15 @@ data class VacancyEntity(
     val id: String,
     val name: String,
     val departmentName: String,
-    val salary: String?,
+    @Embedded
+    val salary: SalaryEntity?,
     val experience: String?,
     val employment: String?,
     val workFormat: String?,
     val description: String?,
     val companyIcon: String?,
     val companyName: String?,
-    val area: String?
+    @ColumnInfo(name = "key_skills")
+    @TypeConverters(Converters::class)
+    val keySkills: List<String>
 )
