@@ -1,7 +1,6 @@
 package ru.practicum.android.diploma.data.database
 
 import androidx.room.ColumnInfo
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
@@ -12,8 +11,7 @@ data class VacancyEntity(
     val id: String,
     val name: String,
     val departmentName: String,
-    @Embedded
-    val salary: SalaryEntity?,
+    val salary: String?,
     val experience: String?,
     val employment: String?,
     val workFormat: String?,
