@@ -8,57 +8,45 @@
     android:background="?attr/background">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="26dp"
         android:text="@string/team"
         android:layout_marginTop="24dp"
         android:layout_marginStart="16dp"
         style="@style/title_text_style"/>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="@string/team_subtitle"
         android:layout_marginTop="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="12dp"
-        android:fontFamily="@font/ys_display_bold"
-        android:textSize="32sp"
-        android:textColor="?attr/colorOnBackground"/>
+        style="@style/bold_text_style"/>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="@string/member1"
-        style="@style/team_member_text_style"/>
+        style="@style/team_member_text_style"
+        android:fontFamily="@font/ys_display_medium"/>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="@string/member2"
-        style="@style/team_member_text_style"/>
+        style="@style/team_member_text_style"
+        android:fontFamily="@font/ys_display_medium"/>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="@string/member3"
-        style="@style/team_member_text_style"/>
+        style="@style/team_member_text_style"
+        android:fontFamily="@font/ys_display_medium"/>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="@string/member4"
-        style="@style/team_member_text_style"/>
+        style="@style/team_member_text_style"
+        android:fontFamily="@font/ys_display_medium"/>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="@string/member5"
-        style="@style/team_member_text_style"/>
+        style="@style/team_member_text_style"
+        android:fontFamily="@font/ys_display_medium"/>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="@string/member6"
-        style="@style/team_member_text_style"/>
+        style="@style/team_member_text_style"
+        android:fontFamily="@font/ys_display_medium"/>
 </LinearLayout>
