@@ -27,10 +27,10 @@ class RootActivity : AppCompatActivity() {
                     val result = NetworkClient()
                         .getClient(baseUrl = Constants.BASE_URL)
                         .create(ApiService::class.java)
-                        .getAreas()
+                        .getIndustries()
                         .call()
             when(result){
-                is Response.Error -> TODO()
+                is Response.Error -> println(result.errorCode)
                 is Response.Success -> println(
                     result.data
                 )
