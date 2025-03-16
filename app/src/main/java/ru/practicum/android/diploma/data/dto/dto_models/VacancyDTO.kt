@@ -1,45 +1,53 @@
 package ru.practicum.android.diploma.data.dto.dto_models
 
+import com.google.gson.annotations.SerializedName
+
 data class VacancyDTO(
-    val id: String,
-    val name: String,
-    val salary: SalaryDTO?,
-    val employer: EmployerDTO,
-    val snippet: SnippetDTO,
-    val area: AreaDTO,
-    val experience: ExperienceDTO,
-    val schedule: ScheduleDTO,
-    val published_at: String
+    @SerializedName("id") val id: String,
+    @SerializedName("name") val name: String,
+    @SerializedName("salary") val salary: SalaryDTO? = null,
+    @SerializedName("employer") val employer: EmployerDTO? = null,
+    @SerializedName("snippet") val snippet: SnippetDTO? = null,
+    @SerializedName("description") val description: String? = null,
+    @SerializedName("key_skills") val keySkills: List<KeySkillDTO>? = null,
+    @SerializedName("area") val area: AreaDTO? = null,
+    @SerializedName("experience") val experience: ExperienceDTO? = null,
+    @SerializedName("schedule") val schedule: ScheduleDTO? = null,
+    @SerializedName("published_at") val publishedAt: String? = null
 )
 
 data class SalaryDTO(
-    val from: Int?,
-    val to: Int?,
-    val currency: String?
+    @SerializedName("from") val from: Int? = null,
+    @SerializedName("to") val to: Int? = null,
+    @SerializedName("currency") val currency: String? = null
 )
 
 data class EmployerDTO(
-    val name: String,
-    val logo_urls: LogoUrlsDTO?
+    @SerializedName("name") val name: String? = null,
+    @SerializedName("logo_urls") val logoUrls: LogoUrlsDTO? = null
 )
 
 data class LogoUrlsDTO(
-    val original: String?
+    @SerializedName("original") val original: String? = null
 )
 
 data class SnippetDTO(
-    val requirement: String?,
-    val responsibility: String?
+    @SerializedName("requirement") val requirement: String? = null,
+    @SerializedName("responsibility") val responsibility: String? = null
+)
+
+data class KeySkillDTO(
+    @SerializedName("name") val name: String? = null
 )
 
 data class AreaDTO(
-    val name: String
+    @SerializedName("name") val name: String? = null
 )
 
 data class ExperienceDTO(
-    val name: String
+    @SerializedName("name") val name: String? = null
 )
 
 data class ScheduleDTO(
-    val name: String
+    @SerializedName("name") val name: String? = null
 )

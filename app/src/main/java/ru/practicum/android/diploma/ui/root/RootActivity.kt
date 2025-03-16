@@ -21,25 +21,6 @@ class RootActivity : AppCompatActivity() {
         // Пример использования access token для HeadHunter API
         networkRequestExample(accessToken = BuildConfig.HH_ACCESS_TOKEN)
 
-        CoroutineScope(Dispatchers.IO).launch {
-            //println(
-                //kotlin.runCatching {
-                    val result = NetworkClient()
-                        .getClient(baseUrl = Constants.BASE_URL)
-                        .create(ApiService::class.java)
-                        .getIndustries()
-                        .call()
-            when(result){
-                is Response.Error -> println(result.errorCode)
-                is Response.Success -> println(
-                    result.data
-                )
-            }
-
-
-                //}
-            //)
-
         }
     }
 

@@ -1,9 +1,11 @@
 package ru.practicum.android.diploma.data.dto.dto_models
 
+import com.google.gson.annotations.SerializedName
+
 data class VacanciesResponse(
-    val items: List<VacancyDTO>,
-    val found: Int,
-    val pages: Int,
-    val page: Int,
-    val per_page: Int
+    @SerializedName("items") val items: List<VacancyDTO>,
+    @SerializedName("found") val found: Int,
+    @SerializedName("pages") val maxPages: Int,
+    @SerializedName("page") val page: Int,
+    @SerializedName("per_page") val perPage: Int
 )
