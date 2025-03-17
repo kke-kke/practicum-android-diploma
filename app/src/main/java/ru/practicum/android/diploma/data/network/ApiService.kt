@@ -7,7 +7,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 import ru.practicum.android.diploma.data.dto.models.AreasDTO
 import ru.practicum.android.diploma.data.dto.models.IndustryDTO
-import ru.practicum.android.diploma.data.dto.models.VacanciesResponse
+import ru.practicum.android.diploma.data.dto.responses.VacanciesResponse
 import ru.practicum.android.diploma.data.dto.models.VacancyDTO
 
 interface ApiService {
