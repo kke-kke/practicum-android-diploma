@@ -9,9 +9,7 @@ import ru.practicum.android.diploma.data.network.ApiService
 import ru.practicum.android.diploma.data.network.NetworkClient
 import ru.practicum.android.diploma.util.Constants
 
-// провайдит Retrofit, ApiService, OkHttpClient
 val networkModule = module {
-    // OkHttpClient
     single { provideOkHttpClient() }
 
     single {
