@@ -1,8 +1,9 @@
-package ru.practicum.android.diploma.ui
+package ru.practicum.android.diploma.ui.search
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
+import ru.practicum.android.diploma.ui.BaseFragment
 
 class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
