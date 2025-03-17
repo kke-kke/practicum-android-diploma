@@ -34,7 +34,6 @@ class RootActivity : AppCompatActivity() {
             rootBinding.navBarDivider.isVisible = destination.id in setOfVisibleFragments
         }
 
-        // Пример использования access token для HeadHunter API
         networkRequestExample(accessToken = BuildConfig.HH_ACCESS_TOKEN)
 
     }
@@ -45,7 +44,6 @@ class RootActivity : AppCompatActivity() {
     }
 
     private fun networkRequestExample(accessToken: String) {
-        // ...
     }
 
 }

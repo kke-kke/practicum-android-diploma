@@ -4,7 +4,6 @@ import com.google.gson.Gson
 import org.koin.dsl.module
 import ru.practicum.android.diploma.data.database.Converters
 
-// провайдит Gson, sharedPreferences, Mappers
 val dataModule = module {
     single { Gson() }
     single { Converters(get()) }

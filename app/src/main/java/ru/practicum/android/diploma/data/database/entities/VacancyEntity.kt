@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.data.database
+package ru.practicum.android.diploma.data.database.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

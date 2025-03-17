@@ -1,8 +1,9 @@
-package ru.practicum.android.diploma.ui
+package ru.practicum.android.diploma.ui.vacancydetails
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import ru.practicum.android.diploma.databinding.FragmentJobBinding
+import ru.practicum.android.diploma.ui.BaseFragment
 
 class JobFragment : BaseFragment<FragmentJobBinding>() {
 
