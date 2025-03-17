@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/jobFragment"
-        android:name="ru.practicum.android.diploma.ui.vacancyDetails.JobFragment"
+        android:name="ru.practicum.android.diploma.ui.vacancydetails.JobFragment"
         android:label="fragment_job"
         tools:layout="@layout/fragment_job" />
     <fragment

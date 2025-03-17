@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.ui.vacancyDetails
+package ru.practicum.android.diploma.ui.vacancydetails
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
