@@ -12,7 +12,6 @@ import ru.practicum.android.diploma.data.dto.models.VacancyDTO
 
 interface ApiService {
     @Headers(
-        "Authorization: Bearer {ACCESS_TOKEN}",
         "HH-User-Agent: Pocket Job (kovaleva.ksenia.e@gmail.com)"
     )
     @GET("vacancies")
@@ -21,21 +20,18 @@ interface ApiService {
     ): Response<VacanciesResponse>
 
     @Headers(
-        "Authorization: Bearer {ACCESS_TOKEN}",
         "HH-User-Agent: Pocket Job (kovaleva.ksenia.e@gmail.com)"
     )
     @GET("vacancies/{vacancy_id}")
     suspend fun getVacancyDetails(@Path("vacancy_id") vacancyID: String): Response<VacancyDTO>
 
     @Headers(
-        "Authorization: Bearer {ACCESS_TOKEN}",
         "HH-User-Agent: Pocket Job (kovaleva.ksenia.e@gmail.com)"
     )
     @GET("industries")
     suspend fun getIndustries(): Response<List<IndustryDTO>>
 
     @Headers(
-        "Authorization: Bearer {ACCESS_TOKEN}",
         "HH-User-Agent: Pocket Job (kovaleva.ksenia.e@gmail.com)"
     )
     @GET("areas")
