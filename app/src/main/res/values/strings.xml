@@ -18,4 +18,6 @@
     <string name="member4">Анастасия Сорокина</string>
     <string name="member5">Ксения Ковалева</string>
     <string name="member6">Наталья Нестерова</string>
+    <!-- Экран поиска -->
+    <string name="type_in_query">Введите запрос</string>
 </resources>

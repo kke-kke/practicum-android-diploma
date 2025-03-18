@@ -4,9 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.TeamFragment"
-    android:orientation="vertical"
-    android:background="?attr/background"
-    android:paddingHorizontal="16dp">
+    style="@style/linear_layout">
 
     <TextView
         android:text="@string/team"
