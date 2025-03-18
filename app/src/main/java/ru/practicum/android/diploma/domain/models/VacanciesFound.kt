@@ -5,5 +5,11 @@ data class VacanciesFound(
     val found: Int,
     val maxPages: Int,
     val page: Int,
-    val perPage: Int
+    val perPage: Int,
+)
+
+data class VacanciesStateLoad(
+    val vacancies: VacanciesFound? = null,
+    val isError: Boolean = false,
+    val isLoading: Boolean = false,
 )
