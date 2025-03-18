@@ -5,7 +5,9 @@ import com.google.gson.annotations.SerializedName
 data class VacancyDTO(
     @SerializedName("id") val id: String,
     @SerializedName("name") val name: String,
+    @SerializedName("alternate_url") val vacancyUrl: String,
     @SerializedName("salary") val salary: SalaryDTO? = null,
+    @SerializedName("address") val address: AddressDTO?,
     @SerializedName("employer") val employer: EmployerDTO? = null,
     @SerializedName("snippet") val snippet: SnippetDTO? = null,
     @SerializedName("description") val description: String? = null,
@@ -22,13 +24,17 @@ data class SalaryDTO(
     @SerializedName("currency") val currency: String? = null
 )
 
+data class AddressDTO(
+    @SerializedName("raw") val rawAddress: String? = null
+)
+
 data class EmployerDTO(
     @SerializedName("name") val name: String? = null,
     @SerializedName("logo_urls") val logoUrls: LogoUrlsDTO? = null
 )
 
 data class LogoUrlsDTO(
-    @SerializedName("90") val logo: String? = null
+    @SerializedName("90") val employerLogo: String? = null
 )
 
 data class SnippetDTO(
