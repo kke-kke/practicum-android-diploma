@@ -7,40 +7,48 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import ru.practicum.android.diploma.domain.interactor.SearchVacanciesInteractor
+import ru.practicum.android.diploma.domain.interactor.SearchVacanciesResult
+import ru.practicum.android.diploma.util.Constants
 
-class SearchViewModel(/*--- Здесть будет useCase. Потом не забыть добавить в di ---*/) : ViewModel() {
+class SearchViewModel(private val searchVacanciesInteractor: SearchVacanciesInteractor) : ViewModel() {
 
     private var searchJob: Job? = null
+    private var currentPage: Byte = -1
 
-    //private val searchScreenState = MutableLiveData<ScreenState>()
-    //fun observeScreenState(): LiveData<ScreenState> = searchTracksState
+
+    private val searchScreenState = MutableLiveData<SearchVacanciesResult>()
+    fun observeScreenState(): LiveData<SearchVacanciesResult> = searchScreenState
 
     private var lastSearchedText: String = ""
 
     fun searchVacancies(searchedText: String) {
-        if ((searchedText == lastSearchedText) or (searchedText.isEmpty())) {
+        if (searchedText.isEmpty()) {
             return
+        }
+
+        if ((searchedText != lastSearchedText)) {
+            currentPage = -1
         }
 
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
             delay(SEARCH_DEBOUNCE_DELAY_IN_MLS)
-            //--- setScreenState(ScreenState.Loading)
             viewModelScope.launch {
                 lastSearchedText = searchedText
-                /*searchUseCase.searchVacancies(searchedText)
-                    .collect {
-                        //--- Здесь будет установка состояния (ошибка, данные.....)
-                        setScreenState(state)
-                    }*/
-            }
+                val filter = mapOf(
+                    "text" to searchedText,
+                    "page" to (currentPage + 1).toString(),
+                    "per_page" to Constants.VACANCIES_PER_PAGE.toString(),
+                )
 
+                searchVacanciesInteractor.searchVacancies(filter)
+                    ?.collect { searchVacanciesResult ->
+                        searchScreenState.postValue(searchVacanciesResult)
+                    }
+            }
         }
     }
-
-    /*private fun setScreenState(state: ScreenState) {
-        searchScreenState.postValue(state)
-    }*/
 
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY_IN_MLS = 2000L
