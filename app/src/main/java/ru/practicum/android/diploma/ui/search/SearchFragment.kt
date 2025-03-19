@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.material.textfield.TextInputLayout
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
 import ru.practicum.android.diploma.ui.BaseFragment
@@ -40,11 +41,15 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     }
 
     private fun setSearchIcon() {
+        binding.searchBarContainer.endIconMode = TextInputLayout.END_ICON_NONE
+        binding.searchBarContainer.endIconMode = TextInputLayout.END_ICON_CUSTOM
         binding.searchBarContainer.setEndIconDrawable(R.drawable.ic_search)
         binding.searchBarContainer.setEndIconOnClickListener(null)
     }
 
     private fun setClearIcon() {
+        binding.searchBarContainer.endIconMode = TextInputLayout.END_ICON_NONE
+        binding.searchBarContainer.endIconMode = TextInputLayout.END_ICON_CUSTOM
         binding.searchBarContainer.setEndIconDrawable(R.drawable.ic_close)
         binding.searchBarContainer.setEndIconOnClickListener {
             binding.searchBar.text?.clear()
