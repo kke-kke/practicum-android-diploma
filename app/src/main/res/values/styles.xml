@@ -51,7 +51,7 @@
         <item name="android:background">?attr/background</item>
         <item name="android:paddingHorizontal">16dp</item>
     </style>
-    <style name="search_text_input_style">
+    <style name="text_input_style">
         <item name="boxBackgroundColor">?attr/backgroundColor</item>
         <item name="boxCornerRadiusBottomEnd">12dp</item>
         <item name="boxCornerRadiusBottomStart">12dp</item>
@@ -60,6 +60,8 @@
         <item name="boxStrokeColor">@android:color/transparent</item>
         <item name="boxStrokeWidth">0dp</item>
         <item name="cursorColor">@color/yp_blue</item>
+    </style>
+    <style name="search_text_input_style" parent="text_input_style">
         <item name="endIconDrawable">@drawable/ic_search</item>
         <item name="endIconMode">custom</item>
         <item name="endIconTint">@color/yp_black</item>
