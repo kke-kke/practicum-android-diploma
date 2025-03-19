@@ -7,9 +7,3 @@ data class VacanciesFound(
     val page: Int,
     val perPage: Int,
 )
-
-data class VacanciesStateLoad(
-    val vacancies: VacanciesFound? = null,
-    val isError: Boolean = false,
-    val isLoading: Boolean = false,
-)

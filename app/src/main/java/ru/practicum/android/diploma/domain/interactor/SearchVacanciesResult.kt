@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.domain.result
+package ru.practicum.android.diploma.domain.interactor
 
 import ru.practicum.android.diploma.domain.models.VacanciesFound
 

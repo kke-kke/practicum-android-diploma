@@ -23,7 +23,7 @@ class SearchVacanciesRepositoryImpl(
                     )
 
                     is Response.Success -> VacanciesStateLoad(
-                        vacancies = response.data.toDomain()
+                        vacanciesFound = response.data.toDomain()
                     )
                 }
             )
