@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/navbar_height"
         android:background="?attr/background"
-        android:paddingVertical="16dp"
+        android:paddingVertical="@dimen/dimen_16"
         app:contentInsetStart="0dp"
         app:title="@string/job_search"
         app:titleMarginStart="0dp"
@@ -32,8 +32,8 @@
         android:id="@+id/searchBarContainer"
         style="@style/search_text_input_style"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginVertical="8dp">
+        android:layout_height="@dimen/edit_text_height"
+        android:layout_marginVertical="@dimen/dimen_8">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/searchBar"
@@ -45,7 +45,7 @@
             android:textCursorDrawable="@drawable/custom_cursor"
             android:inputType="text"
             android:maxLines="1"
-            android:padding="8dp"
+            android:padding="@dimen/dimen_8"
             android:singleLine="true" />
 
     </com.google.android.material.textfield.TextInputLayout>
