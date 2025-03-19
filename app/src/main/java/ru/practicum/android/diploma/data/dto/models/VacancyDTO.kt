@@ -9,7 +9,7 @@ data class VacancyDTO(
     @SerializedName("salary") val salary: SalaryDTO? = null,
     @SerializedName("address") val address: AddressDTO? = null,
     @SerializedName("employer") val employer: EmployerDTO? = null,
-    @SerializedName("description") val description: String,
+    @SerializedName("description") val description: String? = null,
     @SerializedName("key_skills") val keySkills: List<KeySkillDTO>? = null,
     @SerializedName("area") val area: AreaDTO,
     @SerializedName("experience") val experience: ExperienceDTO? = null,

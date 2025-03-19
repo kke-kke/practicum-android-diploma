@@ -7,13 +7,12 @@ data class Vacancy(
     val salary: Salary?,
     val address: Address?,
     val employer: Employer?,
-    val description: String,
+    val description: String?,
     val keySkills: List<KeySkill>,
     val area: Area,
     val experience: Experience?,
     val schedule: Schedule?,
     val publishedAt: String,
-    var isFavorite: Boolean = false
 )
 
 data class Salary(

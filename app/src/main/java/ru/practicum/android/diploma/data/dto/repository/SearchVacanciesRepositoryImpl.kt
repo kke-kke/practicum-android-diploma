@@ -12,7 +12,7 @@ import ru.practicum.android.diploma.domain.models.VacanciesStateLoad
 class SearchVacanciesRepositoryImpl(
     private val apiService: ApiService
 ) : SearchVacanciesRepository {
-    override fun searchVacancies(queryMap: Map<String, String>): Flow<VacanciesStateLoad>? {
+    override fun searchVacancies(queryMap: Map<String, String>): Flow<VacanciesStateLoad> {
         return flow {
             emit(VacanciesStateLoad(isLoading = true))
             val response = apiService.searchVacancies(queryMap).call()

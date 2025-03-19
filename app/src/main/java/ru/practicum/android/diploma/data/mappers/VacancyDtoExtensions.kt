@@ -37,14 +37,12 @@ fun VacancyDTO.toDomain(): Vacancy {
         salary = salary?.toDomain(),
         address = address?.toDomain(),
         employer = employer?.toDomain(),
-        description = description,
+        description = description ?: "",
         keySkills = keySkills?.map { it.toDomain() } ?: emptyList(),
         area = area.toDomain(),
         experience = experience?.toDomain(),
         schedule = schedule?.toDomain(),
         publishedAt = publishedAt,
-        isFavorite = false
-
     )
 }
 
