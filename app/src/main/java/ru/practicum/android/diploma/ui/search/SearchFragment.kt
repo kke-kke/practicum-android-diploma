@@ -20,6 +20,14 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.searchBar.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                TODO("Not yet implemented")
+            }
+
             override fun afterTextChanged(s: Editable?) {
                 if (s.isNullOrEmpty()) {
                     setSearchIcon()
@@ -29,8 +37,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 }
             }
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
     }
