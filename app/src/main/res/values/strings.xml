@@ -20,4 +20,7 @@
     <string name="member6">Наталья Нестерова</string>
     <!-- Экран поиска -->
     <string name="type_in_query">Введите запрос</string>
+    <!-- Ошибки -->
+    <string name="failed_to_get_vacancies_list">Не удалось получить список вакансий</string>
+    <string name="no_internet">Нет интернета</string>
 </resources>
