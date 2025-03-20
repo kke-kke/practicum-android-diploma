@@ -7,7 +7,7 @@ sealed interface SearchVacanciesResult {
     data class Error(
         val isNothingFound: Boolean = false,
         val isNetworkError: Boolean = false,
-        val isNoInternet:   Boolean = false
+        val isNoInternet: Boolean = false
     ) : SearchVacanciesResult
 
     data object Loading : SearchVacanciesResult
