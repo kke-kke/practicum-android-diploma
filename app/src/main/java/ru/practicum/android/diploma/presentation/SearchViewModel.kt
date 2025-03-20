@@ -43,7 +43,7 @@ class SearchViewModel(private val searchVacanciesInteractor: SearchVacanciesInte
     }
 
     fun getNextPartOfVacancies() {
-        if (lastSearchText.isEmpty() or (searchJob?.isActive == true) or ((currentPage+1) > totalPages)) {
+        if (lastSearchText.isEmpty() or (searchJob?.isActive == true) or (currentPage + 1 > totalPages)) {
             return
         }
 
