@@ -1,14 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/linear_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.search.SearchFragment">
 
-    <TextView
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/searchToolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/main_page"
-        android:textAppearance="@style/title_text_style" />
+        android:layout_height="@dimen/navbar_height"
+        android:background="?attr/background"
+        android:paddingVertical="@dimen/dimen_16"
+        app:contentInsetStart="0dp"
+        app:title="@string/job_search"
+        app:titleMarginStart="0dp"
+        app:titleTextAppearance="@style/title_text_style"
+        app:titleTextColor="?attr/colorOnBackground">
 
-</FrameLayout>
+        <ImageButton
+            android:id="@+id/filterButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="?attr/background"
+            android:src="@drawable/ic_filter_off" />
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/searchBarContainer"
+        style="@style/search_text_input_style"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_text_height"
+        android:layout_marginVertical="@dimen/dimen_8">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/searchBar"
+            style="@style/text_style"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/type_in_query"
+            android:textColorHint="?attr/colorOnSecondary"
+            android:textCursorDrawable="@drawable/custom_cursor"
+            android:inputType="text"
+            android:maxLines="1"
+            android:padding="@dimen/dimen_8"
+            android:singleLine="true" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:id="@+id/searchPlaceholder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/no_search_yet" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/searchResultRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/search_result" />
+
+</LinearLayout>
