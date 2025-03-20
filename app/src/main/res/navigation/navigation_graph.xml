@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/searchFragment">
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="ru.practicum.android.diploma.ui.search.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_filterFragment"
+            app:destination="@id/filterFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_jobFragment"
+            app:destination="@id/jobFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/filterFragment"
+        android:name="ru.practicum.android.diploma.ui.filters.FilterFragment"
+        android:label="fragment_filter"
+        tools:layout="@layout/fragment_filter" >
+        <action
+            android:id="@+id/action_filterFragment_to_jobPlaceFragment"
+            app:destination="@id/jobPlaceFilterFragment" />
+        <action
+            android:id="@+id/action_filterFragment_to_industryFilterFragment"
+            app:destination="@id/industryFilterFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/jobFragment"
+        android:name="ru.practicum.android.diploma.ui.vacancydetails.JobFragment"
+        android:label="fragment_job"
+        tools:layout="@layout/fragment_job" />
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="ru.practicum.android.diploma.ui.favorites.FavoritesFragment"
+        android:label="fragment_favorites"
+        tools:layout="@layout/fragment_favorites" >
+        <action
+            android:id="@+id/action_favoritesFragment_to_jobFragment"
+            app:destination="@id/jobFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/teamFragment"
+        android:name="ru.practicum.android.diploma.ui.TeamFragment"
+        android:label="fragment_team"
+        tools:layout="@layout/fragment_team" />
+    <fragment
+        android:id="@+id/jobPlaceFilterFragment"
+        android:name="ru.practicum.android.diploma.ui.filters.JobPlaceFilterFragment"
+        android:label="fragment_job_place_filter"
+        tools:layout="@layout/fragment_job_place_filter" />
+    <fragment
+        android:id="@+id/industryFilterFragment"
+        android:name="ru.practicum.android.diploma.ui.filters.IndustryFilterFragment"
+        android:label="fragment_industry_filter"
+        tools:layout="@layout/fragment_industry_filter" />
+</navigation>

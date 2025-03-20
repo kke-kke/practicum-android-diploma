@@ -1,3 +1,21 @@
 <resources>
-    <string name="app_name">Practicum-Android-Diploma</string>
+    <!-- Навбар -->
+    <string name="app_name">Pocket Job</string>
+    <string name="main_page">Главная</string>
+    <string name="favorites">Избранное</string>
+    <!-- Заголовки экранов -->
+    <string name="team">Команда</string>
+    <string name="job_search">Поиск вакансий</string>
+    <string name="filters">Настройки фильтрации</string>
+    <string name="job_place">Место работы</string>
+    <string name="industry_filter">Выбор отрасли</string>
+    <string name="job">Вакансия</string>
+    <!-- Экран команды -->
+    <string name="team_subtitle">Над приложением работали</string>
+    <string name="member1">Елена Завадская</string>
+    <string name="member2">Анастасия Маругина</string>
+    <string name="member3">Андрей Тимофеев</string>
+    <string name="member4">Анастасия Сорокина</string>
+    <string name="member5">Ксения Ковалева</string>
+    <string name="member6">Наталья Нестерова</string>
 </resources>

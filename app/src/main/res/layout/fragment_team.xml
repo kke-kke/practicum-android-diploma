@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.TeamFragment"
+    android:orientation="vertical"
+    android:background="?attr/background"
+    android:paddingHorizontal="16dp">
+
+    <TextView
+        android:text="@string/team"
+        android:layout_marginTop="24dp"
+        style="@style/title_text_style"/>
+
+    <TextView
+        android:text="@string/team_subtitle"
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="12dp"
+        style="@style/bold_text_style"/>
+
+    <TextView
+        android:text="@string/member1"
+        style="@style/team_member_text_style"/>
+
+    <TextView
+        android:text="@string/member2"
+        style="@style/team_member_text_style"/>
+
+    <TextView
+        android:text="@string/member3"
+        style="@style/team_member_text_style"/>
+
+    <TextView
+        android:text="@string/member4"
+        style="@style/team_member_text_style"/>
+
+    <TextView
+        android:text="@string/member5"
+        style="@style/team_member_text_style"/>
+
+    <TextView
+        android:text="@string/member6"
+        style="@style/team_member_text_style"/>
+</LinearLayout>
