@@ -8,6 +8,7 @@ import ru.practicum.android.diploma.data.network.call
 import ru.practicum.android.diploma.domain.api.SearchVacanciesRepository
 import ru.practicum.android.diploma.domain.models.Response
 import ru.practicum.android.diploma.domain.models.VacanciesStateLoad
+import ru.practicum.android.diploma.util.Constants
 
 class SearchVacanciesRepositoryImpl(
     private val apiService: ApiService
@@ -18,9 +19,14 @@ class SearchVacanciesRepositoryImpl(
             val response = apiService.searchVacancies(queryMap).call()
             emit(
                 when (response) {
-                    is Response.Error -> VacanciesStateLoad(
-                        isError = true
-                    )
+                    is Response.Error -> {
+                        val isServerError = response.errorCode >= Constants.START_ERROR_CODE
+
+                        VacanciesStateLoad(
+                            isServerError = isServerError,
+                            isNetworkError = !isServerError
+                        )
+                    }
 
                     is Response.Success -> VacanciesStateLoad(
                         vacanciesFound = response.data.toDomain()

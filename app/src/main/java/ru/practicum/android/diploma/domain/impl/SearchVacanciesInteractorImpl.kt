@@ -13,7 +13,11 @@ class SearchVacanciesInteractorImpl(
         val result = searchVacanciesRepository.searchVacancies(queryMap)?.map { vacancies ->
             when {
                 vacancies.isLoading -> SearchVacanciesResult.Loading
-                vacancies.isError -> SearchVacanciesResult.Error(isNetworkError = true)
+                vacancies.isNetworkError || vacancies.isServerError -> SearchVacanciesResult.Error(
+                    isNetworkError = vacancies.isNetworkError,
+                    isServerError = vacancies.isServerError,
+                )
+
                 vacancies.vacanciesFound != null && vacancies.vacanciesFound.vacanciesList.isEmpty() ->
                     SearchVacanciesResult.Error(isNothingFound = true)
 
