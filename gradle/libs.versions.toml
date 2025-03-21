@@ -4,8 +4,11 @@ java = "VERSION_1_8"
 kotlin = "1.9.24"
 
 # Build constants
+kotlinxCoroutinesTest = "1.9.0"
 minSdk = "26"
 compileSdk = "34"
+mockitoCore = "3.11.2"
+mockk = "1.13.4"
 targetSdk = "33"
 
 # Detekt
@@ -18,10 +21,14 @@ room = "2.6.1"
 glide = "4.16.0"
 retrofit = "2.9.0"
 okhttp = "4.11.0"
+junit = "4.12"
 
 [libraries]
 
 # Detekt
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 staticAnalysis-detektPlugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 staticAnalysis-detektCli = { module = "io.gitlab.arturbosch.detekt:detekt-cli", version.ref = "detekt" }
 staticAnalysis-detektApi = { module = "io.gitlab.arturbosch.detekt:detekt-api", version.ref = "detekt" }
@@ -67,5 +74,6 @@ unitTests-junit = "junit:junit:4.13.2"
 # UI tests
 uiTests-junitExt = "androidx.test.ext:junit:1.1.5"
 uiTests-espressoCore = "androidx.test.espresso:espresso-core:3.5.1"
+junit = { group = "junit", name = "junit", version.ref = "junit" }
 
 [bundles]
