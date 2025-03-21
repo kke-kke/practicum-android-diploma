@@ -24,7 +24,8 @@ class SearchVacanciesRepositoryImpl(
 
                         VacanciesStateLoad(
                             isServerError = isServerError,
-                            isNetworkError = !isServerError
+                            isNetworkError = !isServerError,
+                            errorMessage = response.errorMessage
                         )
                     }
 

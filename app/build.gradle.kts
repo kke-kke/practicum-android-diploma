@@ -50,7 +50,6 @@ dependencies {
     implementation(libs.androidX.navigation.ui.ktx)
     implementation(libs.androidX.fragment.ktx)
     implementation(libs.androidX.room.runtime)
-    testImplementation(libs.junit)
     ksp(libs.androidX.room.compiler)
 
     implementation(libs.kotlinX.coroutines.android)
@@ -72,9 +71,6 @@ dependencies {
 
     // region Unit tests
     testImplementation(libs.unitTests.junit)
-    testImplementation(libs.mockito.core)
-    testImplementation(libs.mockk)
-    testImplementation(libs.kotlinx.coroutines.test)
     // endregion
 
     // region UI tests

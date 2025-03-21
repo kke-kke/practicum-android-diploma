@@ -4,11 +4,8 @@ import ru.practicum.android.diploma.domain.models.VacanciesFound
 
 sealed interface SearchVacanciesResult {
     data class Success(val vacanciesFound: VacanciesFound) : SearchVacanciesResult
-    data class Error(
-        val isNothingFound: Boolean = false,
-        val isNetworkError: Boolean = false,
-        val isServerError: Boolean = false,
-    ) : SearchVacanciesResult
-
+    data object NothingFound : SearchVacanciesResult
+    data class NetworkError(val text: String) : SearchVacanciesResult
+    data class ServerError(val text: String) : SearchVacanciesResult
     data object Loading : SearchVacanciesResult
 }

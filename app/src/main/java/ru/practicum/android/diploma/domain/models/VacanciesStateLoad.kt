@@ -5,4 +5,5 @@ data class VacanciesStateLoad(
     val isNetworkError: Boolean = false,
     val isServerError: Boolean = false,
     val isLoading: Boolean = false,
+    val errorMessage: String? = null
 )
