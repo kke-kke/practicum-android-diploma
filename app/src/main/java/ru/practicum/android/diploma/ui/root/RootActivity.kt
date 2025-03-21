@@ -33,7 +33,6 @@ class RootActivity : AppCompatActivity() {
             rootBinding.navBarDivider.isVisible = destination.id in setOfVisibleFragments
         }
 
-
     }
 
     override fun onDestroy() {

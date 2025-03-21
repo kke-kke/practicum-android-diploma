@@ -8,6 +8,7 @@ import ru.practicum.android.diploma.data.network.call
 import ru.practicum.android.diploma.domain.api.SearchVacanciesRepository
 import ru.practicum.android.diploma.domain.models.Response
 import ru.practicum.android.diploma.domain.models.VacanciesStateLoad
+import ru.practicum.android.diploma.util.Constants
 
 class SearchVacanciesRepositoryImpl(
     private val apiService: ApiService
@@ -15,12 +16,24 @@ class SearchVacanciesRepositoryImpl(
     override fun searchVacancies(queryMap: Map<String, String>): Flow<VacanciesStateLoad> {
         return flow {
             emit(VacanciesStateLoad(isLoading = true))
-            val response = apiService.searchVacancies(queryMap).call()
+            val response = kotlin.runCatching { apiService.searchVacancies(queryMap).call() }.getOrNull()
             emit(
                 when (response) {
-                    is Response.Error -> VacanciesStateLoad(
-                        isError = true
-                    )
+                    null -> {
+                        VacanciesStateLoad(
+                            isNetworkError = true,
+                        )
+                    }
+
+                    is Response.Error -> {
+                        val isServerError = response.errorCode >= Constants.START_SERVER_ERROR_CODE
+
+                        VacanciesStateLoad(
+                            isServerError = isServerError,
+                            isNetworkError = !isServerError,
+                            errorMessage = response.errorMessage
+                        )
+                    }
 
                     is Response.Success -> VacanciesStateLoad(
                         vacanciesFound = response.data.toDomain()
