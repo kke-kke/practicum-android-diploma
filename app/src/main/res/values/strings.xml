@@ -23,4 +23,7 @@
     <string name="vacancy_name">Название вакансии</string>
     <string name="vacancy_employer">Компания</string>
     <string name="vacancy_salary">Зарплата не указана</string>
+    <!-- Ошибки -->
+    <string name="failed_to_get_vacancies_list">Не удалось получить список вакансий</string>
+    <string name="no_internet">Нет интернета</string>
 </resources>
