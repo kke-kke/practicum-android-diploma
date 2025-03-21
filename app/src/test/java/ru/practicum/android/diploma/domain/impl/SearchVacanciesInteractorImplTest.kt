@@ -56,10 +56,10 @@ class SearchVacanciesInteractorImplTest {
                         isNetworkError = true,
                         isServerError = false
                     )
-                ), result
+                ),
+                result
             )
         }
-
 
     @Test
     fun `searchVacancies should return Error with server error when repository returns server error`() =
@@ -100,7 +100,8 @@ class SearchVacanciesInteractorImplTest {
             assertEquals(
                 listOf(
                     SearchVacanciesResult.Error(isNothingFound = true)
-                ), result
+                ),
+                result
             )
         }
 
@@ -183,7 +184,8 @@ class SearchVacanciesInteractorImplTest {
                         perPage = 10
                     )
                 )
-            ), result
+            ),
+            result
         )
     }
 }
