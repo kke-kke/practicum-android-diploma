@@ -20,4 +20,7 @@
     <string name="member6">Наталья Нестерова</string>
     <!-- Экран поиска -->
     <string name="type_in_query">Введите запрос</string>
+    <string name="vacancy_name">Название вакансии</string>
+    <string name="vacancy_employer">Компания</string>
+    <string name="vacancy_salary">Зарплата не указана</string>
 </resources>
