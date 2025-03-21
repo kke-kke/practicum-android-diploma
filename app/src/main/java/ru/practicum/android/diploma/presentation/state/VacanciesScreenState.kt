@@ -4,7 +4,7 @@ import ru.practicum.android.diploma.domain.models.Vacancy
 
 sealed class VacanciesScreenState {
     data object Loading : VacanciesScreenState()
-    data class Empty(val message: String) : VacanciesScreenState()
+    data object Empty : VacanciesScreenState()
     data class Content(val vacancyList: List<Vacancy>, val foundVacanciesCount: Int) : VacanciesScreenState()
 
     sealed class Error : VacanciesScreenState() {

@@ -64,24 +64,20 @@ class SearchViewModel(
 
     private fun setScreenState(searchVacanciesResult: SearchVacanciesResult) {
         val state: VacanciesScreenState = when (searchVacanciesResult) {
-            is SearchVacanciesResult.Error -> {
-                if (searchVacanciesResult.isNetworkError) {
-                    VacanciesScreenState.Error.ConnectionError(context.getString(R.string.failed_to_get_vacancies_list))
-                } else if (searchVacanciesResult.isNoInternet) {
-                    VacanciesScreenState.Error.NoInternetError(context.getString(R.string.no_internet))
-                } else {
-                    VacanciesScreenState.Empty(context.getString(R.string.no_internet))
-                }
-            }
-            SearchVacanciesResult.Loading -> {
-                VacanciesScreenState.Loading
-            }
-            is SearchVacanciesResult.Success -> {
-                VacanciesScreenState.Content(
-                    searchVacanciesResult.vacanciesFound.vacanciesList,
-                    searchVacanciesResult.vacanciesFound.found
-                )
-            }
+            SearchVacanciesResult.Loading -> VacanciesScreenState.Loading
+            is SearchVacanciesResult.NetworkError -> VacanciesScreenState.Error.NoInternetError(
+                context.getString(R.string.no_internet)
+            )
+
+            SearchVacanciesResult.NothingFound -> VacanciesScreenState.Empty
+            is SearchVacanciesResult.ServerError -> VacanciesScreenState.Error.ConnectionError(
+                context.getString(R.string.failed_to_get_vacancies_list)
+            )
+
+            is SearchVacanciesResult.Success -> VacanciesScreenState.Content(
+                searchVacanciesResult.vacanciesFound.vacanciesList,
+                searchVacanciesResult.vacanciesFound.found
+            )
         }
         searchScreenState.postValue(state)
     }
