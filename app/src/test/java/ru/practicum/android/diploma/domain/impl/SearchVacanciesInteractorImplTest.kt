@@ -25,7 +25,9 @@ class SearchVacanciesInteractorImplTest {
         // Arrange
         val queryMap = mapOf("query" to "Kotlin")
         val vacanciesResponse = VacanciesStateLoad(isLoading = true)
-        coEvery { searchVacanciesRepository.searchVacancies(queryMap) } returns flowOf(vacanciesResponse)
+        coEvery { searchVacanciesRepository.searchVacancies(queryMap) } returns flowOf(
+            vacanciesResponse
+        )
 
         // Act
         val result = interactor.searchVacancies(queryMap).toList()
@@ -35,73 +37,153 @@ class SearchVacanciesInteractorImplTest {
     }
 
     @Test
-    fun `searchVacancies should return Error with network error when repository returns network error`() = runTest {
-        // Arrange
-        val queryMap = mapOf("query" to "Kotlin")
-        val vacanciesResponse = VacanciesStateLoad(isNetworkError = true)
-        coEvery { searchVacanciesRepository.searchVacancies(queryMap) } returns flowOf(vacanciesResponse)
+    fun `searchVacancies should return Error with network error when repository returns network error`() =
+        runTest {
+            // Arrange
+            val queryMap = mapOf("query" to "Kotlin")
+            val vacanciesResponse = VacanciesStateLoad(isNetworkError = true)
+            coEvery { searchVacanciesRepository.searchVacancies(queryMap) } returns flowOf(
+                vacanciesResponse
+            )
 
-        // Act
-        val result = interactor.searchVacancies(queryMap).toList()
+            // Act
+            val result = interactor.searchVacancies(queryMap).toList()
 
-        // Assert
-        assertEquals(listOf(SearchVacanciesResult.Error(isNetworkError = true, isServerError = false)), result)
-    }
+            // Assert
+            assertEquals(
+                listOf(
+                    SearchVacanciesResult.Error(
+                        isNetworkError = true,
+                        isServerError = false
+                    )
+                ), result
+            )
+        }
 
-
-    @Test
-    fun `searchVacancies should return Error with server error when repository returns server error`() = runTest {
-        // Arrange
-        val queryMap = mapOf("query" to "Kotlin")
-        val vacanciesResponse = VacanciesStateLoad(isServerError = true)
-        coEvery { searchVacanciesRepository.searchVacancies(queryMap) } returns flowOf(vacanciesResponse)
-
-        // Act
-        val result = interactor.searchVacancies(queryMap).toList()
-
-        // Assert
-        assertEquals(listOf(SearchVacanciesResult.Error(isNetworkError = false, isServerError = true)), result)
-    }
 
     @Test
-    fun `searchVacancies should return Error with nothing found when vacancies list is isNull`() = runTest {
-        // Arrange
-        val queryMap = mapOf("query" to "Kotlin")
-        val vacanciesResponse = VacanciesStateLoad(vacanciesFound = null)
-        coEvery { searchVacanciesRepository.searchVacancies(queryMap) } returns flowOf(vacanciesResponse)
+    fun `searchVacancies should return Error with server error when repository returns server error`() =
+        runTest {
+            // Arrange
+            val queryMap = mapOf("query" to "Kotlin")
+            val vacanciesResponse = VacanciesStateLoad(isServerError = true)
+            coEvery { searchVacanciesRepository.searchVacancies(queryMap) } returns flowOf(
+                vacanciesResponse
+            )
 
-        // Act
-        val result = interactor.searchVacancies(queryMap).toList()
+            // Act
+            val result = interactor.searchVacancies(queryMap).toList()
 
-        // Assert
-        assertEquals(listOf(SearchVacanciesResult.Error(isNothingFound = true)), result)
-    }
+            // Assert
+            assertEquals(
+                listOf(
+                    SearchVacanciesResult.Error(isNetworkError = false, isServerError = true)
+                ),
+                result
+            )
+        }
+
     @Test
-    fun `searchVacancies should return Error with nothing found when vacancies list is empty`() = runTest {
-        // Arrange
-        val queryMap = mapOf("query" to "Kotlin")
-        val vacanciesResponse = VacanciesStateLoad(vacanciesFound = VacanciesFound(emptyList(), 0, 0, 1, 10))
-        coEvery { searchVacanciesRepository.searchVacancies(queryMap) } returns flowOf(vacanciesResponse)
+    fun `searchVacancies should return Error with nothing found when vacancies list is isNull`() =
+        runTest {
+            // Arrange
+            val queryMap = mapOf("query" to "Kotlin")
+            val vacanciesResponse = VacanciesStateLoad(vacanciesFound = null)
+            coEvery { searchVacanciesRepository.searchVacancies(queryMap) } returns flowOf(
+                vacanciesResponse
+            )
 
-        // Act
-        val result = interactor.searchVacancies(queryMap).toList()
+            // Act
+            val result = interactor.searchVacancies(queryMap).toList()
 
-        // Assert
-        assertEquals(listOf(SearchVacanciesResult.Error(isNothingFound = true)), result)
-    }
+            // Assert
+            assertEquals(
+                listOf(
+                    SearchVacanciesResult.Error(isNothingFound = true)
+                ), result
+            )
+        }
+
+    @Test
+    fun `searchVacancies should return Error with nothing found when vacancies list is empty`() =
+        runTest {
+            // Arrange
+            val queryMap = mapOf("query" to "Kotlin")
+            val vacanciesResponse = VacanciesStateLoad(
+                vacanciesFound = VacanciesFound(
+                    vacanciesList = emptyList(),
+                    found = 0,
+                    maxPages = 0,
+                    page = 1,
+                    perPage = 10
+                ),
+            )
+            coEvery { searchVacanciesRepository.searchVacancies(queryMap) } returns flowOf(
+                vacanciesResponse
+            )
+
+            // Act
+            val result = interactor.searchVacancies(queryMap).toList()
+
+            // Assert
+            assertEquals(
+                listOf(
+                    SearchVacanciesResult.Error(isNothingFound = true)
+                ),
+                result
+            )
+        }
 
     @Test
     fun `searchVacancies should return Success when vacancies list is not empty`() = runTest {
         // Arrange
         val queryMap = mapOf("query" to "Kotlin")
-        val vacanciesList = listOf(Vacancy("1", "Kotlin Developer", "https://example.com", null, null, null, null, listOf(), Area("Moscow"), null, Schedule("Full-time"), "2023-07-01"))
-        val vacanciesResponse = VacanciesStateLoad(vacanciesFound = VacanciesFound(vacanciesList, 10, 10, 1, 10))
-        coEvery { searchVacanciesRepository.searchVacancies(queryMap) } returns flowOf(vacanciesResponse)
+        val vacanciesList = listOf(
+            Vacancy(
+                id = "1",
+                name = "Kotlin Developer",
+                vacancyUrl = "https://example.com",
+                salary = null,
+                address = null,
+                employer = null,
+                description = null,
+                keySkills = listOf(),
+                area = Area("Moscow"),
+                experience = null,
+                schedule = Schedule("Full-time"),
+                publishedAt = "2023-07-01"
+            )
+        )
+        val vacanciesResponse =
+            VacanciesStateLoad(
+                vacanciesFound = VacanciesFound(
+                    vacanciesList = vacanciesList,
+                    found = 10,
+                    maxPages = 10,
+                    page = 1,
+                    perPage = 10
+                )
+            )
+        coEvery { searchVacanciesRepository.searchVacancies(queryMap) } returns flowOf(
+            vacanciesResponse
+        )
 
         // Act
         val result = interactor.searchVacancies(queryMap).toList()
 
         // Assert
-        assertEquals(listOf(SearchVacanciesResult.Success(vacanciesFound = VacanciesFound(vacanciesList, 10, 10, 1, 10))), result)
+        assertEquals(
+            listOf(
+                SearchVacanciesResult.Success(
+                    vacanciesFound = VacanciesFound(
+                        vacanciesList = vacanciesList,
+                        found = 10,
+                        maxPages = 10,
+                        page = 1,
+                        perPage = 10
+                    )
+                )
+            ), result
+        )
     }
 }

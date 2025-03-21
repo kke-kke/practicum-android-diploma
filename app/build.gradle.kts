@@ -72,9 +72,9 @@ dependencies {
 
     // region Unit tests
     testImplementation(libs.unitTests.junit)
-    testImplementation (libs.mockito.core)
-    testImplementation (libs.mockk)
-    testImplementation (libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
     // endregion
 
     // region UI tests
