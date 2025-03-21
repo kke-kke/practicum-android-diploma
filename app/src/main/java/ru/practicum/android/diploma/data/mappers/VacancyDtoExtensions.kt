@@ -37,7 +37,7 @@ fun VacancyDTO.toDomain(): Vacancy {
         salary = salary?.toDomain(),
         address = address?.toDomain(),
         employer = employer?.toDomain(),
-        description = description ?: "",
+        description = description.orEmpty(),
         keySkills = keySkills?.map { it.toDomain() } ?: emptyList(),
         area = area.toDomain(),
         experience = experience?.toDomain(),
@@ -50,44 +50,44 @@ fun SalaryDTO.toDomain(): Salary {
     return Salary(
         from = from ?: -1,
         to = to ?: -1,
-        currency = currency ?: ""
+        currency = currency.orEmpty()
     )
 }
 
 fun AddressDTO.toDomain(): Address {
     return Address(
-        rawAddress = rawAddress ?: ""
+        rawAddress = rawAddress.orEmpty()
     )
 }
 
 fun EmployerDTO.toDomain(): Employer {
     return Employer(
-        name = name ?: "",
-        logoUrl = logoUrls?.employerLogo ?: ""
+        name = name.orEmpty(),
+        logoUrl = logoUrls?.employerLogo.orEmpty()
     )
 }
 
 fun KeySkillDTO.toDomain(): KeySkill {
     return KeySkill(
-        name = name ?: ""
+        name = name.orEmpty()
     )
 }
 
 fun AreaDTO.toDomain(): Area {
     return Area(
-        name = name ?: ""
+        name = name.orEmpty()
     )
 }
 
 fun ExperienceDTO.toDomain(): Experience {
     return Experience(
-        name = name ?: ""
+        name = name.orEmpty()
     )
 }
 
 fun ScheduleDTO.toDomain(): Schedule {
     return Schedule(
-        name = name ?: ""
+        name = name.orEmpty()
     )
 }
 

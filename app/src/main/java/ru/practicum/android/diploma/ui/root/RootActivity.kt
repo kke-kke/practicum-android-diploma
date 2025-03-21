@@ -5,8 +5,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.ActivityRootBinding
+import ru.practicum.android.diploma.domain.interactor.SearchVacanciesInteractor
+import ru.practicum.android.diploma.domain.interactor.SearchVacanciesResult
 
 class RootActivity : AppCompatActivity() {
     private var _binding: ActivityRootBinding? = null
@@ -32,7 +38,6 @@ class RootActivity : AppCompatActivity() {
             rootBinding.bottomNavigationView.isVisible = destination.id in setOfVisibleFragments
             rootBinding.navBarDivider.isVisible = destination.id in setOfVisibleFragments
         }
-
 
     }
 
