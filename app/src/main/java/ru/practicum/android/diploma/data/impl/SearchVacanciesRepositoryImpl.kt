@@ -9,7 +9,6 @@ import ru.practicum.android.diploma.domain.api.SearchVacanciesRepository
 import ru.practicum.android.diploma.domain.models.Response
 import ru.practicum.android.diploma.domain.models.VacanciesStateLoad
 import ru.practicum.android.diploma.util.Constants
-import kotlin.math.truncate
 
 class SearchVacanciesRepositoryImpl(
     private val apiService: ApiService
@@ -25,6 +24,7 @@ class SearchVacanciesRepositoryImpl(
                             isNetworkError = true,
                         )
                     }
+
                     is Response.Error -> {
                         val isServerError = response.errorCode >= Constants.START_SERVER_ERROR_CODE
 
