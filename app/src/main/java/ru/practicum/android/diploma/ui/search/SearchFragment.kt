@@ -3,15 +3,34 @@ package ru.practicum.android.diploma.ui.search
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.textfield.TextInputLayout
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
+import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.presentation.search.SearchViewModel
+import ru.practicum.android.diploma.presentation.state.VacanciesScreenState
 import ru.practicum.android.diploma.ui.BaseFragment
+import ru.practicum.android.diploma.util.VacancyUtils
+import ru.practicum.android.diploma.util.showCustomSnackBar
 
 class SearchFragment : BaseFragment<FragmentSearchBinding>() {
+
+    private val adapter = VacancyAdapter(clickListener = { vacancy -> showVacancyDetail(vacancy) })
+    private fun showVacancyDetail(vacancy: Vacancy) {
+        val bundle = Bundle()
+        bundle.putString("vacancy", vacancy.id)
+        findNavController().navigate(R.id.jobFragment, bundle)
+    }
+
+    private val viewModel by viewModel<SearchViewModel>()
 
     override fun onCreateBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentSearchBinding {
         return FragmentSearchBinding.inflate(inflater, container, false)
@@ -19,6 +38,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.searchResultRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.searchResultRecyclerView.adapter = adapter
 
         binding.searchBar.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -59,5 +81,54 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     private fun hideRecycler() {
         binding.searchResultRecyclerView.visibility = View.GONE
     }
+
+    /*private fun recyclerViewVisibility(isShown: Boolean = false) {
+        binding.searchResultRecyclerView.isVisible = isShown
+    }*/
+
+    /*private fun vacancyCountVisibility(isShown: Boolean = false, count: Int) {
+        binding.vacancyCount.isVisible = isShown
+        if (isShown) {
+            binding.vacancyCount.text = if (count > 0) {
+                "Найдено ${VacancyUtils.divideIntoDigits(count)} ${VacancyUtils.getVacancyWord(count)}"
+            } else {
+                getString(R.string.no_results)
+            }
+        }
+    }*/
+
+    /*private fun progressBarVisibility(isShown: Boolean = false) {
+        binding.progressBar.isVisible = isShown
+    }*/
+
+    /*private fun errorMessageVisibility(
+        isShowNothingFound: Boolean = false,
+        isShowNetworkError: Boolean = false,
+        isShowServerError: Boolean = false
+    ) {
+        binding.notFound.isVisible = isShowNothingFound
+        binding.internetError.isVisible = isShowNetworkError
+        binding.serverError.isVisible = isShowServerError
+
+        vacancyCountVisibility(
+            when {
+                isShowNothingFound -> true
+                isShowNetworkError -> false
+                isShowServerError -> false
+                else -> false },
+            0
+        )
+
+        val errorMessage = when {
+            isShowNothingFound -> getString(R.string.no_results)
+            isShowNetworkError -> getString(R.string.no_internet)
+            isShowServerError -> getString(R.string.server_error)
+            else -> getString(R.string.unknown_error) // ! необходимо глянуть флаг
+        }
+        // customSnackBar в зависимости от ошибок
+        if (errorMessage.isNotEmpty()) {
+            showCustomSnackBar(errorMessage, binding.root, requireContext())
+        }
+    }*/
 
 }
