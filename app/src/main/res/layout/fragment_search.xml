@@ -56,13 +56,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:src="@drawable/no_search_yet"
-        android:visibility="visible"/>
+        android:visibility="gone"/>
 
     <!-- Страница "Не найдено" -->
     <LinearLayout
         android:id="@+id/not_found"
         style="@style/search_linear_layout"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -71,11 +71,12 @@
             android:src="@drawable/empty_state"/>
 
         <TextView
-            android:layout_width="268dp"
-            android:text="@string/server_error"
+            android:layout_width="wrap_content"
+            android:text="@string/failed_to_get_vacancies_list"
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="48dp"
             style="@style/title_text_style"/>
     </LinearLayout>
 
@@ -93,7 +94,7 @@
 
         <TextView
             android:layout_width="268dp"
-            android:text="@string/server_error"
+            android:text="@string/failed_to_get_vacancies_list"
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_marginTop="16dp"
