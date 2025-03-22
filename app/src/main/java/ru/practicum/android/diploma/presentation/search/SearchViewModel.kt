@@ -38,14 +38,14 @@ class SearchViewModel(
 
         searchJob = viewModelScope.launch {
             delay(SEARCH_DEBOUNCE_DELAY_IN_MLS)
-            searchVacanciesInteractor.searchVacancies(getFilter())
-                ?.collect { searchVacanciesResult ->
-                    val state: VacanciesScreenState = handleState(searchVacanciesResult)
-                    setScreenState(state)
-                    if (searchVacanciesResult is SearchVacanciesResult.Success) {
-                        totalPages = searchVacanciesResult.vacanciesFound.maxPages
-                    }
-                }
+            searchVacanciesInteractor.searchVacancies(
+                text = lastSearchText,
+                page = currentPage,
+                perPage = Constants.VACANCIES_PER_PAGE
+            )?.collect { searchVacanciesResult ->
+                val state: VacanciesScreenState = handleState(searchVacanciesResult)
+                setScreenState(state)
+            }
         }
     }
 
@@ -56,11 +56,14 @@ class SearchViewModel(
 
         searchJob = viewModelScope.launch {
             currentPage += 1
-            searchVacanciesInteractor.searchVacancies(getFilter())
-                ?.collect { searchVacanciesResult ->
-                    val state: VacanciesScreenState = handleState(searchVacanciesResult)
-                    setScreenState(state)
-                }
+            searchVacanciesInteractor.searchVacancies(
+                text = lastSearchText,
+                page = currentPage,
+                perPage = Constants.VACANCIES_PER_PAGE
+            )?.collect { searchVacanciesResult ->
+                val state: VacanciesScreenState = handleState(searchVacanciesResult)
+                setScreenState(state)
+            }
         }
     }
 
@@ -81,20 +84,17 @@ class SearchViewModel(
                     errorText = context.getString(R.string.server_error)
                 )
 
-                is SearchVacanciesResult.Success -> VacanciesScreenState.Content(
-                    vacancyList = searchVacanciesResult.vacanciesFound.vacanciesList,
-                    foundVacanciesCount = searchVacanciesResult.vacanciesFound.found,
-                    isPaginationLoading = false
-                )
+                is SearchVacanciesResult.Success -> {
+                    totalPages = searchVacanciesResult.vacanciesFound.maxPages
+                    VacanciesScreenState.Content(
+                        vacancyList = searchVacanciesResult.vacanciesFound.vacanciesList,
+                        foundVacanciesCount = searchVacanciesResult.vacanciesFound.found,
+                        isPaginationLoading = false
+                    )
+                }
             }
         return state
     }
-
-    private fun getFilter() = mapOf(
-        "text" to lastSearchText,
-        "page" to currentPage.toString(),
-        "per_page" to Constants.VACANCIES_PER_PAGE.toString(),
-    )
 
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY_IN_MLS = 2000L

@@ -4,7 +4,7 @@ import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Path
-import retrofit2.http.QueryMap
+import retrofit2.http.Query
 import ru.practicum.android.diploma.data.dto.models.AreasDTO
 import ru.practicum.android.diploma.data.dto.models.IndustryDTO
 import ru.practicum.android.diploma.data.dto.models.VacancyDTO
@@ -15,8 +15,11 @@ interface ApiService {
         "HH-User-Agent: Pocket Job (kovaleva.ksenia.e@gmail.com)"
     )
     @GET("vacancies")
+
     suspend fun searchVacancies(
-        @QueryMap filters: Map<String, String>
+        @Query("text") text: String,
+        @Query("page") page: Int,
+        @Query("per_page") perPage: Int
     ): Response<VacanciesResponse>
 
     @Headers(
