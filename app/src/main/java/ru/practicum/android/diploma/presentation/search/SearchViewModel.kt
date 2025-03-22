@@ -40,7 +40,8 @@ class SearchViewModel(
             delay(SEARCH_DEBOUNCE_DELAY_IN_MLS)
             searchVacanciesInteractor.searchVacancies(getFilter())
                 ?.collect { searchVacanciesResult ->
-                    setScreenState(searchVacanciesResult)
+                    val state: VacanciesScreenState = handleState(searchVacanciesResult)
+                    setScreenState(state)
                     if (searchVacanciesResult is SearchVacanciesResult.Success) {
                         totalPages = searchVacanciesResult.vacanciesFound.maxPages
                     }
@@ -57,29 +58,36 @@ class SearchViewModel(
             currentPage += 1
             searchVacanciesInteractor.searchVacancies(getFilter())
                 ?.collect { searchVacanciesResult ->
-                    setScreenState(searchVacanciesResult)
+                    val state: VacanciesScreenState = handleState(searchVacanciesResult)
+                    setScreenState(state)
                 }
         }
     }
 
-    private fun setScreenState(searchVacanciesResult: SearchVacanciesResult) {
-        val state: VacanciesScreenState = when (searchVacanciesResult) {
-            SearchVacanciesResult.Loading -> VacanciesScreenState.Loading
-            is SearchVacanciesResult.NetworkError -> VacanciesScreenState.Error.NoInternetError(
-                context.getString(R.string.no_internet)
-            )
+    private fun setScreenState(newState: VacanciesScreenState) {
+        searchScreenState.postValue(newState)
+    }
 
-            SearchVacanciesResult.NothingFound -> VacanciesScreenState.Empty
-            is SearchVacanciesResult.ServerError -> VacanciesScreenState.Error.ConnectionError(
-                context.getString(R.string.failed_to_get_vacancies_list)
-            )
+    private fun handleState(searchVacanciesResult: SearchVacanciesResult): VacanciesScreenState {
+        val state: VacanciesScreenState =
+            when (searchVacanciesResult) {
+                is SearchVacanciesResult.Loading -> VacanciesScreenState.Loading
+                is SearchVacanciesResult.NetworkError -> VacanciesScreenState.NetworkError(
+                    errorText = context.getString(R.string.no_internet)
+                )
 
-            is SearchVacanciesResult.Success -> VacanciesScreenState.Content(
-                searchVacanciesResult.vacanciesFound.vacanciesList,
-                searchVacanciesResult.vacanciesFound.found
-            )
-        }
-        searchScreenState.postValue(state)
+                is SearchVacanciesResult.NothingFound -> VacanciesScreenState.NothingFound
+                is SearchVacanciesResult.ServerError -> VacanciesScreenState.ServerError(
+                    errorText = context.getString(R.string.server_error)
+                )
+
+                is SearchVacanciesResult.Success -> VacanciesScreenState.Content(
+                    vacancyList = searchVacanciesResult.vacanciesFound.vacanciesList,
+                    foundVacanciesCount = searchVacanciesResult.vacanciesFound.found,
+                    isPaginationLoading = false
+                )
+            }
+        return state
     }
 
     private fun getFilter() = mapOf(
