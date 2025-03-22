@@ -57,12 +57,30 @@
         android:layout_gravity="center_vertical"
         android:src="@drawable/no_search_yet" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/searchResultRecyclerView"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/search_result" />
+        android:layout_height="match_parent">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/searchResultRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/search_result"
+            android:paddingTop="30dp"
+            android:clipToPadding="false"
+            android:visibility="visible"/>
+
+        <TextView
+            android:id="@+id/vacancyCount"
+            style="@style/text_style"
+            android:layout_height="27dp"
+            android:textColor="@color/yp_white"
+            android:background="@drawable/blue_rectangle"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:paddingHorizontal="12dp"
+            android:visibility="gone" />
+    </FrameLayout>
 </LinearLayout>
