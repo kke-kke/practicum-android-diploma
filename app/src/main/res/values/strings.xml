@@ -18,7 +18,7 @@
     <string name="member4">Анастасия Сорокина</string>
     <string name="member5">Ксения Ковалева</string>
     <string name="member6">Наталья Нестерова</string>
-    <!-- Поиск -->
+    <!-- Экран поиска -->
     <string name="type_in_query">Введите запрос</string>
     <!-- Ошибки -->
     <string name="failed_to_get_vacancies_list">Не удалось получить список вакансий</string>
