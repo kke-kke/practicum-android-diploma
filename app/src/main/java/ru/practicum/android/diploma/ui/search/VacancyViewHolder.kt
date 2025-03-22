@@ -6,7 +6,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.SearchResultBinding
 import ru.practicum.android.diploma.domain.models.Vacancy
-import ru.practicum.android.diploma.util.SalaryUtils
+import ru.practicum.android.diploma.util.VacancyUtils
 
 class VacancyViewHolder(private val binding: SearchResultBinding) : RecyclerView.ViewHolder(binding.root) {
 
@@ -15,7 +15,7 @@ class VacancyViewHolder(private val binding: SearchResultBinding) : RecyclerView
         binding.vacancyEmployer.text = model.employer?.name ?: "Информация отсутствует"
 
         binding.vacancySalary.text = model.salary?.let { salary ->
-            SalaryUtils.getVacancySalary(salary.from, salary.to) + " " + SalaryUtils.getCurrencySymbol(salary.currency)
+            VacancyUtils.getVacancySalary(salary.from, salary.to) + " " + VacancyUtils.getCurrencySymbol(salary.currency)
         } ?: "Зарплата не указана"
 
         val logoUrl: String? = model.employer?.logoUrl
