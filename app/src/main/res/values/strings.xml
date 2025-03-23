@@ -24,5 +24,8 @@
     <string name="failed_to_get_vacancies_list">Не удалось получить список вакансий</string>
     <string name="no_internet">Нет интернета</string>
     <string name="unknown_error">Произошла неизвестная ошибка</string>
+
+    <!-- Сообщения -->
+    <string name="list_is_empty">Список пуст</string>
     <string name="no_results">Таких вакансий не найдено</string>
 </resources>
