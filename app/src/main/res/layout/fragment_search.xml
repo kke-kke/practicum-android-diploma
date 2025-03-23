@@ -56,13 +56,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:src="@drawable/no_search_yet"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
     <!-- Страница "Не найдено" -->
     <LinearLayout
         android:id="@+id/not_found"
         style="@style/search_linear_layout"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -94,7 +94,28 @@
 
         <TextView
             android:layout_width="268dp"
-            android:text="@string/failed_to_get_vacancies_list"
+            android:text="@string/no_internet"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginTop="16dp"
+            style="@style/title_text_style"/>
+    </LinearLayout>
+
+    <!-- Страница Ошибка сервера -->
+    <LinearLayout
+        android:id="@+id/server_error"
+        style="@style/search_linear_layout"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="224dp"
+            android:layout_marginTop="132dp"
+            android:src="@drawable/server_error"/>
+
+        <TextView
+            android:layout_width="268dp"
+            android:text="@string/server_error"
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_marginTop="16dp"
