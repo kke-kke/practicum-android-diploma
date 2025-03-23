@@ -3,7 +3,6 @@ package ru.practicum.android.diploma.ui.search
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +15,6 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.presentation.search.SearchViewModel
-import ru.practicum.android.diploma.presentation.state.VacanciesScreenState
 import ru.practicum.android.diploma.ui.BaseFragment
 import ru.practicum.android.diploma.util.VacancyUtils
 import ru.practicum.android.diploma.util.showCustomSnackBar
@@ -52,14 +50,16 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             override fun afterTextChanged(s: Editable?) {
                 if (s.isNullOrEmpty()) {
                     setSearchIcon()
-                    hideRecycler()
+                    binding.searchPlaceholder.visibility = View.VISIBLE
+                    recyclerViewVisibility(false)
+                    vacancyCountVisibility(false)
                 } else {
                     setClearIcon()
+                    binding.searchPlaceholder.visibility = View.GONE
                 }
             }
 
         })
-
     }
 
     private fun setSearchIcon() {
@@ -78,30 +78,28 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         }
     }
 
-    private fun hideRecycler() {
-        binding.searchResultRecyclerView.visibility = View.GONE
+    private fun recyclerViewVisibility(isShown: Boolean = false) {
+        binding.searchResultRecyclerView.isVisible = isShown
     }
 
-    /*private fun recyclerViewVisibility(isShown: Boolean = false) {
-        binding.searchResultRecyclerView.isVisible = isShown
-    }*/
-
-    /*private fun vacancyCountVisibility(isShown: Boolean = false, count: Int) {
+    private fun vacancyCountVisibility(isShown: Boolean = false, count: Int = 0) {
         binding.vacancyCount.isVisible = isShown
         if (isShown) {
             binding.vacancyCount.text = if (count > 0) {
-                "Найдено ${VacancyUtils.divideIntoDigits(count)} ${VacancyUtils.getVacancyWord(count)}"
-            } else {
-                getString(R.string.no_results)
-            }
+                "Найдено ${VacancyUtils.divideIntoDigits(count)} ${resources.getQuantityString(
+                    R.plurals.vacancy_count, 
+                    count, 
+                    count
+                )}"
+            } else { getString(R.string.no_results) }
         }
-    }*/
+    }
 
-    /*private fun progressBarVisibility(isShown: Boolean = false) {
+    private fun progressBarVisibility(isShown: Boolean = false) {
         binding.progressBar.isVisible = isShown
-    }*/
+    }
 
-    /*private fun errorMessageVisibility(
+    private fun errorMessageVisibility(
         isShowNothingFound: Boolean = false,
         isShowNetworkError: Boolean = false,
         isShowServerError: Boolean = false
@@ -115,20 +113,19 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 isShowNothingFound -> true
                 isShowNetworkError -> false
                 isShowServerError -> false
-                else -> false },
-            0
+                else -> false }
         )
 
         val errorMessage = when {
             isShowNothingFound -> getString(R.string.no_results)
             isShowNetworkError -> getString(R.string.no_internet)
             isShowServerError -> getString(R.string.server_error)
-            else -> getString(R.string.unknown_error) // ! необходимо глянуть флаг
+            else -> ""
         }
-        // customSnackBar в зависимости от ошибок
+
         if (errorMessage.isNotEmpty()) {
             showCustomSnackBar(errorMessage, binding.root, requireContext())
         }
-    }*/
+    }
 
 }
