@@ -1,16 +1,16 @@
 package ru.practicum.android.diploma.util
 
 enum class Currency(val currency: String, val symbol: String) {
-    // https://api.hh.ru/openapi/redoc#tag/Obshie-spravochniki/operation/get-dictionaries
+    // Все валюты: https://api.hh.ru/openapi/redoc#tag/Obshie-spravochniki/operation/get-dictionaries
     RUB("RUB", "₽"),
-    RUR("RUR", "₽"),    // Российский рубль (RUR/RUB)
-    BYR("BYR", "Br"),   // Белорусский рубль (BYR)
-    USD("USD", "$"),    // Доллар (USD)
-    EUR("EUR", "€"),    // Евро (EUR)
-    KZT("KZT", "₸"),    // Казахстанский тенге (KZT)
-    UAH("UAH", "₴"),    // Украинская гривна (UAH)
-    AZN("AZN", "₼"),    // Азербайджанский манат (AZN)
-    UZS("UZS", "Soʻm"), // Узбекский сум (UZS)
-    GEL("GEL", "₾"),    // Грузинский лари (GEL)
-    KGS("KGS", "с")     // Киргизский сом (KGS)
+    RUR("RUR", "₽"),
+    BYR("BYR", "Br"),
+    USD("USD", "$"),
+    EUR("EUR", "€"),
+    KZT("KZT", "₸"),
+    UAH("UAH", "₴"),
+    AZN("AZN", "₼"),
+    UZS("UZS", "Soʻm"),
+    GEL("GEL", "₾"),
+    KGS("KGS", "с")
 }
