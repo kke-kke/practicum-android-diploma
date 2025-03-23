@@ -6,9 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.databinding.SearchResultBinding
 import ru.practicum.android.diploma.domain.models.Vacancy
 
-class VacancyAdapter(private var vacancies: List<Vacancy> = emptyList(),
-                     private val clickListener: (Vacancy) -> Unit,
-): RecyclerView.Adapter<VacancyViewHolder> () {
+class VacancyAdapter(
+    private var vacancies: List<Vacancy> = emptyList(),
+    private val clickListener: (Vacancy) -> Unit,
+) : RecyclerView.Adapter<VacancyViewHolder> () {
 
     fun updateVacancyList(items: List<Vacancy>) {
         vacancies = items
