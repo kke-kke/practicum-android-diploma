@@ -17,7 +17,6 @@ import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.presentation.search.SearchViewModel
 import ru.practicum.android.diploma.ui.BaseFragment
 import ru.practicum.android.diploma.util.VacancyUtils
-import ru.practicum.android.diploma.util.showCustomSnackBar
 
 class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
@@ -87,15 +86,15 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         if (isShown) {
             binding.vacancyCount.text = if (count > 0) {
                 "Найдено ${VacancyUtils.divideIntoDigits(count)} ${resources.getQuantityString(
-                    R.plurals.vacancy_count, 
-                    count, 
+                    R.plurals.vacancy_count,
+                    count,
                     count
                 )}"
             } else { getString(R.string.no_results) }
         }
     }
 
-    private fun progressBarVisibility(isShown: Boolean = false) {
+    /*private fun progressBarVisibility(isShown: Boolean = false) {
         binding.progressBar.isVisible = isShown
     }
 
@@ -126,6 +125,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         if (errorMessage.isNotEmpty()) {
             showCustomSnackBar(errorMessage, binding.root, requireContext())
         }
-    }
+    }*/
 
 }
