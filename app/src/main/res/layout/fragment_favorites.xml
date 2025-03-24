@@ -14,19 +14,19 @@
         style="@style/title_text_style" />
 
     <TextView
-        android:id="@+id/not_found_text_view"
+        android:id="@+id/tv_failed_to_get_vacancies_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
         android:gravity="center"
         android:layout_marginTop="158dp"
-        android:text="@string/list_is_empty"
+        android:text="@string/failed_to_get_vacancies_list"
         style="@style/title_text_style"
         app:drawableTopCompat="@drawable/cat_with_food"
         android:drawablePadding="16dp" />
 
     <TextView
-        android:id="@+id/list_is_empty_text_view"
+        android:id="@+id/tv_list_is_empty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"

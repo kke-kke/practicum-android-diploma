@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -34,12 +35,31 @@ class FavoritesFragment : BaseFragment<FragmentFavoritesBinding>() {
     }
 
     private fun renderState(state: VacanciesScreenState){
-        when(state){
-            is VacanciesScreenState.Content -> {}
-            VacanciesScreenState.Empty -> {}
-            is VacanciesScreenState.Error -> {}
-            VacanciesScreenState.Loading -> {}
+
+        fun setViewsVisible(visibilityFlag: Boolean, vararg views: View) {
+            views.forEach { it.isVisible = visibilityFlag }
+        }
+
+        with(binding){
+            when(state){
+                is VacanciesScreenState.Content -> {
+                    //--- Обновление адаптера
+                    //---
+                    searchResultRecyclerView.isVisible = true
+                    setViewsVisible(false, tvFailedToGetVacanciesList, tvListIsEmpty)
+                }
+                VacanciesScreenState.Empty -> {
+                    tvListIsEmpty.isVisible = true
+                    setViewsVisible(false, searchResultRecyclerView, tvFailedToGetVacanciesList)
+                }
+                is VacanciesScreenState.Error -> {
+                    tvFailedToGetVacanciesList.isVisible = true
+                    setViewsVisible(false, tvListIsEmpty, searchResultRecyclerView)
+                }
+                VacanciesScreenState.Loading -> {
+                    setViewsVisible(false, tvListIsEmpty, searchResultRecyclerView, tvFailedToGetVacanciesList)
+                }
+            }
         }
     }
-
 }
