@@ -7,7 +7,7 @@ import ru.practicum.android.diploma.data.database.entities.VacancyEntity
 
 @Database(
     entities = [VacancyEntity::class],
-    version = 1
+    version = 2
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
