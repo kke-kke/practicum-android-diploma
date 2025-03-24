@@ -13,25 +13,15 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/arrowBackButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:background="?attr/background"
-            android:src="@drawable/arrow_back"
-            android:layout_marginEnd="8dp"
-            android:paddingTop="20dp"/>
-
         <com.google.android.material.appbar.MaterialToolbar
             android:layout_width="match_parent"
             android:layout_height="@dimen/navbar_height"
             android:background="?attr/background"
-            android:paddingVertical="@dimen/dimen_16"
             app:contentInsetStartWithNavigation="0dp"
             app:title="@string/job"
             app:titleTextAppearance="@style/title_text_style"
             app:titleTextColor="?attr/colorOnBackground"
+            app:navigationIcon="@drawable/arrow_back"
             android:elevation="0dp">
 
             <ImageButton
