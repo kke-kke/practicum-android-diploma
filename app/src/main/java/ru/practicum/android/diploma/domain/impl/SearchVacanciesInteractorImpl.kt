@@ -9,8 +9,16 @@ import ru.practicum.android.diploma.domain.interactor.SearchVacanciesResult
 class SearchVacanciesInteractorImpl(
     private val searchVacanciesRepository: SearchVacanciesRepository
 ) : SearchVacanciesInteractor {
-    override fun searchVacancies(queryMap: Map<String, String>): Flow<SearchVacanciesResult> {
-        val result = searchVacanciesRepository.searchVacancies(queryMap).map { vacancies ->
+    override fun searchVacancies(
+        text: String,
+        page: Int,
+        perPage: Int
+    ): Flow<SearchVacanciesResult> {
+        val result = searchVacanciesRepository.searchVacancies(
+            text = text,
+            page = page,
+            perPage = perPage
+        ).map { vacancies ->
             when {
                 vacancies.isLoading -> SearchVacanciesResult.Loading
                 vacancies.isNetworkError -> SearchVacanciesResult.NetworkError(vacancies.errorMessage ?: "")
