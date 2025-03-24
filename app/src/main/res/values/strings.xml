@@ -29,7 +29,6 @@
     <string name="no_internet">Нет интернета</string>
     <string name="unknown_error">Произошла неизвестная ошибка</string>
     <string name="no_results">Таких вакансий не найдено</string>
-    <string name="server_error">Ошибка сервера</string>
 
     <plurals name="vacancy_count">
         <item quantity="one">вакансия</item>
