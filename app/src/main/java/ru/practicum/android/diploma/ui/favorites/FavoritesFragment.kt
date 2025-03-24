@@ -41,7 +41,7 @@ class FavoritesFragment : BaseFragment<FragmentFavoritesBinding>() {
         }
 
         with(binding){
-            when(state){
+            /*when(state){
                 is VacanciesScreenState.Content -> {
                     //--- Обновление адаптера
                     //---
@@ -59,7 +59,7 @@ class FavoritesFragment : BaseFragment<FragmentFavoritesBinding>() {
                 VacanciesScreenState.Loading -> {
                     setViewsVisible(false, tvListIsEmpty, searchResultRecyclerView, tvFailedToGetVacanciesList)
                 }
-            }
+            }*/
         }
     }
 }
