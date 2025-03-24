@@ -42,21 +42,21 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidX.core)
-    implementation(libs.androidX.appCompat)
-    implementation(libs.androidX.room)
-    implementation(libs.androidX.lifecycle.viewmodel)
+    implementation(libs.core.ktx)
+    implementation(libs.appcompat)
+    implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.androidX.navigation.fragment.ktx)
     implementation(libs.androidX.navigation.ui.ktx)
-    implementation(libs.androidX.fragment.ktx)
+    implementation(libs.fragment.ktx)
+    implementation(libs.androidX.room)
     implementation(libs.androidX.room.runtime)
     ksp(libs.androidX.room.compiler)
 
-    implementation(libs.kotlinX.coroutines.android)
+    implementation(libs.kotlinx.coroutines.android)
 
     // UI layer libraries
-    implementation(libs.ui.material)
-    implementation(libs.ui.constraintLayout)
+    implementation(libs.material)
+    implementation(libs.constraintlayout)
 
     // Tools libraries
     implementation(libs.glide)
@@ -64,17 +64,17 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
-    implementation(libs.koin)
+    implementation(libs.koin.android)
     implementation(libs.peko)
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging.interceptor)
 
     // region Unit tests
-    testImplementation(libs.unitTests.junit)
+    testImplementation(libs.junit)
     // endregion
 
     // region UI tests
-    androidTestImplementation(libs.uiTests.junitExt)
-    androidTestImplementation(libs.uiTests.espressoCore)
+    androidTestImplementation(libs.ext.junit)
+    androidTestImplementation(libs.espresso.core)
     // endregion
 }
