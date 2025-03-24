@@ -20,10 +20,19 @@
     <string name="member6">Наталья Нестерова</string>
     <!-- Экран поиска -->
     <string name="type_in_query">Введите запрос</string>
+    <string name="vacancy_name">Название вакансии</string>
+    <string name="vacancy_employer">Компания</string>
+    <string name="vacancy_salary">Зарплата не указана</string>
     <!-- Ошибки -->
     <string name="failed_to_get_vacancies_list">Не удалось получить список вакансий</string>
     <string name="server_error">Ошибка сервера</string>
     <string name="no_internet">Нет интернета</string>
     <string name="unknown_error">Произошла неизвестная ошибка</string>
     <string name="no_results">Таких вакансий не найдено</string>
+
+    <plurals name="vacancy_count">
+        <item quantity="one">вакансия</item>
+        <item quantity="few">вакансии</item>
+        <item quantity="many">вакансий</item>
+    </plurals>
 </resources>
