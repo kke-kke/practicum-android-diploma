@@ -42,6 +42,7 @@
     <string name="description_value">Обязанности</string>
     <string name="key_skills">Ключевые навыки</string>
     <string name="key_skills_value">Знание классических алгоритмов и структуры данных Программирование для Android больше одного года Знание WebRTC</string>
+    <string name="no_results">Таких вакансий нет</string>
 
     <plurals name="vacancy_count">
         <item quantity="one">вакансия</item>

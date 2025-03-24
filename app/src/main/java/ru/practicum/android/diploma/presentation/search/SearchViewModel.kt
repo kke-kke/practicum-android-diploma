@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.presentation.search
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -24,10 +25,14 @@ class SearchViewModel(
     private var totalPages: Int = 0
     private var lastSearchText: String = ""
 
-    private val searchScreenState = MutableLiveData<VacanciesScreenState>()
-    fun observeScreenState(): LiveData<VacanciesScreenState> = searchScreenState
+    private val _searchScreenState = MutableLiveData<VacanciesScreenState>()
+    val searchScreenState: LiveData<VacanciesScreenState> = _searchScreenState
 
     fun searchVacancies(searchedText: String) {
+//        setScreenState(
+//            VacanciesScreenState.Loading
+//        )
+//        return
         if (searchedText.isEmpty() or (searchedText == lastSearchText)) {
             return
         }
@@ -68,7 +73,8 @@ class SearchViewModel(
     }
 
     private fun setScreenState(newState: VacanciesScreenState) {
-        searchScreenState.postValue(newState)
+        Log.e("1!!!!!!!!!!!", newState.toString())
+        _searchScreenState.postValue(newState)
     }
 
     private fun handleState(searchVacanciesResult: SearchVacanciesResult): VacanciesScreenState {
