@@ -7,8 +7,8 @@ sealed class VacancyDetailsScreenState {
     data class Success(val vacancy: Vacancy) : VacancyDetailsScreenState()
 
     sealed class Error : VacancyDetailsScreenState() {
-        data class NotFoundError(val errorMessage: String) : Error()
-        data class NoInternetError(val errorMessage: String) : Error()
-        data class OtherError(val errorMessage: String) : Error()
+        data object NotFoundError : Error()
+        data object NoInternetError : Error()
+        data object OtherError : Error()
     }
 }
