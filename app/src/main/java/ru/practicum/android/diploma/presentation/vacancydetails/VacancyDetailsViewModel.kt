@@ -4,22 +4,43 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import ru.practicum.android.diploma.domain.interactor.FavoritesInteractor
 import ru.practicum.android.diploma.domain.interactor.VacancyDetailsInteractor
+import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.domain.models.VacancyDetailsStateLoad
 
-class VacancyDetailsViewModel(private val vacancyDetailsInteractor: VacancyDetailsInteractor) : ViewModel() {
+class VacancyDetailsViewModel(
+    private val vacancyDetailsInteractor: VacancyDetailsInteractor,
+    private val favoritesInteractor: FavoritesInteractor
+) : ViewModel() {
 
     private val vacancyDetailsScreenState = MutableLiveData<VacancyDetailsScreenState>()
     fun observeScreenState(): LiveData<VacancyDetailsScreenState> = vacancyDetailsScreenState
+
+    private val _isFavorite = MutableLiveData<Boolean>(false)
+    val isFavorite: LiveData<Boolean> get() = _isFavorite
+
+    private var currentVacancy: Vacancy? = null
 
     fun loadVacancy(vacancyId: String) {
         viewModelScope.launch {
             vacancyDetailsInteractor.loadVacancyDetails(vacancyId).collect { state ->
                 vacancyDetailsScreenState.postValue(mapStateToScreenState(state))
+                val vacancy = state.vacancy
+                if (vacancy != null) {
+                    currentVacancy = vacancy
+
+                    favoritesInteractor.isFavoriteVacancyFlow(vacancyId)
+                        .onEach { isFav -> _isFavorite.value = isFav }
+                        .launchIn(viewModelScope)
+                }
             }
         }
     }
+
     private fun mapStateToScreenState(state: VacancyDetailsStateLoad): VacancyDetailsScreenState {
         return when {
             state.isLoading -> VacancyDetailsScreenState.Loading
@@ -31,4 +52,14 @@ class VacancyDetailsViewModel(private val vacancyDetailsInteractor: VacancyDetai
         }
     }
 
+    fun toggleFavorite() {
+        val vacancy = currentVacancy ?: return
+        viewModelScope.launch {
+            if (_isFavorite.value == true) {
+                favoritesInteractor.removeVacancyFromFavorites(vacancy.id)
+            } else {
+                favoritesInteractor.addVacancyToFavorites(vacancy)
+            }
+        }
+    }
 }
