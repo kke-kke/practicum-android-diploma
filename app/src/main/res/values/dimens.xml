@@ -10,4 +10,5 @@
     <dimen name="edit_text_height">56dp</dimen>
     <dimen name="dimen_16">16dp</dimen>
     <dimen name="dimen_8">8dp</dimen>
+    <dimen name="dimen_4">4dp</dimen>
 </resources>

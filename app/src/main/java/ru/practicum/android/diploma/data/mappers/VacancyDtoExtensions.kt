@@ -3,6 +3,7 @@ package ru.practicum.android.diploma.data.mappers
 import ru.practicum.android.diploma.data.dto.models.AddressDTO
 import ru.practicum.android.diploma.data.dto.models.AreaDTO
 import ru.practicum.android.diploma.data.dto.models.EmployerDTO
+import ru.practicum.android.diploma.data.dto.models.EmploymentDTO
 import ru.practicum.android.diploma.data.dto.models.ExperienceDTO
 import ru.practicum.android.diploma.data.dto.models.KeySkillDTO
 import ru.practicum.android.diploma.data.dto.models.SalaryDTO
@@ -12,6 +13,7 @@ import ru.practicum.android.diploma.data.dto.responses.VacanciesResponse
 import ru.practicum.android.diploma.domain.models.Address
 import ru.practicum.android.diploma.domain.models.Area
 import ru.practicum.android.diploma.domain.models.Employer
+import ru.practicum.android.diploma.domain.models.Employment
 import ru.practicum.android.diploma.domain.models.Experience
 import ru.practicum.android.diploma.domain.models.KeySkill
 import ru.practicum.android.diploma.domain.models.Salary
@@ -42,6 +44,7 @@ fun VacancyDTO.toDomain(): Vacancy {
         area = area.toDomain(),
         experience = experience?.toDomain(),
         schedule = schedule?.toDomain(),
+        employment = employment?.toDomain(),
         publishedAt = publishedAt,
     )
 }
@@ -87,6 +90,12 @@ fun ExperienceDTO.toDomain(): Experience {
 
 fun ScheduleDTO.toDomain(): Schedule {
     return Schedule(
+        name = name.orEmpty()
+    )
+}
+
+fun EmploymentDTO.toDomain(): Employment {
+    return Employment(
         name = name.orEmpty()
     )
 }

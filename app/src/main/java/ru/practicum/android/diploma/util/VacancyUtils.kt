@@ -6,18 +6,21 @@ import java.text.DecimalFormatSymbols
 import java.util.Locale
 
 object VacancyUtils {
-    fun divideIntoDigits(number: Int): String {
+    fun divideIntoDigits(number: Int?): String {
+        if (number == null) return ""
         val russianLocale = Locale("ru", "RU")
         val russianSymbols = DecimalFormatSymbols(russianLocale)
         val russianFormatter = DecimalFormat("#,###.##", russianSymbols)
         return russianFormatter.format(number)
     }
 
-    fun getCurrencySymbol(currencyCode: String): String {
-        return Currency.entries.find { it.currency == currencyCode }?.symbol ?: currencyCode
+    fun getCurrencySymbol(currencyCode: String?): String {
+        return currencyCode?.let { code ->
+            Currency.entries.find { it.currency == code }?.symbol ?: code
+        } ?: ""
     }
 
-    fun getVacancySalary(from: Int, to: Int): String {
+    fun getVacancySalary(from: Int?, to: Int?): String {
         return when {
             from != -1 && to != -1 -> "от ${divideIntoDigits(from)} до ${divideIntoDigits(to)}"
             from != -1 -> "от ${divideIntoDigits(from)}"
@@ -28,7 +31,9 @@ object VacancyUtils {
 
     fun Salary?.toSalaryString(): String {
         return this?.let { salary ->
-            getVacancySalary(salary.from, salary.to) + " " + getCurrencySymbol(salary.currency)
+            val salaryText = getVacancySalary(salary.from, salary.to)
+            val currencySymbol = getCurrencySymbol(salary.currency)
+            if (salaryText == "Зарплата не указана") salaryText else "$salaryText $currencySymbol"
         } ?: "Зарплата не указана"
     }
 }

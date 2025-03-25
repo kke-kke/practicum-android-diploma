@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputLayout
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
@@ -28,7 +27,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     private fun showVacancyDetail(vacancy: Vacancy) {
         val bundle = Bundle()
         bundle.putString("vacancy", vacancy.id)
-        findNavController().navigate(R.id.jobFragment, bundle)
+        findNavController().navigate(R.id.action_searchFragment_to_vacancyFragment, bundle)
     }
 
     private val viewModel by viewModel<SearchViewModel>()
@@ -70,7 +69,22 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                     viewModel.searchVacancies(searchedText = s.toString())
                 }
             }
+        })
 
+        binding.searchResultRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                if (dy > 0) {
+                    val layoutManager = binding.searchResultRecyclerView.layoutManager as LinearLayoutManager
+                    val pos = layoutManager.findLastCompletelyVisibleItemPosition()
+                    val itemsCount = adapter.itemCount
+
+                    if (pos >= itemsCount - 1) {
+                        viewModel.getNextPartOfVacancies()
+                    }
+                }
+            }
         })
 
         viewModel.searchScreenState.observe(viewLifecycleOwner) { state ->
