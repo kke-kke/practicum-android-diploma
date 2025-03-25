@@ -20,6 +20,7 @@ import ru.practicum.android.diploma.presentation.state.VacanciesScreenState
 import ru.practicum.android.diploma.ui.BaseFragment
 import ru.practicum.android.diploma.util.VacancyUtils
 import ru.practicum.android.diploma.util.hideKeyboard
+import ru.practicum.android.diploma.util.showCustomSnackBar
 
 class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
@@ -73,8 +74,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             when (state) {
                 is VacanciesScreenState.Content -> showContent(
                     vacancyList = state.vacancyList,
-                    foundVacanciesCount = state.foundVacanciesCount,
-                    isPaginationLoading = isPaginationLoader,
+                    foundVacanciesCount = state.foundVacanciesCount
                 )
 
                 is VacanciesScreenState.Loading -> showMainContentLoader()
@@ -110,9 +110,13 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     private fun showNetworkError() {
         progressBarContentVisibility()
         progressBarPaginationVisibility()
-        recyclerViewVisibility()
-        vacancyCountVisibility()
-        errorMessageVisibility(isShowNetworkError = true)
+        if (isPaginationLoader) {
+            errorToastVisibility(isShowNetworkError = true)
+        } else {
+            vacancyCountVisibility()
+            recyclerViewVisibility()
+            errorMessageVisibility(isShowNetworkError = true)
+        }
     }
 
     private fun showNothingFound() {
@@ -138,8 +142,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     private fun showContent(
         vacancyList: List<Vacancy>,
-        foundVacanciesCount: Int,
-        isPaginationLoading: Boolean
+        foundVacanciesCount: Int
     ) {
         adapter.updateVacancyList(vacancyList)
         recyclerViewVisibility(isShown = true)
@@ -148,7 +151,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         progressBarPaginationVisibility()
         errorMessageVisibility()
 
-        if (isPaginationLoading) {
+        if (isPaginationLoader) {
             binding.searchResultRecyclerView.smoothScrollToPosition(0)
         }
     }
@@ -228,6 +231,20 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 //        if (errorMessage.isNotEmpty()) {
 //            showCustomSnackBar(errorMessage, binding.root, requireContext())
 //        }
+    }
+    private fun errorToastVisibility(
+        isShowNothingFound: Boolean = false,
+        isShowNetworkError: Boolean = false,
+        isShowServerError: Boolean = false
+    ) {
+        val errorMessage = when {
+            isShowNetworkError -> getString(R.string.no_internet)
+            else -> getString(R.string.unknown_error)
+        }
+
+        if (errorMessage.isNotEmpty()) {
+            showCustomSnackBar(errorMessage, binding.root, requireContext())
+        }
     }
 
 

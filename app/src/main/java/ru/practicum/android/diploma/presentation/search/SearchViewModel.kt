@@ -29,10 +29,6 @@ class SearchViewModel(
     val searchScreenState: LiveData<VacanciesScreenState> = _searchScreenState
 
     fun searchVacancies(searchedText: String) {
-//        setScreenState(
-//            VacanciesScreenState.Loading
-//        )
-//        return
         if (searchedText.isEmpty() or (searchedText == lastSearchText)) {
             return
         }
@@ -94,8 +90,7 @@ class SearchViewModel(
                     totalPages = searchVacanciesResult.vacanciesFound.maxPages
                     VacanciesScreenState.Content(
                         vacancyList = searchVacanciesResult.vacanciesFound.vacanciesList,
-                        foundVacanciesCount = searchVacanciesResult.vacanciesFound.found,
-                        isPaginationLoading = false
+                        foundVacanciesCount = searchVacanciesResult.vacanciesFound.found
                     )
                 }
             }
