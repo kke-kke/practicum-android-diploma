@@ -65,7 +65,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 super.onScrolled(recyclerView, dx, dy)
 
                 if (dy > 0) {
-                    val pos = (binding.searchResultRecyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+                    val layoutManager = binding.searchResultRecyclerView.layoutManager as LinearLayoutManager
+                    val pos = layoutManager.findLastCompletelyVisibleItemPosition()
                     val itemsCount = adapter.itemCount
 
                     if (pos >= itemsCount - 1) {

@@ -1,7 +1,6 @@
 package ru.practicum.android.diploma.presentation.search
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -80,7 +79,10 @@ class SearchViewModel(
         searchScreenState.postValue(newState)
     }
 
-    private fun handleState(searchVacanciesResult: SearchVacanciesResult, isPaginationLoading: Boolean = false): VacanciesScreenState {
+    private fun handleState(
+        searchVacanciesResult: SearchVacanciesResult,
+        isPaginationLoading: Boolean = false
+    ): VacanciesScreenState {
         val state: VacanciesScreenState =
             when (searchVacanciesResult) {
                 is SearchVacanciesResult.Loading -> VacanciesScreenState.Loading(isPaginationLoading)
