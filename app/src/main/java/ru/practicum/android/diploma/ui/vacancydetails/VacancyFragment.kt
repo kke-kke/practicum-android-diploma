@@ -47,6 +47,16 @@ class VacancyFragment : BaseFragment<FragmentVacancyBinding>() {
         binding.vacancyToolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
+
+        val favoritesOffButton = binding.vacancyToolbar.findViewById<ImageButton>(R.id.favoritesOffButton)
+        val favoritesOnButton = binding.vacancyToolbar.findViewById<ImageButton>(R.id.favoritesOnButton)
+
+        favoritesOffButton?.setOnClickListener {
+            viewModel.toggleFavorite()
+        }
+        favoritesOnButton?.setOnClickListener {
+            viewModel.toggleFavorite()
+        }
     }
 
     private fun initObservers() {
@@ -65,6 +75,16 @@ class VacancyFragment : BaseFragment<FragmentVacancyBinding>() {
                     showPlaceholder(state)
                 }
             }
+        }
+
+        // Наблюдаем за флагом isFavorite
+        viewModel.isFavorite.observe(viewLifecycleOwner) { isFav ->
+            // Ищем кнопки ещё раз (или можете сохранить в поле)
+            val favoritesOffButton = binding.vacancyToolbar.findViewById<ImageButton>(R.id.favoritesOffButton)
+            val favoritesOnButton = binding.vacancyToolbar.findViewById<ImageButton>(R.id.favoritesOnButton)
+
+            favoritesOffButton?.isVisible = !isFav
+            favoritesOnButton?.isVisible = isFav
         }
     }
 
@@ -94,11 +114,13 @@ class VacancyFragment : BaseFragment<FragmentVacancyBinding>() {
                 .fitCenter()
                 .apply(RequestOptions.bitmapTransform(RoundedCorners(R.dimen.dimen_4)))
                 .into(companyImage)
+
             val shareButton = vacancyToolbar.findViewById<ImageButton>(R.id.sharingButton)
-            shareButton.setOnClickListener {
-                val shareIntent = Intent(Intent.ACTION_SEND)
-                shareIntent.type = "text/plain"
-                shareIntent.putExtra(Intent.EXTRA_TEXT, vacancy.vacancyUrl)
+            shareButton?.setOnClickListener {
+                val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                    type = "text/plain"
+                    putExtra(Intent.EXTRA_TEXT, vacancy.vacancyUrl)
+                }
                 startActivity(Intent.createChooser(shareIntent, getString(R.string.share_vacancy)))
             }
         }
@@ -170,5 +192,4 @@ class VacancyFragment : BaseFragment<FragmentVacancyBinding>() {
             keySkills.isVisible = false
         }
     }
-
 }
