@@ -9,6 +9,7 @@
     android:orientation="vertical">
 
     <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/vacancyToolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/navbar_height"
         android:background="?attr/background"
