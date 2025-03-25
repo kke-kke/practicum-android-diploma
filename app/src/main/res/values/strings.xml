@@ -51,5 +51,6 @@
         <item quantity="one">вакансия</item>
         <item quantity="few">вакансии</item>
         <item quantity="many">вакансий</item>
+        <item quantity="other">вакансий</item>
     </plurals>
 </resources>

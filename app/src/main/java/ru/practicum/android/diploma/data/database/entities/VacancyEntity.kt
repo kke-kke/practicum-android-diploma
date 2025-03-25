@@ -18,5 +18,7 @@ data class VacancyEntity(
     val companyIcon: String?,
     val companyName: String?,
     @ColumnInfo(name = "key_skills")
-    val keySkills: List<String>
+    val keySkills: List<String>,
+    @ColumnInfo(name = "alternate_url")
+    val alternateUrl: String? = null
 )
