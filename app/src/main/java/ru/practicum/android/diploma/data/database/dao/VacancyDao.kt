@@ -20,4 +20,10 @@ interface VacancyDao {
 
     @Query("DELETE FROM vacancies WHERE id = :id")
     suspend fun deleteVacancyById(id: String)
+
+    @Query("SELECT * FROM vacancies WHERE isFavorite = 1")
+    fun getFavoriteVacancies(): Flow<List<VacancyEntity>>
+
+    @Query("UPDATE vacancies SET isFavorite = :isFavorite WHERE id = :id")
+    suspend fun updateFavoriteStatus(id: String, isFavorite: Boolean)
 }
