@@ -158,10 +158,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         progressBarContentVisibility()
         progressBarPaginationVisibility()
         errorMessageVisibility()
-
-        if (isPaginationLoader) {
-            binding.searchResultRecyclerView.smoothScrollToPosition(0)
-        }
     }
 
     private fun setSearchIcon() {
