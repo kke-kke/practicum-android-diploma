@@ -63,8 +63,7 @@ fun String?.toSalary(): Salary? {
         1 -> {
             if (this.contains("от")) {
                 Salary(from = numbers[0], to = null, currency = currencySymbol)
-            }
-            else {
+            } else {
                 Salary(from = null, to = numbers[0], currency = currencySymbol)
             }
         }
