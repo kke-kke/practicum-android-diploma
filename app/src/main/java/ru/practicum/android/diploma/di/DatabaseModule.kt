@@ -7,21 +7,18 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import ru.practicum.android.diploma.data.database.AppDatabase
 import ru.practicum.android.diploma.data.database.Converters
+import ru.practicum.android.diploma.data.database.Migrations
 import ru.practicum.android.diploma.util.Constants
 
 val databaseModule = module {
-    val MIGRATION_1_2 = object : Migration(1, 2) {
-        override fun migrate(database: SupportSQLiteDatabase) {
-            database.execSQL("ALTER TABLE vacancies ADD COLUMN alternate_url TEXT")
-        }
-    }
     single {
         Room.databaseBuilder(
             androidContext(),
             AppDatabase::class.java,
             Constants.DATABASE_NAME
         )
-            .addMigrations(MIGRATION_1_2)
+            .addMigrations(Migrations.MIGRATION_1_2)
+            .addMigrations(Migrations.MIGRATION_2_3)
             .addTypeConverter(get<Converters>())
             .build()
     }
