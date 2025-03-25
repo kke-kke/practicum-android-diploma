@@ -62,6 +62,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 } else {
                     setClearIcon()
                     binding.searchPlaceholder.visibility = View.GONE
+                    isPaginationLoader = false
                     viewModel.searchVacancies(searchedText = s.toString())
                 }
             }
@@ -116,6 +117,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     private fun showNothingFound() {
         progressBarContentVisibility()
+        progressBarPaginationVisibility()
         recyclerViewVisibility()
         errorMessageVisibility(isShowNothingFound = true)
         vacancyCountVisibility(isShown = true)
@@ -127,7 +129,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             progressBarContentVisibility(isShown = true)
             vacancyCountVisibility()
         } else {
-
         progressBarPaginationVisibility(isShown = true)
         }
 
