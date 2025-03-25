@@ -15,7 +15,7 @@ fun VacancyEntity.toDomain(): Vacancy {
     return Vacancy(
         id = id,
         name = name,
-        vacancyUrl = "",
+        vacancyUrl = alternateUrl ?: "",
         salary = salary?.toSalary(),
         address = null,
         employer = Employer(
@@ -44,7 +44,8 @@ fun Vacancy.toEntity(): VacancyEntity {
         description = description,
         companyIcon = employer?.logoUrl,
         companyName = employer?.name,
-        keySkills = keySkills.map { it.name }
+        keySkills = keySkills.map { it.name },
+        alternateUrl = vacancyUrl
     )
 }
 
