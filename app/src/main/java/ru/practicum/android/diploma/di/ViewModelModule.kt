@@ -9,14 +9,22 @@ import ru.practicum.android.diploma.presentation.vacancydetails.VacancyDetailsVi
 
 val viewModelModule = module {
     viewModel {
-        SearchViewModel(get(), androidApplication())
+        SearchViewModel(
+            searchVacanciesInteractor = get(),
+            context = androidApplication()
+        )
     }
 
     viewModel {
-        VacancyDetailsViewModel(get(), get())
+        VacancyDetailsViewModel(
+            vacancyDetailsInteractor = get(),
+            favoritesInteractor = get()
+        )
     }
 
     viewModel {
-        FavouritesViewModel(get())
+        FavouritesViewModel(
+            favoritesInteractor = get()
+        )
     }
 }

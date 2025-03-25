@@ -23,7 +23,8 @@ class FavoritesRepositoryImpl(
         if (oldVacancy != null) {
             appDatabase.vacancyDao().updateFavoriteStatus(vacancy.id, true)
         } else {
-            appDatabase.vacancyDao().insertVacancy(vacancy.toEntity().copy(isFavorite = true))
+            val newEntity = vacancy.toEntity().copy(isFavorite = true)
+            appDatabase.vacancyDao().insertVacancy(newEntity)
         }
     }
 

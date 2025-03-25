@@ -29,12 +29,13 @@ class VacancyDetailsViewModel(
         viewModelScope.launch {
             vacancyDetailsInteractor.loadVacancyDetails(vacancyId).collect { state ->
                 vacancyDetailsScreenState.postValue(mapStateToScreenState(state))
+
                 val vacancy = state.vacancy
                 if (vacancy != null) {
                     currentVacancy = vacancy
 
                     favoritesInteractor.isFavoriteVacancyFlow(vacancyId)
-                        .onEach { isFav -> _isFavorite.value = isFav }
+                        .onEach { fav -> _isFavorite.value = fav }
                         .launchIn(viewModelScope)
                 }
             }
