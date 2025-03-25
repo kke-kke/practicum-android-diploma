@@ -13,8 +13,8 @@
             android:id="@+id/action_searchFragment_to_filterFragment"
             app:destination="@id/filterFragment" />
         <action
-            android:id="@+id/action_searchFragment_to_jobFragment"
-            app:destination="@id/jobFragment" />
+            android:id="@+id/action_searchFragment_to_vacancyFragment"
+            app:destination="@id/vacancyFragment" />
     </fragment>
     <fragment
         android:id="@+id/filterFragment"
@@ -29,10 +29,10 @@
             app:destination="@id/industryFilterFragment" />
     </fragment>
     <fragment
-        android:id="@+id/jobFragment"
-        android:name="ru.practicum.android.diploma.ui.vacancydetails.JobFragment"
-        android:label="fragment_job"
-        tools:layout="@layout/fragment_job" />
+        android:id="@+id/vacancyFragment"
+        android:name="ru.practicum.android.diploma.ui.vacancydetails.VacancyFragment"
+        android:label="fragment_vacancy"
+        tools:layout="@layout/fragment_vacancy" />
     <fragment
         android:id="@+id/favoritesFragment"
         android:name="ru.practicum.android.diploma.ui.favorites.FavoritesFragment"
@@ -40,7 +40,7 @@
         tools:layout="@layout/fragment_favorites" >
         <action
             android:id="@+id/action_favoritesFragment_to_jobFragment"
-            app:destination="@id/jobFragment" />
+            app:destination="@id/vacancyFragment" />
     </fragment>
     <fragment
         android:id="@+id/teamFragment"
