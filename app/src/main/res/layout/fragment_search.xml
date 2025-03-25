@@ -62,12 +62,13 @@
     <LinearLayout
         android:id="@+id/not_found"
         style="@style/search_linear_layout"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
         android:visibility="gone">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="224dp"
-            android:layout_marginTop="132dp"
             android:src="@drawable/empty_state"/>
 
         <TextView
@@ -84,12 +85,13 @@
     <LinearLayout
         android:id="@+id/internet_error"
         style="@style/search_linear_layout"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
         android:visibility="gone">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="224dp"
-            android:layout_marginTop="132dp"
             android:src="@drawable/internet_error"/>
 
         <TextView
@@ -105,12 +107,13 @@
     <LinearLayout
         android:id="@+id/server_error"
         style="@style/search_linear_layout"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
         android:visibility="gone">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="224dp"
-            android:layout_marginTop="132dp"
             android:src="@drawable/server_error"/>
 
         <TextView
@@ -125,15 +128,15 @@
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_marginTop="242dp"
         android:indeterminateTint="#3772E7"
         android:visibility="gone" />
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/searchResultRecyclerView"
@@ -157,4 +160,12 @@
             android:paddingHorizontal="12dp"
             android:visibility="gone" />
     </FrameLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBarPagination"
+        android:layout_width="48dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/yp_blue"
+        android:visibility="gone"/>
 </LinearLayout>

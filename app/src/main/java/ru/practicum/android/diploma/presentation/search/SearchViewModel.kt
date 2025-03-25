@@ -23,6 +23,7 @@ class SearchViewModel(
     private var currentPage: Int = 0
     private var totalPages: Int = 0
     private var lastSearchText: String = ""
+    private var isNextPageLoading = false
 
     private val searchScreenState = MutableLiveData<VacanciesScreenState>()
     fun observeScreenState(): LiveData<VacanciesScreenState> = searchScreenState
@@ -54,15 +55,22 @@ class SearchViewModel(
             return
         }
 
-        searchJob = viewModelScope.launch {
-            currentPage += 1
-            searchVacanciesInteractor.searchVacancies(
-                text = lastSearchText,
-                page = currentPage,
-                perPage = Constants.VACANCIES_PER_PAGE
-            )?.collect { searchVacanciesResult ->
-                val state: VacanciesScreenState = handleState(searchVacanciesResult)
-                setScreenState(state)
+        if (!isNextPageLoading) {
+            isNextPageLoading = true
+            searchJob = viewModelScope.launch {
+                searchVacanciesInteractor.searchVacancies(
+                    text = lastSearchText,
+                    page = currentPage + 1,
+                    perPage = Constants.VACANCIES_PER_PAGE
+                )?.collect { searchVacanciesResult ->
+                    val state: VacanciesScreenState = handleState(searchVacanciesResult)
+                    setScreenState(state)
+                    isNextPageLoading = false
+
+                    if (state is VacanciesScreenState.Content || state is VacanciesScreenState.NothingFound) {
+                        currentPage += 1
+                    }
+                }
             }
         }
     }
@@ -71,7 +79,9 @@ class SearchViewModel(
         searchScreenState.postValue(newState)
     }
 
-    private fun handleState(searchVacanciesResult: SearchVacanciesResult): VacanciesScreenState {
+    private fun handleState(
+        searchVacanciesResult: SearchVacanciesResult
+    ): VacanciesScreenState {
         val state: VacanciesScreenState =
             when (searchVacanciesResult) {
                 is SearchVacanciesResult.Loading -> VacanciesScreenState.Loading
@@ -88,8 +98,7 @@ class SearchViewModel(
                     totalPages = searchVacanciesResult.vacanciesFound.maxPages
                     VacanciesScreenState.Content(
                         vacancyList = searchVacanciesResult.vacanciesFound.vacanciesList,
-                        foundVacanciesCount = searchVacanciesResult.vacanciesFound.found,
-                        isPaginationLoading = false
+                        foundVacanciesCount = searchVacanciesResult.vacanciesFound.found
                     )
                 }
             }

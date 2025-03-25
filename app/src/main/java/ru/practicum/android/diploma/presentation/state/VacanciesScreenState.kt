@@ -6,8 +6,7 @@ sealed class VacanciesScreenState {
     data object Loading : VacanciesScreenState()
     data class Content(
         val vacancyList: List<Vacancy>,
-        val foundVacanciesCount: Int,
-        val isPaginationLoading: Boolean
+        val foundVacanciesCount: Int
     ) : VacanciesScreenState()
 
     data object NothingFound : VacanciesScreenState()
