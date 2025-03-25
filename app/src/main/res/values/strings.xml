@@ -29,6 +29,19 @@
     <string name="no_internet">Нет интернета</string>
     <string name="unknown_error">Произошла неизвестная ошибка</string>
     <string name="no_results">Таких вакансий не найдено</string>
+    <!-- Экран вакансии -->
+    <string name="job_name">Android-разработчик</string>
+    <string name="salary">от 100 000 ₽</string>
+    <string name="company_name">Еда</string>
+    <string name="area">Москва</string>
+    <string name="experience">Требуемый опыт</string>
+    <string name="experience_value">От 1 года до 3 лет</string>
+    <string name="work_format">Полная занятость</string>
+    <string name="employment_form">Удаленная работа</string>
+    <string name="description">Описание вакансии</string>
+    <string name="description_value">Обязанности</string>
+    <string name="key_skills">Ключевые навыки</string>
+    <string name="key_skills_value">Знание классических алгоритмов и структуры данных Программирование для Android больше одного года Знание WebRTC</string>
 
     <plurals name="vacancy_count">
         <item quantity="one">вакансия</item>
