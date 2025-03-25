@@ -20,5 +20,7 @@ data class VacancyEntity(
     @ColumnInfo(name = "key_skills")
     val keySkills: List<String>,
     @ColumnInfo(name = "alternate_url")
-    val alternateUrl: String? = null
+    val alternateUrl: String? = null,
+    @ColumnInfo(name = "isFavorite")
+    val isFavorite: Boolean = false
 )
