@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.ui.favorites
+package ru.practicum.android.diploma.ui.favourites
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,7 +17,7 @@ import ru.practicum.android.diploma.presentation.state.FavouritesScreenState
 import ru.practicum.android.diploma.ui.BaseFragment
 import ru.practicum.android.diploma.ui.search.VacancyAdapter
 
-class FavoritesFragment : BaseFragment<FragmentFavoritesBinding>() {
+class FavouritesFragment : BaseFragment<FragmentFavoritesBinding>() {
 
     private val favouritesViewModel: FavouritesViewModel by viewModel()
     private val vacancyList = ArrayList<Vacancy>()
