@@ -24,7 +24,7 @@ fun VacancyEntity.toDomain(): Vacancy {
             logoUrl = companyIcon ?: ""
         ),
         description = description,
-        // исправлена ошибка Only safe (?.) or non-null asserted (!!.) .... receiver of type List<String>?
+        // исправлена ошибка
         keySkills = keySkills?.map { KeySkill(it) } ?: emptyList(),
         area = Area(name = departmentName),
         experience = experience?.let { Experience(it) },
