@@ -16,6 +16,13 @@ class VacancyAdapter(
         notifyDataSetChanged()
     }
 
+    fun addVacanciesList(items: List<Vacancy>) {
+        val startPosition = vacancies.size
+        val newList = vacancies + items
+        vacancies = newList
+        notifyItemRangeInserted(startPosition, items.size)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VacancyViewHolder {
         val layoutInspector = LayoutInflater.from(parent.context)
         return VacancyViewHolder(SearchResultBinding.inflate(layoutInspector, parent, false))
