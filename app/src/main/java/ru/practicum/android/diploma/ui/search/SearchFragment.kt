@@ -102,9 +102,13 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     private fun showServerError() {
         progressBarContentVisibility()
         progressBarPaginationVisibility()
-        recyclerViewVisibility()
-        vacancyCountVisibility()
-        errorMessageVisibility(isShowServerError = true)
+        if (isPaginationLoader) {
+            errorToastVisibility()
+        } else {
+            recyclerViewVisibility()
+            vacancyCountVisibility()
+            errorMessageVisibility(isShowServerError = true)
+        }
     }
 
     private fun showNetworkError() {
@@ -122,9 +126,13 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     private fun showNothingFound() {
         progressBarContentVisibility()
         progressBarPaginationVisibility()
-        recyclerViewVisibility()
-        errorMessageVisibility(isShowNothingFound = true)
-        vacancyCountVisibility(isShown = true)
+        if (isPaginationLoader) {
+            errorToastVisibility()
+        } else {
+            recyclerViewVisibility()
+            errorMessageVisibility(isShowNothingFound = true)
+            vacancyCountVisibility(isShown = true)
+        }
     }
 
     private fun showMainContentLoader() {
@@ -133,7 +141,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             progressBarContentVisibility(isShown = true)
             vacancyCountVisibility()
         } else {
-        progressBarPaginationVisibility(isShown = true)
+            progressBarPaginationVisibility(isShown = true)
         }
 
         errorMessageVisibility()
@@ -211,41 +219,16 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         binding.notFound.isVisible = isShowNothingFound
         binding.internetError.isVisible = isShowNetworkError
         binding.serverError.isVisible = isShowServerError
-
-//        vacancyCountVisibility(
-//            when {
-//                isShowNothingFound -> isShowNothingFound
-//                isShowNetworkError -> isShowNetworkError
-//                isShowServerError -> isShowServerError
-//                else -> true
-//            }
-//        )
-
-//        val errorMessage = when {
-//            isShowNothingFound -> getString(R.string.no_results)
-//            isShowNetworkError -> getString(R.string.no_internet)
-//            isShowServerError -> getString(R.string.server_error)
-//            else -> ""
-//        }
-//
-//        if (errorMessage.isNotEmpty()) {
-//            showCustomSnackBar(errorMessage, binding.root, requireContext())
-//        }
     }
+
     private fun errorToastVisibility(
-        isShowNothingFound: Boolean = false,
         isShowNetworkError: Boolean = false,
-        isShowServerError: Boolean = false
     ) {
         val errorMessage = when {
             isShowNetworkError -> getString(R.string.no_internet)
             else -> getString(R.string.unknown_error)
         }
-
-        if (errorMessage.isNotEmpty()) {
-            showCustomSnackBar(errorMessage, binding.root, requireContext())
-        }
+        showCustomSnackBar(errorMessage, binding.root, requireContext())
     }
-
 
 }
