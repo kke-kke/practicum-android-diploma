@@ -16,11 +16,8 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.presentation.search.SearchViewModel
-import ru.practicum.android.diploma.presentation.state.VacanciesScreenState
 import ru.practicum.android.diploma.ui.BaseFragment
 import ru.practicum.android.diploma.util.VacancyUtils
-import ru.practicum.android.diploma.util.hideKeyboard
-import ru.practicum.android.diploma.util.showCustomSnackBar
 
 class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
@@ -32,8 +29,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     }
 
     private val viewModel by viewModel<SearchViewModel>()
-
-    private var isPaginationLoader: Boolean = false
 
     override fun onCreateBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentSearchBinding {
         return FragmentSearchBinding.inflate(inflater, container, false)
@@ -58,16 +53,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                     binding.searchPlaceholder.visibility = View.VISIBLE
                     recyclerViewVisibility(false)
                     vacancyCountVisibility(false)
-                    errorMessageVisibility()
-                    isPaginationLoader = false
                 } else {
                     setClearIcon()
                     binding.searchPlaceholder.visibility = View.GONE
-                    isPaginationLoader = false
-                    adapter.updateVacancyList(emptyList())
-                    errorMessageVisibility()
-                    vacancyCountVisibility()
-                    viewModel.searchVacancies(searchedText = s.toString())
                 }
             }
         })
@@ -83,87 +71,11 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
                     if (pos >= itemsCount - 1) {
                         viewModel.getNextPartOfVacancies()
-                        isPaginationLoader = true
                     }
                 }
             }
         })
 
-        viewModel.searchScreenState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is VacanciesScreenState.Content -> showContent(
-                    vacancyList = state.vacancyList,
-                    foundVacanciesCount = state.foundVacanciesCount
-                )
-
-                is VacanciesScreenState.Loading -> showMainContentLoader()
-                is VacanciesScreenState.NetworkError -> showNetworkError()
-                is VacanciesScreenState.NothingFound -> showNothingFound()
-                is VacanciesScreenState.ServerError -> showServerError()
-            }
-        }
-
-    }
-
-    private fun showServerError() {
-        progressBarContentVisibility()
-        progressBarPaginationVisibility()
-        if (isPaginationLoader) {
-            errorToastVisibility()
-        } else {
-            recyclerViewVisibility()
-            vacancyCountVisibility()
-            errorMessageVisibility(isShowServerError = true)
-        }
-    }
-
-    private fun showNetworkError() {
-        progressBarContentVisibility()
-        progressBarPaginationVisibility()
-        if (isPaginationLoader) {
-            errorToastVisibility(isShowNetworkError = true)
-        } else {
-            vacancyCountVisibility()
-            recyclerViewVisibility()
-            errorMessageVisibility(isShowNetworkError = true)
-        }
-    }
-
-    private fun showNothingFound() {
-        progressBarContentVisibility()
-        progressBarPaginationVisibility()
-        if (isPaginationLoader) {
-            errorToastVisibility()
-        } else {
-            recyclerViewVisibility()
-            errorMessageVisibility(isShowNothingFound = true)
-            vacancyCountVisibility(isShown = true)
-        }
-    }
-
-    private fun showMainContentLoader() {
-        if (!isPaginationLoader) {
-            recyclerViewVisibility()
-            progressBarContentVisibility(isShown = true)
-            vacancyCountVisibility()
-        } else {
-            progressBarPaginationVisibility(isShown = true)
-        }
-
-        errorMessageVisibility()
-        hideKeyboard()
-    }
-
-    private fun showContent(
-        vacancyList: List<Vacancy>,
-        foundVacanciesCount: Int
-    ) {
-        adapter.updateVacancyList(vacancyList)
-        recyclerViewVisibility(isShown = true)
-        vacancyCountVisibility(isShown = true, count = foundVacanciesCount)
-        progressBarContentVisibility()
-        progressBarPaginationVisibility()
-        errorMessageVisibility()
     }
 
     private fun setSearchIcon() {
@@ -190,27 +102,17 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         binding.vacancyCount.isVisible = isShown
         if (isShown) {
             binding.vacancyCount.text = if (count > 0) {
-                "Найдено ${VacancyUtils.divideIntoDigits(count)} ${
-                    resources.getQuantityString(
-                        R.plurals.vacancy_count,
-                        count,
-                        count
-                    )
-                }"
-            } else {
-                getString(R.string.no_results)
-            }
+                "Найдено ${VacancyUtils.divideIntoDigits(count)} ${resources.getQuantityString(
+                    R.plurals.vacancy_count,
+                    count,
+                    count
+                )}"
+            } else { getString(R.string.no_results) }
         }
     }
 
-    private fun progressBarContentVisibility(isShown: Boolean = false) {
-        binding.searchPlaceholder.isVisible = false
-        binding.progressBarContent.isVisible = isShown
-    }
-
-    private fun progressBarPaginationVisibility(isShown: Boolean = false) {
-        binding.searchPlaceholder.isVisible = false
-        binding.progressBarPagination.isVisible = isShown
+    /*private fun progressBarVisibility(isShown: Boolean = false) {
+        binding.progressBar.isVisible = isShown
     }
 
     private fun errorMessageVisibility(
@@ -221,16 +123,25 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         binding.notFound.isVisible = isShowNothingFound
         binding.internetError.isVisible = isShowNetworkError
         binding.serverError.isVisible = isShowServerError
-    }
 
-    private fun errorToastVisibility(
-        isShowNetworkError: Boolean = false,
-    ) {
+        vacancyCountVisibility(
+            when {
+                isShowNothingFound -> true
+                isShowNetworkError -> false
+                isShowServerError -> false
+                else -> false }
+        )
+
         val errorMessage = when {
-            isShowNetworkError -> getString(R.string.toast_no_internet)
-            else -> getString(R.string.toast_error)
+            isShowNothingFound -> getString(R.string.no_results)
+            isShowNetworkError -> getString(R.string.no_internet)
+            isShowServerError -> getString(R.string.server_error)
+            else -> ""
         }
-        showCustomSnackBar(errorMessage, binding.root, requireContext())
-    }
+
+        if (errorMessage.isNotEmpty()) {
+            showCustomSnackBar(errorMessage, binding.root, requireContext())
+        }
+    }*/
 
 }
