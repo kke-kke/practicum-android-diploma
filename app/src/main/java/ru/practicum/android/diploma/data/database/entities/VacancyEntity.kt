@@ -19,8 +19,6 @@ data class VacancyEntity(
     val companyName: String?,
     @ColumnInfo(name = "key_skills")
     val keySkills: List<String>?,
-
-    // добавляем новое поле для хранения ссылки
-    @ColumnInfo(name = "alternate_url")
+    @ColumnInfo(name = "alternate_url") // поле для хранения ссылки
     val alternateUrl: String? = null
 )
