@@ -56,14 +56,15 @@ class VacancyDetailsRepositoryImpl(
                 }
 
                 is Response.Success -> {
-                    val vacancy = response.data.toDomain()
-                    appDatabase.vacancyDao().insertVacancy(vacancy.toEntity())
-                    VacancyDetailsStateLoad(vacancy = vacancy)
+                    val vacancyDomain = response.data.toDomain()
+                    val oldVacancy = appDatabase.vacancyDao().getVacancyById(vacancyId).firstOrNull()
+                    val oldIsFavorite = oldVacancy?.isFavorite ?: false
+                    val vacancyEntity = vacancyDomain.toEntity().copy(isFavorite = oldIsFavorite)
+                    appDatabase.vacancyDao().insertVacancy(vacancyEntity)
+                    VacancyDetailsStateLoad(vacancy = vacancyDomain)
                 }
             }
-
             emit(state)
         }
     }
-
 }
