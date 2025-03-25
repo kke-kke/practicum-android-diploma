@@ -9,11 +9,9 @@ import ru.practicum.android.diploma.data.database.AppDatabase
 import ru.practicum.android.diploma.data.database.Converters
 import ru.practicum.android.diploma.util.Constants
 
-val databaseModule = module {
-    // миграция 1->2 (ALTER TABLE ...)
+val databaseModule = module {  // миграция 1->2 (ALTER TABLE ...)
     val MIGRATION_1_2 = object : Migration(1, 2) {
         override fun migrate(database: SupportSQLiteDatabase) {
-
             database.execSQL("ALTER TABLE vacancies ADD COLUMN alternate_url TEXT")
         }
     }

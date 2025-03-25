@@ -85,7 +85,6 @@ class VacancyFragment : BaseFragment<FragmentVacancyBinding>() {
                 keySkills.isVisible = false
                 keySkillsTitle.isVisible = false
             }
-
             Glide.with(binding.companyImage)
                 .load(vacancy.employer?.logoUrl)
                 .placeholder(R.drawable.logo_placeholder_48)
@@ -94,7 +93,6 @@ class VacancyFragment : BaseFragment<FragmentVacancyBinding>() {
                 .fitCenter()
                 .apply(RequestOptions.bitmapTransform(RoundedCorners(R.dimen.dimen_4)))
                 .into(companyImage)
-
 
             val shareButton = vacancyToolbar.findViewById<ImageButton>(R.id.sharingButton)
             shareButton.setOnClickListener {
