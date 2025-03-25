@@ -63,7 +63,7 @@ class SearchViewModel(
                     page = currentPage + 1,
                     perPage = Constants.VACANCIES_PER_PAGE
                 )?.collect { searchVacanciesResult ->
-                    val state: VacanciesScreenState = handleState(searchVacanciesResult, true)
+                    val state: VacanciesScreenState = handleState(searchVacanciesResult)
                     setScreenState(state)
                     isNextPageLoading = false
 
@@ -80,29 +80,25 @@ class SearchViewModel(
     }
 
     private fun handleState(
-        searchVacanciesResult: SearchVacanciesResult,
-        isPaginationLoading: Boolean = false
+        searchVacanciesResult: SearchVacanciesResult
     ): VacanciesScreenState {
         val state: VacanciesScreenState =
             when (searchVacanciesResult) {
-                is SearchVacanciesResult.Loading -> VacanciesScreenState.Loading(isPaginationLoading)
+                is SearchVacanciesResult.Loading -> VacanciesScreenState.Loading
                 is SearchVacanciesResult.NetworkError -> VacanciesScreenState.NetworkError(
-                    errorText = context.getString(R.string.no_internet),
-                    isPaginationLoading = isPaginationLoading
+                    errorText = context.getString(R.string.no_internet)
                 )
 
-                is SearchVacanciesResult.NothingFound -> VacanciesScreenState.NothingFound(isPaginationLoading)
+                is SearchVacanciesResult.NothingFound -> VacanciesScreenState.NothingFound
                 is SearchVacanciesResult.ServerError -> VacanciesScreenState.ServerError(
-                    errorText = context.getString(R.string.server_error),
-                    isPaginationLoading = isPaginationLoading
+                    errorText = context.getString(R.string.server_error)
                 )
 
                 is SearchVacanciesResult.Success -> {
                     totalPages = searchVacanciesResult.vacanciesFound.maxPages
                     VacanciesScreenState.Content(
                         vacancyList = searchVacanciesResult.vacanciesFound.vacanciesList,
-                        foundVacanciesCount = searchVacanciesResult.vacanciesFound.found,
-                        isPaginationLoading = isPaginationLoading
+                        foundVacanciesCount = searchVacanciesResult.vacanciesFound.found
                     )
                 }
             }
