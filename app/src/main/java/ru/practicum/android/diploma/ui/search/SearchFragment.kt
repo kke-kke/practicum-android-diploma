@@ -19,7 +19,6 @@ import ru.practicum.android.diploma.presentation.state.VacanciesScreenState
 import ru.practicum.android.diploma.ui.BaseFragment
 import ru.practicum.android.diploma.util.VacancyUtils
 import ru.practicum.android.diploma.util.hideKeyboard
-import ru.practicum.android.diploma.util.showCustomSnackBar
 
 class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
@@ -64,48 +63,61 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             }
 
         })
-//        viewModel.searchVacancies("")
 
         viewModel.searchScreenState.observe(viewLifecycleOwner) { state ->
             when (state) {
-                is VacanciesScreenState.Content -> {
-                    adapter.updateVacancyList(state.vacancyList)
-                    recyclerViewVisibility(true)
-                    binding.vacancyCount.isVisible = true
-//                    vacancyCountVisibility(isShown = true, count = state.foundVacanciesCount)
-                    progressBarContentVisibility(false)
-                    errorMessageVisibility()
-                }
+                is VacanciesScreenState.Content -> showContent(
+                    vacancyList = state.vacancyList,
+                    foundVacanciesCount = state.foundVacanciesCount
+                )
 
-                is VacanciesScreenState.Loading -> {
-                    progressBarContentVisibility(true)
-                    hideKeyboard()
-                }
-
-                is VacanciesScreenState.NetworkError -> {
-                    recyclerViewVisibility()
-                    errorMessageVisibility(
-                        isShowNetworkError = true,
-                    )
-                }
-
-                is VacanciesScreenState.NothingFound -> {
-                    recyclerViewVisibility()
-                    errorMessageVisibility(
-                        isShowNothingFound = true,
-                    )
-                }
-
-                is VacanciesScreenState.ServerError -> {
-                    recyclerViewVisibility()
-                    errorMessageVisibility(
-                        isShowServerError = true
-                    )
-                }
+                is VacanciesScreenState.Loading -> showMainContentLoader()
+                is VacanciesScreenState.NetworkError -> showNetworkError()
+                is VacanciesScreenState.NothingFound -> showNothingFound()
+                is VacanciesScreenState.ServerError -> showServerError()
             }
         }
 
 
+    }
+
+    private fun showServerError() {
+        progressBarContentVisibility()
+        recyclerViewVisibility()
+        vacancyCountVisibility()
+        errorMessageVisibility(isShowServerError = true)
+    }
+
+    private fun showNetworkError() {
+        progressBarContentVisibility()
+        recyclerViewVisibility()
+        vacancyCountVisibility()
+        errorMessageVisibility(isShowNetworkError = true)
+    }
+
+    private fun showNothingFound() {
+        progressBarContentVisibility()
+        recyclerViewVisibility()
+        errorMessageVisibility(isShowNothingFound = true)
+        vacancyCountVisibility(isShown = true)
+    }
+
+    private fun showMainContentLoader() {
+        progressBarContentVisibility(isShown = true)
+        errorMessageVisibility()
+        hideKeyboard()
+    }
+
+    private fun showContent(
+        vacancyList: List<Vacancy>,
+        foundVacanciesCount: Int,
+        isPaginationLoading: Boolean = false
+    ) {
+        adapter.updateVacancyList(vacancyList)
+        recyclerViewVisibility(isShown = true)
+        vacancyCountVisibility(isShown = true, count = foundVacanciesCount)
+        progressBarContentVisibility(isShown = false)
+        errorMessageVisibility()
     }
 
     private fun setSearchIcon() {
@@ -160,19 +172,18 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         isShowNetworkError: Boolean = false,
         isShowServerError: Boolean = false
     ) {
-        progressBarContentVisibility(false)
         binding.notFound.isVisible = isShowNothingFound
         binding.internetError.isVisible = isShowNetworkError
         binding.serverError.isVisible = isShowServerError
 
-        vacancyCountVisibility(
-            when {
-                isShowNothingFound -> true
-                isShowNetworkError -> false
-                isShowServerError -> false
-                else -> false
-            }
-        )
+//        vacancyCountVisibility(
+//            when {
+//                isShowNothingFound -> isShowNothingFound
+//                isShowNetworkError -> isShowNetworkError
+//                isShowServerError -> isShowServerError
+//                else -> true
+//            }
+//        )
 
 //        val errorMessage = when {
 //            isShowNothingFound -> getString(R.string.no_results)
