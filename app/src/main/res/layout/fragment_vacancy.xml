@@ -13,39 +13,45 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/navbar_height"
         android:background="?attr/background"
+        android:elevation="0dp"
         app:contentInsetStartWithNavigation="0dp"
+        app:navigationIcon="@drawable/arrow_back"
         app:title="@string/job"
         app:titleTextAppearance="@style/title_text_style"
-        app:titleTextColor="?attr/colorOnBackground"
-        app:navigationIcon="@drawable/arrow_back"
-        android:elevation="0dp">
+        app:titleTextColor="?attr/colorOnBackground">
 
         <ImageButton
             android:id="@+id/favoritesOffButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:background="?attr/background"
-            android:src="@drawable/favorites_off"
             android:layout_marginEnd="8dp"
-            android:visibility="visible"/>
+            android:background="?attr/background"
+            android:contentDescription="TODO"
+            android:src="@drawable/favorites_off"
+            android:visibility="visible"
+            tools:ignore="TouchTargetSizeCheck" />
+
         <ImageButton
             android:id="@+id/favoritesOnButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
+            android:layout_marginEnd="8dp"
             android:background="?attr/background"
             android:src="@drawable/favorites_on"
-            android:layout_marginEnd="8dp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
+
         <ImageButton
             android:id="@+id/sharingButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
+            android:layout_marginEnd="24dp"
             android:background="?attr/background"
+            android:contentDescription="TODO"
             android:src="@drawable/sharing"
-            android:layout_marginEnd="24dp"/>
+            tools:ignore="TouchTargetSizeCheck" />
     </com.google.android.material.appbar.MaterialToolbar>
 
     <TextView

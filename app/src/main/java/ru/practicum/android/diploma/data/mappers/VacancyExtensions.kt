@@ -15,7 +15,8 @@ fun VacancyEntity.toDomain(): Vacancy {
     return Vacancy(
         id = id,
         name = name,
-        vacancyUrl = "",
+        // vacancyUrl - entity.alternateUrl
+        vacancyUrl = alternateUrl ?: "",
         salary = salary?.toSalary(),
         address = null,
         employer = Employer(
@@ -23,7 +24,8 @@ fun VacancyEntity.toDomain(): Vacancy {
             logoUrl = companyIcon ?: ""
         ),
         description = description,
-        keySkills = keySkills.map { KeySkill(it) },
+        // исправлена ошибка Only safe (?.) or non-null asserted (!!.) .... receiver of type List<String>?
+        keySkills = keySkills?.map { KeySkill(it) } ?: emptyList(),
         area = Area(name = departmentName),
         experience = experience?.let { Experience(it) },
         schedule = null,
@@ -44,7 +46,8 @@ fun Vacancy.toEntity(): VacancyEntity {
         description = description,
         companyIcon = employer?.logoUrl,
         companyName = employer?.name,
-        keySkills = keySkills.map { it.name }
+        keySkills = keySkills.map { it.name },
+        alternateUrl = vacancyUrl
     )
 }
 

@@ -1,10 +1,12 @@
 package ru.practicum.android.diploma.ui.vacancydetails
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -92,6 +94,15 @@ class VacancyFragment : BaseFragment<FragmentVacancyBinding>() {
                 .fitCenter()
                 .apply(RequestOptions.bitmapTransform(RoundedCorners(R.dimen.dimen_4)))
                 .into(companyImage)
+
+
+            val shareButton = vacancyToolbar.findViewById<ImageButton>(R.id.sharingButton)
+            shareButton.setOnClickListener {
+                val shareIntent = Intent(Intent.ACTION_SEND)
+                shareIntent.type = "text/plain"
+                shareIntent.putExtra(Intent.EXTRA_TEXT, vacancy.vacancyUrl)
+                startActivity(Intent.createChooser(shareIntent, getString(R.string.share_vacancy)))
+            }
         }
     }
 
