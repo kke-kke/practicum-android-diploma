@@ -14,14 +14,7 @@ import com.google.android.material.textfield.TextInputLayout
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
-import ru.practicum.android.diploma.domain.models.Address
-import ru.practicum.android.diploma.domain.models.Employer
-import ru.practicum.android.diploma.domain.models.Employment
-import ru.practicum.android.diploma.domain.models.Experience
-import ru.practicum.android.diploma.domain.models.KeySkill
-import ru.practicum.android.diploma.domain.models.Salary
 import ru.practicum.android.diploma.domain.models.Vacancy
-import ru.practicum.android.diploma.domain.models.Area
 import ru.practicum.android.diploma.presentation.search.SearchViewModel
 import ru.practicum.android.diploma.ui.BaseFragment
 import ru.practicum.android.diploma.util.VacancyUtils
@@ -43,8 +36,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         binding.searchResultRecyclerView.adapter = adapter
 
         binding.searchBar.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
             override fun afterTextChanged(s: Editable?) {
                 if (s.isNullOrEmpty()) {
                     setSearchIcon()
@@ -73,27 +66,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             }
         })
 
-        // ТЕСТОВАЯ КНОПКА filterButton:
-        binding.filterButton.setOnClickListener {
-            showVacancyDetail(
-                Vacancy(
-                    id = "118445872",
-                    name = "Java-разработчик (стажер/intern)",
-                    vacancyUrl = "https://api.hh.ru/vacancies/118445872?host=hh.ru",
-                    salary = Salary(null, null, null),
-                    address = Address("address"),
-                    employer = Employer("employer", "https://img.hhcdn.ru/employer-logo-original/673483.jpg"),
-                    description = "Заинтересованы в студентах IT-специальностей ВУЗа: бакалавр 2+ курс, магистр — любой курс. " +
-                        "Опыт написания кода на <b>Java</b> (учебный проект)",
-                    keySkills = listOf(KeySkill("skill1"), KeySkill("skill2")),
-                    area = Area("area"),
-                    experience = Experience("Более 6 лет"),
-                    schedule = ru.practicum.android.diploma.domain.models.Schedule("Вахтовый метод"),
-                    employment = Employment("Проектная работа"),
-                    publishedAt = "123"
-                )
-            )
-        }
     }
 
     private fun showVacancyDetail(vacancy: Vacancy) {

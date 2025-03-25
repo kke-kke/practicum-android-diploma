@@ -3,6 +3,9 @@ package ru.practicum.android.diploma.data.database
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
+private const val MIGRATION_VERSION_2 = 2
+private const val MIGRATION_VERSION_3 = 3
+
 object Migrations {
     val MIGRATION_1_2 = object : Migration(1, 2) {
         override fun migrate(database: SupportSQLiteDatabase) {
