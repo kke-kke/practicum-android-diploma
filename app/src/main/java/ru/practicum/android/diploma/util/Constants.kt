@@ -5,4 +5,5 @@ object Constants {
     const val DATABASE_NAME = "database.db"
     const val VACANCIES_PER_PAGE = 20
     const val START_SERVER_ERROR_CODE = 500
+    const val NOT_FOUND_ERROR_CODE = 404
 }

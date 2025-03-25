@@ -25,7 +25,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     private fun showVacancyDetail(vacancy: Vacancy) {
         val bundle = Bundle()
         bundle.putString("vacancy", vacancy.id)
-        findNavController().navigate(R.id.jobFragment, bundle)
+        findNavController().navigate(R.id.action_searchFragment_to_vacancyFragment, bundle)
     }
 
     private val viewModel by viewModel<SearchViewModel>()

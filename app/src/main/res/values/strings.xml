@@ -32,6 +32,7 @@
     <!-- Сообщения -->
     <string name="list_is_empty">Список пуст</string>
     <string name="no_results">Таких вакансий не найдено</string>
+    <string name="vacancy_not_found">Вакансия не найдена или удалена</string>
     <!-- Экран вакансии -->
     <string name="job_name">Android-разработчик</string>
     <string name="salary">от 100 000 ₽</string>

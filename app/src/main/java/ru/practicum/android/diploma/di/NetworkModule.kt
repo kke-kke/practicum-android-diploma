@@ -1,3 +1,5 @@
+package ru.practicum.android.diploma.di
+
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
