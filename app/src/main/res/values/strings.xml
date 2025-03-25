@@ -26,7 +26,8 @@
     <!-- Ошибки -->
     <string name="failed_to_get_vacancies_list">Не удалось получить список вакансий</string>
     <string name="server_error">Ошибка сервера</string>
-    <string name="no_internet">Проверьте подключение к интернету</string>
+    <string name="no_internet">Нет интернета</string>
+    <string name="toast_no_internet">Проверьте подключение к интернету</string>
     <string name="unknown_error">Произошла ошибка</string>
     <string name="no_results">Таких вакансий нет</string>
 
