@@ -57,7 +57,9 @@ fun String?.toSalary(): Salary? {
     val currencySymbol = VacancyUtils.getCurrencySymbol(this.replace(Regex("[\\d\\sотдо]+"), "").trim())
 
     return when (numbers.size) {
-        2 -> Salary(from = numbers[0], to = numbers[1], currency = currencySymbol)
+        2 -> {
+            Salary(from = numbers[0], to = numbers[1], currency = currencySymbol)
+        }
         1 -> {
             if (this.contains("от")) Salary(from = numbers[0], to = null, currency = currencySymbol)
             else Salary(from = null, to = numbers[0], currency = currencySymbol)
@@ -65,5 +67,3 @@ fun String?.toSalary(): Salary? {
         else -> null
     }
 }
-
-

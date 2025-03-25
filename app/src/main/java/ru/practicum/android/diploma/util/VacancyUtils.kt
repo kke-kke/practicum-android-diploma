@@ -22,9 +22,9 @@ object VacancyUtils {
 
     fun getVacancySalary(from: Int?, to: Int?): String {
         return when {
-            (from != null && from != -1) && (to != null && to != -1) -> "от ${divideIntoDigits(from)} до ${divideIntoDigits(to)}"
-            from != null && from != -1 -> "от ${divideIntoDigits(from)}"
-            to != null && to !=-1 -> "до ${divideIntoDigits(to)}"
+            from != -1 && to != -1 -> "от ${divideIntoDigits(from)} до ${divideIntoDigits(to)}"
+            from != -1 -> "от ${divideIntoDigits(from)}"
+            to != -1 -> "до ${divideIntoDigits(to)}"
             else -> "Зарплата не указана"
         }
     }

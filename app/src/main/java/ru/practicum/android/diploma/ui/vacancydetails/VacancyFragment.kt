@@ -90,7 +90,7 @@ class VacancyFragment : BaseFragment<FragmentVacancyBinding>() {
                 .error(R.drawable.logo_placeholder_48)
                 .fallback(R.drawable.logo_placeholder_48)
                 .fitCenter()
-                .apply(RequestOptions.bitmapTransform(RoundedCorners(4)))
+                .apply(RequestOptions.bitmapTransform(RoundedCorners(R.dimen.dimen_4)))
                 .into(companyImage)
         }
     }

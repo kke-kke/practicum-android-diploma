@@ -5,5 +5,4 @@ import ru.practicum.android.diploma.domain.models.VacancyDetailsStateLoad
 
 interface VacancyDetailsInteractor {
     fun loadVacancyDetails(vacancyId: String): Flow<VacancyDetailsStateLoad>
-//    suspend fun deleteVacancy(vacancyId: String)
 }

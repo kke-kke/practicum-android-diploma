@@ -13,7 +13,10 @@ import ru.practicum.android.diploma.domain.models.Response
 import ru.practicum.android.diploma.domain.models.VacancyDetailsStateLoad
 import ru.practicum.android.diploma.util.Constants
 
-class VacancyDetailsRepositoryImpl(private val apiService: ApiService, private val appDatabase: AppDatabase) : VacancyDetailsRepository {
+class VacancyDetailsRepositoryImpl(
+    private val apiService: ApiService,
+    private val appDatabase: AppDatabase
+) : VacancyDetailsRepository {
 
     override fun loadVacancy(vacancyId: String): Flow<VacancyDetailsStateLoad> {
         return flow {
@@ -35,11 +38,10 @@ class VacancyDetailsRepositoryImpl(private val apiService: ApiService, private v
 
                 is Response.Error -> {
                     when {
-                        response.errorCode == 404 -> {
+                        response.errorCode == Constants.NOT_FOUND_ERROR_CODE -> {
                             appDatabase.vacancyDao().deleteVacancyById(vacancyId)
                             VacancyDetailsStateLoad(isNotFoundError = true)
                         }
-
 
                         response.errorCode >= Constants.START_SERVER_ERROR_CODE -> {
                             VacancyDetailsStateLoad(
