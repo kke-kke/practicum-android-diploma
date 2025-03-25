@@ -2,7 +2,6 @@ package ru.practicum.android.diploma.ui.vacancydetails
 
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,9 +31,9 @@ class JobFragment : BaseFragment<FragmentJobBinding>() {
 
         val vacancyId = arguments?.getString("vacancy")
         if (vacancyId != null) {
-            viewModel.loadVacancy(vacancyId, requireContext())
+            viewModel.loadVacancy(vacancyId)
         } else {
-            showPlaceholder(getString(R.string.vacancy_not_found))
+            showPlaceholder(VacancyDetailsScreenState.Error.NotFoundError)
         }
 
         initObservers()
@@ -44,17 +43,16 @@ class JobFragment : BaseFragment<FragmentJobBinding>() {
         viewModel.observeScreenState().observe(viewLifecycleOwner) { state ->
             when (state) {
                 is VacancyDetailsScreenState.Loading -> {
-                    binding.progressBar.isVisible = true
+                    showLoading()
                 }
 
                 is VacancyDetailsScreenState.Success -> {
-                    binding.progressBar.isVisible = false
                     bindVacancy(state.vacancy)
+                    showContent()
                 }
 
                 is VacancyDetailsScreenState.Error -> {
-                    binding.progressBar.isVisible = false
-//                    showPlaceholder(state.errorMessage)
+                    showPlaceholder(state)
                 }
             }
         }
@@ -75,7 +73,7 @@ class JobFragment : BaseFragment<FragmentJobBinding>() {
                 keySkills.text = vacancy.keySkills.joinToString(", ") { it.name }
             } else {
                 keySkills.isVisible = false
-                // id к заголовку
+                keySkillsTitle.isVisible = false
             }
 
             Glide.with(binding.companyImage)
@@ -89,8 +87,69 @@ class JobFragment : BaseFragment<FragmentJobBinding>() {
         }
     }
 
-    private fun showPlaceholder(message: String) {
-        binding.progressBar.isVisible = false
+    private fun showPlaceholder(error: VacancyDetailsScreenState.Error) {
+        with(binding) {
+            progressBar.isVisible = false
+            hideContent()
+
+            when (error) {
+                is VacancyDetailsScreenState.Error.NotFoundError -> {
+                    notFound.isVisible = true
+                    internetError.isVisible = false
+                    serverError.isVisible = false
+                }
+                is VacancyDetailsScreenState.Error.NoInternetError -> {
+                    notFound.isVisible = false
+                    internetError.isVisible = true
+                    serverError.isVisible = false
+                }
+                is VacancyDetailsScreenState.Error.OtherError -> {
+                    notFound.isVisible = false
+                    internetError.isVisible = false
+                    serverError.isVisible = true
+                }
+            }
+        }
+    }
+
+    private fun showLoading() {
+        with(binding) {
+            progressBar.isVisible = true
+            hideContent()
+            notFound.isVisible = false
+            internetError.isVisible = false
+            serverError.isVisible = false
+        }
+    }
+
+    private fun showContent() {
+        with(binding) {
+            jobName.isVisible = true
+            salary.isVisible = true
+            companyLinearLayout.isVisible = true
+            experienceTitle.isVisible = true
+            experienceValue.isVisible = true
+            workAndEmploymentLayout.isVisible = true
+            descriptionTitle.isVisible = true
+            descriptionValue.isVisible = true
+            keySkillsTitle.isVisible = true
+            keySkills.isVisible = true
+        }
+    }
+
+    private fun hideContent() {
+        with(binding) {
+            jobName.isVisible = false
+            salary.isVisible = false
+            companyLinearLayout.isVisible = false
+            experienceTitle.isVisible = false
+            experienceValue.isVisible = false
+            workAndEmploymentLayout.isVisible = false
+            descriptionTitle.isVisible = false
+            descriptionValue.isVisible = false
+            keySkillsTitle.isVisible = false
+            keySkills.isVisible = false
+        }
     }
 
 }
