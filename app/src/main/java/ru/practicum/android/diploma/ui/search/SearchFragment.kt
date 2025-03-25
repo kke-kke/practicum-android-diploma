@@ -9,24 +9,18 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputLayout
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
-import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.domain.models.*
 import ru.practicum.android.diploma.presentation.search.SearchViewModel
 import ru.practicum.android.diploma.ui.BaseFragment
 import ru.practicum.android.diploma.util.VacancyUtils
 
 class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
-    private val adapter = VacancyAdapter(clickListener = { vacancy -> showVacancyDetail(vacancy) })
-    private fun showVacancyDetail(vacancy: Vacancy) {
-        val bundle = Bundle()
-        bundle.putString("vacancy", vacancy.id)
-        findNavController().navigate(R.id.action_searchFragment_to_vacancyFragment, bundle)
-    }
+    private val adapter = VacancyAdapter { vacancy -> showVacancyDetail(vacancy) }
 
     private val viewModel by viewModel<SearchViewModel>()
 
@@ -40,13 +34,37 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         binding.searchResultRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.searchResultRecyclerView.adapter = adapter
 
+        // Пример: при нажатии на filterButton для теста создаем Vacancy и переходим на экран деталей
+        binding.filterButton.setOnClickListener {
+            // NEW CODE: создаем тестовую вакансию
+            val testVacancy = Vacancy(
+                id = "118445872",
+                name = "Java-разработчик (стажер/intern)",
+                vacancyUrl = "https://api.hh.ru/vacancies/118445872?host=hh.ru",
+                salary = Salary(null, null, null),
+                address = Address("Some address"),
+                employer = Employer(
+                    name = "Some Employer",
+                    logoUrl = "https://img.hhcdn.ru/employer-logo-original/673483.jpg"
+                ),
+                description = "Заинтересованы в студентах IT-специальностей..." +
+                    " Опыт написания кода на <b>Java</b> (учебный проект)",
+                keySkills = listOf(KeySkill("skill1"), KeySkill("skill2")),
+                area = Area("Москва"),
+                experience = Experience("Более 6 лет"),
+                schedule = Schedule("Вахтовый метод"),
+                employment = Employment("Проектная работа"),
+                publishedAt = "123"
+            )
+
+            // Переходим в детали вакансии (showVacancyDetail() - ваш метод)
+            showVacancyDetail(testVacancy)
+        }
+
+        // Пример обычного TextWatcher, который у вас уже был
         binding.searchBar.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 if (s.isNullOrEmpty()) {
                     setSearchIcon()
@@ -59,23 +77,14 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 }
             }
         })
+    }
 
-        binding.searchResultRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-
-                if (dy > 0) {
-                    val layoutManager = binding.searchResultRecyclerView.layoutManager as LinearLayoutManager
-                    val pos = layoutManager.findLastCompletelyVisibleItemPosition()
-                    val itemsCount = adapter.itemCount
-
-                    if (pos >= itemsCount - 1) {
-                        viewModel.getNextPartOfVacancies()
-                    }
-                }
-            }
-        })
-
+    // Здесь можно передать vacancyId через Bundle.
+    // Или, если хотите, сразу передавать весь объект Vacancy серийлизованно.
+    private fun showVacancyDetail(vacancy: Vacancy) {
+        val bundle = Bundle()
+        bundle.putString("vacancy", vacancy.id)
+        findNavController().navigate(R.id.action_searchFragment_to_vacancyFragment, bundle)
     }
 
     private fun setSearchIcon() {
@@ -102,46 +111,11 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         binding.vacancyCount.isVisible = isShown
         if (isShown) {
             binding.vacancyCount.text = if (count > 0) {
-                "Найдено ${VacancyUtils.divideIntoDigits(count)} ${resources.getQuantityString(
-                    R.plurals.vacancy_count,
-                    count,
-                    count
-                )}"
-            } else { getString(R.string.no_results) }
+                "Найдено ${VacancyUtils.divideIntoDigits(count)} " +
+                    resources.getQuantityString(R.plurals.vacancy_count, count, count)
+            } else {
+                getString(R.string.no_results)
+            }
         }
     }
-
-    /*private fun progressBarVisibility(isShown: Boolean = false) {
-        binding.progressBar.isVisible = isShown
-    }
-
-    private fun errorMessageVisibility(
-        isShowNothingFound: Boolean = false,
-        isShowNetworkError: Boolean = false,
-        isShowServerError: Boolean = false
-    ) {
-        binding.notFound.isVisible = isShowNothingFound
-        binding.internetError.isVisible = isShowNetworkError
-        binding.serverError.isVisible = isShowServerError
-
-        vacancyCountVisibility(
-            when {
-                isShowNothingFound -> true
-                isShowNetworkError -> false
-                isShowServerError -> false
-                else -> false }
-        )
-
-        val errorMessage = when {
-            isShowNothingFound -> getString(R.string.no_results)
-            isShowNetworkError -> getString(R.string.no_internet)
-            isShowServerError -> getString(R.string.server_error)
-            else -> ""
-        }
-
-        if (errorMessage.isNotEmpty()) {
-            showCustomSnackBar(errorMessage, binding.root, requireContext())
-        }
-    }*/
-
 }
