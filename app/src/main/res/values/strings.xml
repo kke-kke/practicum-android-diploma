@@ -28,6 +28,7 @@
     <string name="server_error">Ошибка сервера</string>
     <string name="no_internet">Нет интернета</string>
     <string name="unknown_error">Произошла неизвестная ошибка</string>
+    <string name="toast_no_internet">Проверьте подключение к интернету</string>
 
     <!-- Сообщения -->
     <string name="list_is_empty">Список пуст</string>

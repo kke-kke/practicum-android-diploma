@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputLayout
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
@@ -82,6 +83,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
                     if (pos >= itemsCount - 1) {
                         viewModel.getNextPartOfVacancies()
+                        isPaginationLoader = true
                     }
                 }
             }
@@ -100,19 +102,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 is VacanciesScreenState.ServerError -> showServerError()
             }
         }
-
-        binding.searchResultRecyclerView.addOnScrollListener(
-            object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-                    if (!recyclerView.canScrollVertically(1)) {
-                        viewModel.getNextPartOfVacancies()
-                        isPaginationLoader = true
-                    }
-                }
-            }
-        )
-
 
     }
 
