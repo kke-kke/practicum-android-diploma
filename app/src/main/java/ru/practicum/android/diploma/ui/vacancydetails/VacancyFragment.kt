@@ -77,9 +77,7 @@ class VacancyFragment : BaseFragment<FragmentVacancyBinding>() {
             }
         }
 
-        // Наблюдаем за флагом isFavorite
         viewModel.isFavorite.observe(viewLifecycleOwner) { isFav ->
-            // Ищем кнопки ещё раз (или можете сохранить в поле)
             val favoritesOffButton = binding.vacancyToolbar.findViewById<ImageButton>(R.id.favoritesOffButton)
             val favoritesOnButton = binding.vacancyToolbar.findViewById<ImageButton>(R.id.favoritesOnButton)
 
