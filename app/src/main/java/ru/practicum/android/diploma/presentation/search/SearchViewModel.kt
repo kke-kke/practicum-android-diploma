@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.presentation.search
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,6 +24,7 @@ class SearchViewModel(
     private var currentPage: Int = 0
     private var totalPages: Int = 0
     private var lastSearchText: String = ""
+    private var isNextPageLoading = false
 
     private val searchScreenState = MutableLiveData<VacanciesScreenState>()
     fun observeScreenState(): LiveData<VacanciesScreenState> = searchScreenState
@@ -54,15 +56,22 @@ class SearchViewModel(
             return
         }
 
-        searchJob = viewModelScope.launch {
-            currentPage += 1
-            searchVacanciesInteractor.searchVacancies(
-                text = lastSearchText,
-                page = currentPage,
-                perPage = Constants.VACANCIES_PER_PAGE
-            )?.collect { searchVacanciesResult ->
-                val state: VacanciesScreenState = handleState(searchVacanciesResult)
-                setScreenState(state)
+        if (!isNextPageLoading) {
+            isNextPageLoading = true
+            searchJob = viewModelScope.launch {
+                searchVacanciesInteractor.searchVacancies(
+                    text = lastSearchText,
+                    page = currentPage + 1,
+                    perPage = Constants.VACANCIES_PER_PAGE
+                )?.collect { searchVacanciesResult ->
+                    val state: VacanciesScreenState = handleState(searchVacanciesResult, true)
+                    setScreenState(state)
+                    isNextPageLoading = false
+
+                    if (state is VacanciesScreenState.Content || state is VacanciesScreenState.NothingFound) {
+                        currentPage += 1
+                    }
+                }
             }
         }
     }
@@ -71,17 +80,19 @@ class SearchViewModel(
         searchScreenState.postValue(newState)
     }
 
-    private fun handleState(searchVacanciesResult: SearchVacanciesResult): VacanciesScreenState {
+    private fun handleState(searchVacanciesResult: SearchVacanciesResult, isPaginationLoading: Boolean = false): VacanciesScreenState {
         val state: VacanciesScreenState =
             when (searchVacanciesResult) {
-                is SearchVacanciesResult.Loading -> VacanciesScreenState.Loading
+                is SearchVacanciesResult.Loading -> VacanciesScreenState.Loading(isPaginationLoading)
                 is SearchVacanciesResult.NetworkError -> VacanciesScreenState.NetworkError(
-                    errorText = context.getString(R.string.no_internet)
+                    errorText = context.getString(R.string.no_internet),
+                    isPaginationLoading = isPaginationLoading
                 )
 
-                is SearchVacanciesResult.NothingFound -> VacanciesScreenState.NothingFound
+                is SearchVacanciesResult.NothingFound -> VacanciesScreenState.NothingFound(isPaginationLoading)
                 is SearchVacanciesResult.ServerError -> VacanciesScreenState.ServerError(
-                    errorText = context.getString(R.string.server_error)
+                    errorText = context.getString(R.string.server_error),
+                    isPaginationLoading = isPaginationLoading
                 )
 
                 is SearchVacanciesResult.Success -> {
@@ -89,7 +100,7 @@ class SearchViewModel(
                     VacanciesScreenState.Content(
                         vacancyList = searchVacanciesResult.vacanciesFound.vacanciesList,
                         foundVacanciesCount = searchVacanciesResult.vacanciesFound.found,
-                        isPaginationLoading = false
+                        isPaginationLoading = isPaginationLoading
                     )
                 }
             }

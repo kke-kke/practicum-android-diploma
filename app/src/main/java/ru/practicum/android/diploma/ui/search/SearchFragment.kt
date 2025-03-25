@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputLayout
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
@@ -57,8 +58,23 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                     binding.searchPlaceholder.visibility = View.GONE
                 }
             }
-
         })
+
+        binding.searchResultRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                if (dy > 0) {
+                    val pos = (binding.searchResultRecyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+                    val itemsCount = adapter.itemCount
+
+                    if (pos >= itemsCount - 1) {
+                        viewModel.getNextPartOfVacancies()
+                    }
+                }
+            }
+        })
+
     }
 
     private fun setSearchIcon() {
