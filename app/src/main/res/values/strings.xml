@@ -20,8 +20,12 @@
     <string name="member6">Наталья Нестерова</string>
     <!-- Экран поиска -->
     <string name="type_in_query">Введите запрос</string>
+    <string name="vacancy_name">Название вакансии</string>
+    <string name="vacancy_employer">Компания</string>
+    <string name="vacancy_salary">Зарплата не указана</string>
     <!-- Ошибки -->
     <string name="failed_to_get_vacancies_list">Не удалось получить список вакансий</string>
+    <string name="server_error">Ошибка сервера</string>
     <string name="no_internet">Нет интернета</string>
     <string name="unknown_error">Произошла неизвестная ошибка</string>
     <string name="no_results">Таких вакансий не найдено</string>
@@ -38,4 +42,10 @@
     <string name="description_value">Обязанности</string>
     <string name="key_skills">Ключевые навыки</string>
     <string name="key_skills_value">Знание классических алгоритмов и структуры данных Программирование для Android больше одного года Знание WebRTC</string>
+
+    <plurals name="vacancy_count">
+        <item quantity="one">вакансия</item>
+        <item quantity="few">вакансии</item>
+        <item quantity="many">вакансий</item>
+    </plurals>
 </resources>

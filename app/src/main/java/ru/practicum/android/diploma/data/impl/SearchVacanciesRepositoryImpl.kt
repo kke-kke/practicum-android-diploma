@@ -13,10 +13,20 @@ import ru.practicum.android.diploma.util.Constants
 class SearchVacanciesRepositoryImpl(
     private val apiService: ApiService
 ) : SearchVacanciesRepository {
-    override fun searchVacancies(queryMap: Map<String, String>): Flow<VacanciesStateLoad> {
+    override fun searchVacancies(
+        text: String,
+        page: Int,
+        perPage: Int
+    ): Flow<VacanciesStateLoad> {
         return flow {
             emit(VacanciesStateLoad(isLoading = true))
-            val response = kotlin.runCatching { apiService.searchVacancies(queryMap).call() }.getOrNull()
+            val response = kotlin.runCatching {
+                apiService.searchVacancies(
+                    text = text,
+                    page = page,
+                    perPage = perPage
+                ).call()
+            }.getOrNull()
             emit(
                 when (response) {
                     null -> {
