@@ -154,6 +154,7 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/search_result"
                 android:paddingTop="30dp"
+                android:paddingBottom="80dp"
                 android:clipToPadding="false"
                 android:visibility="visible"/>
 
@@ -175,7 +176,7 @@
     android:layout_width="48dp"
     android:layout_height="48dp"
     android:layout_gravity="center|bottom"
-        android:layout_marginBottom="128dp"
+        android:layout_marginBottom="@dimen/dimen_16"
     android:indeterminateTint="#3772E7"
     android:visibility="gone" />
 

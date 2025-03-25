@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputLayout
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
@@ -30,6 +31,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     }
 
     private val viewModel by viewModel<SearchViewModel>()
+
+    private var isPaginationLoader: Boolean = false
 
     override fun onCreateBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentSearchBinding {
         return FragmentSearchBinding.inflate(inflater, container, false)
@@ -55,6 +58,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                     recyclerViewVisibility(false)
                     vacancyCountVisibility(false)
                     errorMessageVisibility()
+                    isPaginationLoader = false
                 } else {
                     setClearIcon()
                     binding.searchPlaceholder.visibility = View.GONE
@@ -68,7 +72,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             when (state) {
                 is VacanciesScreenState.Content -> showContent(
                     vacancyList = state.vacancyList,
-                    foundVacanciesCount = state.foundVacanciesCount
+                    foundVacanciesCount = state.foundVacanciesCount,
+                    isPaginationLoading = isPaginationLoader,
                 )
 
                 is VacanciesScreenState.Loading -> showMainContentLoader()
@@ -78,11 +83,24 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             }
         }
 
+        binding.searchResultRecyclerView.addOnScrollListener(
+            object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    if (!recyclerView.canScrollVertically(1)) {
+                        viewModel.getNextPartOfVacancies()
+                        isPaginationLoader = true
+                    }
+                }
+            }
+        )
+
 
     }
 
     private fun showServerError() {
         progressBarContentVisibility()
+        progressBarPaginationVisibility()
         recyclerViewVisibility()
         vacancyCountVisibility()
         errorMessageVisibility(isShowServerError = true)
@@ -90,6 +108,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     private fun showNetworkError() {
         progressBarContentVisibility()
+        progressBarPaginationVisibility()
         recyclerViewVisibility()
         vacancyCountVisibility()
         errorMessageVisibility(isShowNetworkError = true)
@@ -103,7 +122,15 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     }
 
     private fun showMainContentLoader() {
-        progressBarContentVisibility(isShown = true)
+        if (!isPaginationLoader) {
+            recyclerViewVisibility()
+            progressBarContentVisibility(isShown = true)
+            vacancyCountVisibility()
+        } else {
+
+        progressBarPaginationVisibility(isShown = true)
+        }
+
         errorMessageVisibility()
         hideKeyboard()
     }
@@ -111,13 +138,18 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     private fun showContent(
         vacancyList: List<Vacancy>,
         foundVacanciesCount: Int,
-        isPaginationLoading: Boolean = false
+        isPaginationLoading: Boolean
     ) {
         adapter.updateVacancyList(vacancyList)
         recyclerViewVisibility(isShown = true)
         vacancyCountVisibility(isShown = true, count = foundVacanciesCount)
-        progressBarContentVisibility(isShown = false)
+        progressBarContentVisibility()
+        progressBarPaginationVisibility()
         errorMessageVisibility()
+
+        if (isPaginationLoading) {
+            binding.searchResultRecyclerView.smoothScrollToPosition(0)
+        }
     }
 
     private fun setSearchIcon() {
@@ -164,7 +196,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     private fun progressBarPaginationVisibility(isShown: Boolean = false) {
         binding.searchPlaceholder.isVisible = false
-        binding.progressBarContent.isVisible = isShown
+        binding.progressBarPagination.isVisible = isShown
     }
 
     private fun errorMessageVisibility(
