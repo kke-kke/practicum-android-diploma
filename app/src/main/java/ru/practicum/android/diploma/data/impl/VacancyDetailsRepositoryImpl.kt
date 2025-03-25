@@ -1,31 +1,32 @@
 package ru.practicum.android.diploma.data.impl
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
-import ru.practicum.android.diploma.data.database.dao.VacancyDao
+import ru.practicum.android.diploma.data.database.AppDatabase
 import ru.practicum.android.diploma.data.mappers.toDomain
+import ru.practicum.android.diploma.data.mappers.toEntity
 import ru.practicum.android.diploma.data.network.ApiService
 import ru.practicum.android.diploma.data.network.call
 import ru.practicum.android.diploma.domain.api.VacancyDetailsRepository
 import ru.practicum.android.diploma.domain.models.Response
-import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.domain.models.VacancyDetailsStateLoad
 import ru.practicum.android.diploma.util.Constants
 
-class VacancyDetailsRepositoryImpl(private val apiService: ApiService) : VacancyDetailsRepository {
+class VacancyDetailsRepositoryImpl(private val apiService: ApiService, private val appDatabase: AppDatabase) : VacancyDetailsRepository {
 
     override fun loadVacancy(vacancyId: String): Flow<VacancyDetailsStateLoad> {
         return flow {
             emit(VacancyDetailsStateLoad(isLoading = true))
 
-//            val cachedVacancy = vacancyDao.getVacancyById(vacancyId).firstOrNull()
-//            if (cachedVacancy != null) {
-//                emit(
-//                    VacancyDetailsStateLoad(
-//                        vacancy = cachedVacancy.toDomain()
-//                    )
-//                )
-//            }
+            val cachedVacancy = appDatabase.vacancyDao().getVacancyById(vacancyId).firstOrNull()
+            if (cachedVacancy != null) {
+                emit(
+                    VacancyDetailsStateLoad(
+                        vacancy = cachedVacancy.toDomain()
+                    )
+                )
+            }
 
             val response = kotlin.runCatching { apiService.getVacancyDetails(vacancyId).call() }.getOrNull()
 
@@ -35,7 +36,7 @@ class VacancyDetailsRepositoryImpl(private val apiService: ApiService) : Vacancy
                 is Response.Error -> {
                     when {
                         response.errorCode == 404 -> {
-//                            vacancyDao.deleteVacancyById(vacancyId)
+                            appDatabase.vacancyDao().deleteVacancyById(vacancyId)
                             VacancyDetailsStateLoad(isNotFoundError = true)
                         }
 
@@ -54,7 +55,7 @@ class VacancyDetailsRepositoryImpl(private val apiService: ApiService) : Vacancy
 
                 is Response.Success -> {
                     val vacancy = response.data.toDomain()
-//                    vacancyDao.insertVacancy(vacancy.toEntity()) // Сохраняем в БД
+                    appDatabase.vacancyDao().insertVacancy(vacancy.toEntity())
                     VacancyDetailsStateLoad(vacancy = vacancy)
                 }
             }
@@ -63,7 +64,4 @@ class VacancyDetailsRepositoryImpl(private val apiService: ApiService) : Vacancy
         }
     }
 
-//    override suspend fun deleteVacancy(vacancyId: String) {
-//        appDatabase.vacancyDao().deleteVacancyById(vacancyId)
-//    }
 }
