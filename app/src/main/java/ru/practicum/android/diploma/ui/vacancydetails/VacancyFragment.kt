@@ -132,6 +132,8 @@ class VacancyFragment : BaseFragment<FragmentVacancyBinding>() {
 
     private fun showContent() {
         with(binding) {
+            progressBar.isVisible = false
+
             jobName.isVisible = true
             salary.isVisible = true
             companyLinearLayout.isVisible = true
