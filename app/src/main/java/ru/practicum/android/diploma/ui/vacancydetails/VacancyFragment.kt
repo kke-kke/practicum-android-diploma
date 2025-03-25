@@ -12,19 +12,19 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.databinding.FragmentJobBinding
+import ru.practicum.android.diploma.databinding.FragmentVacancyBinding
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.presentation.vacancydetails.VacancyDetailsScreenState
 import ru.practicum.android.diploma.presentation.vacancydetails.VacancyDetailsViewModel
 import ru.practicum.android.diploma.ui.BaseFragment
 import ru.practicum.android.diploma.util.VacancyUtils.toSalaryString
 
-class JobFragment : BaseFragment<FragmentJobBinding>() {
+class VacancyFragment : BaseFragment<FragmentVacancyBinding>() {
 
     private val viewModel by viewModel<VacancyDetailsViewModel>()
 
-    override fun onCreateBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentJobBinding {
-        return FragmentJobBinding.inflate(inflater, container, false)
+    override fun onCreateBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentVacancyBinding {
+        return FragmentVacancyBinding.inflate(inflater, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
