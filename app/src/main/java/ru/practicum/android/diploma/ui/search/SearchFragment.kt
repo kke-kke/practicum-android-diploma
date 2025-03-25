@@ -64,6 +64,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                     setClearIcon()
                     binding.searchPlaceholder.visibility = View.GONE
                     isPaginationLoader = false
+                    adapter.updateVacancyList(emptyList())
+                    errorMessageVisibility()
+                    vacancyCountVisibility()
                     viewModel.searchVacancies(searchedText = s.toString())
                 }
             }
