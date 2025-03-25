@@ -21,17 +21,14 @@
 
         <TextView
             android:id="@+id/vacancyName"
-            style="@style/title_text_style"
-            android:text="@string/vacancy_name" />
+            style="@style/title_text_style" />
 
         <TextView
             android:id="@+id/vacancyEmployer"
-            style="@style/text_style"
-            android:text="@string/vacancy_employer" />
+            style="@style/text_style" />
 
         <TextView
             android:id="@+id/vacancySalary"
-            style="@style/text_style"
-            android:text="@string/vacancy_salary" />
+            style="@style/text_style" />
     </LinearLayout>
 </LinearLayout>

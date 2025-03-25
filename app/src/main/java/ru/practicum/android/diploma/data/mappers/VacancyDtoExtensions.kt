@@ -40,7 +40,7 @@ fun VacancyDTO.toDomain(): Vacancy {
         address = address?.toDomain(),
         employer = employer?.toDomain(),
         description = description.orEmpty(),
-        keySkills = keySkills?.map { it.toDomain() } ?: emptyList(),
+        keySkills = keySkills?.mapNotNull { it.toDomain() } ?: emptyList(),
         area = area.toDomain(),
         experience = experience?.toDomain(),
         schedule = schedule?.toDomain(),
@@ -70,10 +70,8 @@ fun EmployerDTO.toDomain(): Employer {
     )
 }
 
-fun KeySkillDTO.toDomain(): KeySkill {
-    return KeySkill(
-        name = name.orEmpty()
-    )
+fun KeySkillDTO.toDomain(): KeySkill? {
+    return name?.takeIf { it.isNotBlank() }?.let { KeySkill(it) }
 }
 
 fun AreaDTO.toDomain(): Area {
@@ -99,4 +97,3 @@ fun EmploymentDTO.toDomain(): Employment {
         name = name.orEmpty()
     )
 }
-
