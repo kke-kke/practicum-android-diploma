@@ -14,6 +14,7 @@ data class VacancyDTO(
     @SerializedName("area") val area: AreaDTO,
     @SerializedName("experience") val experience: ExperienceDTO? = null,
     @SerializedName("schedule") val schedule: ScheduleDTO? = null,
+    @SerializedName("employment") val employment: EmploymentDTO? = null,
     @SerializedName("published_at") val publishedAt: String
 )
 
@@ -49,5 +50,9 @@ data class ExperienceDTO(
 )
 
 data class ScheduleDTO(
+    @SerializedName("name") val name: String? = null
+)
+
+data class EmploymentDTO(
     @SerializedName("name") val name: String? = null
 )

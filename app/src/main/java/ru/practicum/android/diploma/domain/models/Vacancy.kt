@@ -12,13 +12,14 @@ data class Vacancy(
     val area: Area,
     val experience: Experience?,
     val schedule: Schedule?,
+    val employment: Employment?,
     val publishedAt: String,
 )
 
 data class Salary(
-    val from: Int,
-    val to: Int,
-    val currency: String
+    val from: Int?,
+    val to: Int?,
+    val currency: String?
 )
 
 data class Address(
@@ -43,5 +44,9 @@ data class Experience(
 )
 
 data class Schedule(
+    val name: String
+)
+
+data class Employment(
     val name: String
 )
