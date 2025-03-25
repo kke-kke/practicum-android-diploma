@@ -28,6 +28,9 @@
     <string name="server_error">Ошибка сервера</string>
     <string name="no_internet">Нет интернета</string>
     <string name="unknown_error">Произошла неизвестная ошибка</string>
+
+    <!-- Сообщения -->
+    <string name="list_is_empty">Список пуст</string>
     <string name="no_results">Таких вакансий не найдено</string>
     <!-- Экран вакансии -->
     <string name="job_name">Android-разработчик</string>
