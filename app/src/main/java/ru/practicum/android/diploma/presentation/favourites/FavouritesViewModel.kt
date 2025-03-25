@@ -5,16 +5,16 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import ru.practicum.android.diploma.presentation.state.VacanciesScreenState
+import ru.practicum.android.diploma.presentation.state.FavouritesScreenState
 
 class FavouritesViewModel() : ViewModel() {
 
-    private val _uiState = MutableStateFlow<VacanciesScreenState>(VacanciesScreenState.Loading)
-    val uiState: StateFlow<VacanciesScreenState> = _uiState
+    private val _uiState = MutableStateFlow<FavouritesScreenState>(FavouritesScreenState.Loading)
+    val uiState: StateFlow<FavouritesScreenState> = _uiState
 
     init {
         viewModelScope.launch {
-            _uiState.value = VacanciesScreenState.Loading
+            _uiState.value = FavouritesScreenState.Loading
             /*favouritesUseCase.getFavouriteVacancies().collect { state ->
                 //--- Обработка состояния
             }
