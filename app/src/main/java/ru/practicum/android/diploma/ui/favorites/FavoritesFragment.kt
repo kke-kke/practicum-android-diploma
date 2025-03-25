@@ -21,7 +21,7 @@ class FavoritesFragment : BaseFragment<FragmentFavoritesBinding>() {
 
     private val favouritesViewModel: FavouritesViewModel by viewModel()
     private val vacancyList = ArrayList<Vacancy>()
-    private val vacancyAdapter = VacancyAdapter(vacancyList, { vacancy -> /*findNavController().navigate()*/})
+    private val vacancyAdapter = VacancyAdapter(vacancyList, { vacancy -> /*findNavController().navigate()*/ })
 
     override fun onCreateBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentFavoritesBinding {
         return FragmentFavoritesBinding.inflate(inflater, container, false)
@@ -33,7 +33,7 @@ class FavoritesFragment : BaseFragment<FragmentFavoritesBinding>() {
         binding.searchResultRecyclerView.adapter = vacancyAdapter
 
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED){
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 favouritesViewModel.uiState.collect { state ->
                     renderState(state)
                 }
@@ -41,27 +41,29 @@ class FavoritesFragment : BaseFragment<FragmentFavoritesBinding>() {
         }
     }
 
-    private fun renderState(state: FavouritesScreenState){
-
+    private fun renderState(state: FavouritesScreenState) {
         fun setViewsVisible(visibilityFlag: Boolean, vararg views: View) {
             views.forEach { it.isVisible = visibilityFlag }
         }
 
-        with(binding){
-            when(state){
+        with(binding) {
+            when (state) {
                 is FavouritesScreenState.Content -> {
                     vacancyAdapter.updateVacancyList(state.vacancyList)
                     searchResultRecyclerView.isVisible = true
                     setViewsVisible(false, tvFailedToGetVacanciesList, tvListIsEmpty)
                 }
+
                 FavouritesScreenState.Empty -> {
                     tvListIsEmpty.isVisible = true
                     setViewsVisible(false, searchResultRecyclerView, tvFailedToGetVacanciesList)
                 }
+
                 FavouritesScreenState.Error -> {
                     tvFailedToGetVacanciesList.isVisible = true
                     setViewsVisible(false, tvListIsEmpty, searchResultRecyclerView)
                 }
+
                 FavouritesScreenState.Loading -> {
                     setViewsVisible(false, tvListIsEmpty, searchResultRecyclerView, tvFailedToGetVacanciesList)
                 }
