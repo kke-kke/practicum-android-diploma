@@ -7,6 +7,7 @@ import ru.practicum.android.diploma.domain.models.Employment
 import ru.practicum.android.diploma.domain.models.Experience
 import ru.practicum.android.diploma.domain.models.KeySkill
 import ru.practicum.android.diploma.domain.models.Salary
+import ru.practicum.android.diploma.domain.models.Schedule
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.util.VacancyUtils
 
@@ -25,7 +26,7 @@ fun VacancyEntity.toDomain(): Vacancy {
         keySkills = keySkills.map { KeySkill(it) },
         area = Area(name = departmentName),
         experience = experience?.let { Experience(it) },
-        schedule = null,
+        schedule = workFormat?.let { Schedule(it) },
         employment = employment?.let { Employment(it) },
         publishedAt = "",
     )
@@ -39,7 +40,7 @@ fun Vacancy.toEntity(): VacancyEntity {
         salary = salary,
         experience = experience?.name,
         employment = employment?.name,
-        workFormat = null,
+        workFormat = schedule?.name,
         description = description,
         companyIcon = employer?.logoUrl,
         companyName = employer?.name,

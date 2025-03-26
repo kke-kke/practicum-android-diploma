@@ -5,7 +5,6 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import ru.practicum.android.diploma.data.database.AppDatabase
 import ru.practicum.android.diploma.data.mappers.toDomain
-import ru.practicum.android.diploma.data.mappers.toEntity
 import ru.practicum.android.diploma.data.network.ApiService
 import ru.practicum.android.diploma.data.network.call
 import ru.practicum.android.diploma.domain.api.VacancyDetailsRepository
@@ -21,8 +20,8 @@ class VacancyDetailsRepositoryImpl(
     override fun loadVacancy(vacancyId: String): Flow<VacancyDetailsStateLoad> {
         return flow {
             emit(VacancyDetailsStateLoad(isLoading = true))
-
             val cachedVacancy = appDatabase.vacancyDao().getVacancyById(vacancyId).firstOrNull()
+
             if (cachedVacancy != null) {
                 emit(
                     VacancyDetailsStateLoad(
@@ -35,8 +34,14 @@ class VacancyDetailsRepositoryImpl(
                 apiService.getVacancyDetails(vacancyId).call()
             }.getOrNull()
 
-            val state = when (response) {
-                null -> VacancyDetailsStateLoad(isNetworkError = true)
+            val newState: VacancyDetailsStateLoad = when (response) {
+                null -> {
+                    if (cachedVacancy != null) {
+                        VacancyDetailsStateLoad(vacancy = cachedVacancy.toDomain())
+                    } else {
+                        VacancyDetailsStateLoad(isNetworkError = true)
+                    }
+                }
 
                 is Response.Error -> {
                     when {
@@ -44,35 +49,30 @@ class VacancyDetailsRepositoryImpl(
                             appDatabase.vacancyDao().deleteVacancyById(vacancyId)
                             VacancyDetailsStateLoad(isNotFoundError = true)
                         }
-
                         response.errorCode >= Constants.START_SERVER_ERROR_CODE -> {
-                            VacancyDetailsStateLoad(
-                                isOtherError = true,
-                                isNetworkError = false,
-                                errorMessage = response.errorMessage
-                            )
+                            if (cachedVacancy != null) {
+                                VacancyDetailsStateLoad(vacancy = cachedVacancy.toDomain())
+                            } else {
+                                VacancyDetailsStateLoad(isOtherError = true, errorMessage = response.errorMessage)
+                            }
                         }
-
-                        else -> VacancyDetailsStateLoad(isNetworkError = true)
+                        else -> {
+                            if (cachedVacancy != null) {
+                                VacancyDetailsStateLoad(vacancy = cachedVacancy.toDomain())
+                            } else {
+                                VacancyDetailsStateLoad(isNetworkError = true)
+                            }
+                        }
                     }
                 }
 
                 is Response.Success -> {
                     val vacancyDomain = response.data.toDomain()
-                    val oldVacancy = cachedVacancy
-                    val wasFavorite = oldVacancy?.isFavorite ?: false
-                    val vacancyEntity = vacancyDomain.toEntity().copy(isFavorite = wasFavorite)
-                    if (oldVacancy != null) {
-                        appDatabase.vacancyDao().updateVacancy(vacancyEntity)
-                    } else {
-                        appDatabase.vacancyDao().insertVacancy(vacancyEntity)
-                    }
-
                     VacancyDetailsStateLoad(vacancy = vacancyDomain)
                 }
             }
 
-            emit(state)
+            emit(newState)
         }
     }
 }

@@ -29,7 +29,7 @@ class FavoritesRepositoryImpl(
     }
 
     override suspend fun removeFromFavorites(vacancyId: String) {
-        appDatabase.vacancyDao().updateFavoriteStatus(vacancyId, false)
+        appDatabase.vacancyDao().deleteVacancyById(vacancyId)
     }
 
     override fun isFavoriteFlow(vacancyId: String): Flow<Boolean> {
