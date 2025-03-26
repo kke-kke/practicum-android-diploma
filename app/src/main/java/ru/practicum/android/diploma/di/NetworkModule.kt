@@ -3,6 +3,7 @@ package ru.practicum.android.diploma.di
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -10,6 +11,7 @@ import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.data.network.ApiService
 import ru.practicum.android.diploma.data.network.NetworkClient
 import ru.practicum.android.diploma.util.Constants
+import ru.practicum.android.diploma.util.NetworkHelper
 
 val networkModule = module {
     single { provideOkHttpClient() }
@@ -27,6 +29,8 @@ val networkModule = module {
             .getClient()
             .create(ApiService::class.java)
     }
+
+    single { NetworkHelper(androidContext()) }
 }
 
 fun provideOkHttpClient(): OkHttpClient {
@@ -44,4 +48,3 @@ fun provideOkHttpClient(): OkHttpClient {
         }
     }.build()
 }
-

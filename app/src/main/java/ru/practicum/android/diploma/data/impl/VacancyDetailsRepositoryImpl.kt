@@ -12,10 +12,12 @@ import ru.practicum.android.diploma.domain.api.VacancyDetailsRepository
 import ru.practicum.android.diploma.domain.models.Response
 import ru.practicum.android.diploma.domain.models.VacancyDetailsStateLoad
 import ru.practicum.android.diploma.util.Constants
+import ru.practicum.android.diploma.util.NetworkHelper
 
 class VacancyDetailsRepositoryImpl(
     private val apiService: ApiService,
-    private val appDatabase: AppDatabase
+    private val appDatabase: AppDatabase,
+    private val networkHelper: NetworkHelper
 ) : VacancyDetailsRepository {
 
     override fun loadVacancy(vacancyId: String): Flow<VacancyDetailsStateLoad> {
@@ -23,17 +25,19 @@ class VacancyDetailsRepositoryImpl(
             emit(VacancyDetailsStateLoad(isLoading = true))
 
             val cachedVacancy = appDatabase.vacancyDao().getVacancyById(vacancyId).firstOrNull()
-            if (cachedVacancy != null) {
-                emit(
-                    VacancyDetailsStateLoad(
-                        vacancy = cachedVacancy.toDomain()
-                    )
-                )
+
+            val hasInternet = networkHelper.isNetworkAvailable()
+
+            if (!hasInternet) {
+                if (cachedVacancy != null) {
+                    emit(VacancyDetailsStateLoad(vacancy = cachedVacancy.toDomain()))
+                } else {
+                    emit(VacancyDetailsStateLoad(isNetworkError = true))
+                }
+                return@flow
             }
 
-            val response = kotlin.runCatching {
-                apiService.getVacancyDetails(vacancyId).call()
-            }.getOrNull()
+            val response = kotlin.runCatching { apiService.getVacancyDetails(vacancyId).call() }.getOrNull()
 
             val state = when (response) {
                 null -> VacancyDetailsStateLoad(isNetworkError = true)
@@ -59,15 +63,10 @@ class VacancyDetailsRepositoryImpl(
 
                 is Response.Success -> {
                     val vacancyDomain = response.data.toDomain()
-                    val oldVacancy = cachedVacancy
-                    val wasFavorite = oldVacancy?.isFavorite ?: false
-                    val vacancyEntity = vacancyDomain.toEntity().copy(isFavorite = wasFavorite)
-                    if (oldVacancy != null) {
-                        appDatabase.vacancyDao().updateVacancy(vacancyEntity)
-                    } else {
-                        appDatabase.vacancyDao().insertVacancy(vacancyEntity)
-                    }
-
+                    val oldVacancy = appDatabase.vacancyDao().getVacancyById(vacancyId).firstOrNull()
+                    val oldIsFavorite = oldVacancy?.isFavorite ?: false
+                    val vacancyEntity = vacancyDomain.toEntity().copy(isFavorite = oldIsFavorite)
+                    appDatabase.vacancyDao().insertVacancy(vacancyEntity)
                     VacancyDetailsStateLoad(vacancy = vacancyDomain)
                 }
             }

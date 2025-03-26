@@ -14,6 +14,7 @@ data class VacancyEntity(
     val salary: Salary?,
     val experience: String?,
     val employment: String?,
+    @ColumnInfo(name = "schedule")
     val workFormat: String?,
     val description: String?,
     val companyIcon: String?,
