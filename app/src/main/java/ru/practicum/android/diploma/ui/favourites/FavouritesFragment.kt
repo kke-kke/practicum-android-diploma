@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFavoritesBinding
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.presentation.favourites.FavouritesViewModel
@@ -21,7 +24,9 @@ class FavouritesFragment : BaseFragment<FragmentFavoritesBinding>() {
 
     private val favouritesViewModel: FavouritesViewModel by viewModel()
     private val vacancyList = ArrayList<Vacancy>()
-    private val vacancyAdapter = VacancyAdapter(vacancyList, { vacancy -> /*findNavController().navigate()*/ })
+    private val vacancyAdapter = VacancyAdapter(vacancyList) { vacancy ->
+        findNavController().navigate(R.id.action_favoritesFragment_to_jobFragment, bundleOf("vacancy" to vacancy.id))
+    }
 
     override fun onCreateBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentFavoritesBinding {
         return FragmentFavoritesBinding.inflate(inflater, container, false)
