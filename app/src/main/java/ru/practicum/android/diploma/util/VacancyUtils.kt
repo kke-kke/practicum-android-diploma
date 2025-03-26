@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.util
 
 import ru.practicum.android.diploma.domain.models.Salary
+import ru.practicum.android.diploma.util.Constants.NO_SALARY
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.Locale
@@ -25,7 +26,7 @@ object VacancyUtils {
             from != -1 && to != -1 -> "от ${divideIntoDigits(from)} до ${divideIntoDigits(to)}"
             from != -1 -> "от ${divideIntoDigits(from)}"
             to != -1 -> "до ${divideIntoDigits(to)}"
-            else -> "Зарплата не указана"
+            else -> NO_SALARY
         }
     }
 
@@ -33,7 +34,7 @@ object VacancyUtils {
         return this?.let { salary ->
             val salaryText = getVacancySalary(salary.from, salary.to)
             val currencySymbol = getCurrencySymbol(salary.currency)
-            if (salaryText == "Зарплата не указана") salaryText else "$salaryText $currencySymbol"
-        } ?: "Зарплата не указана"
+            if (salaryText == NO_SALARY) salaryText else "$salaryText $currencySymbol"
+        } ?: NO_SALARY
     }
 }
