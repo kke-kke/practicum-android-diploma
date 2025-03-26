@@ -1,172 +1,184 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/linear_layout"
+    android:orientation="vertical"
+    android:background="?attr/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.search.SearchFragment">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/searchToolbar"
+    <LinearLayout
+        style="@style/linear_layout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/navbar_height"
-        android:background="?attr/background"
-        android:paddingVertical="@dimen/dimen_16"
-        app:contentInsetStart="0dp"
-        app:title="@string/job_search"
-        app:titleMarginStart="0dp"
-        app:titleTextAppearance="@style/title_text_style"
-        app:titleTextColor="?attr/colorOnBackground">
+        android:layout_height="match_parent">
 
-        <ImageButton
-            android:id="@+id/filterButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/searchToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navbar_height"
             android:background="?attr/background"
-            android:src="@drawable/ic_filter_off" />
-    </com.google.android.material.appbar.MaterialToolbar>
+            android:paddingVertical="@dimen/dimen_16"
+            app:contentInsetStart="0dp"
+            app:title="@string/job_search"
+            app:titleMarginStart="0dp"
+            app:titleTextAppearance="@style/title_text_style"
+            app:titleTextColor="?attr/colorOnBackground">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/searchBarContainer"
-        style="@style/search_text_input_style"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/edit_text_height"
-        android:layout_marginVertical="@dimen/dimen_8">
+            <ImageButton
+                android:id="@+id/filterButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:background="?attr/background"
+                android:src="@drawable/ic_filter_off" />
+        </com.google.android.material.appbar.MaterialToolbar>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/searchBar"
-            style="@style/text_style"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/searchBarContainer"
+            style="@style/search_text_input_style"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/type_in_query"
-            android:textColor="@color/yp_black"
-            android:textColorHint="?attr/colorOnSecondary"
-            android:textCursorDrawable="@drawable/custom_cursor"
-            android:inputType="text"
-            android:maxLines="1"
-            android:padding="@dimen/dimen_8"
-            android:singleLine="true" />
+            android:layout_height="@dimen/edit_text_height"
+            android:layout_marginVertical="@dimen/dimen_8">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/searchBar"
+                style="@style/text_style"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/type_in_query"
+                android:textColorHint="?attr/colorOnSecondary"
+                android:textCursorDrawable="@drawable/custom_cursor"
+                android:inputType="text"
+                android:maxLines="1"
+                android:padding="@dimen/dimen_8"
+                android:singleLine="true" />
 
-    <ImageView
-        android:id="@+id/searchPlaceholder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:src="@drawable/no_search_yet"
-        android:visibility="visible"/>
-
-    <!-- Страница "Не найдено" -->
-    <LinearLayout
-        android:id="@+id/not_found"
-        style="@style/search_linear_layout"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:visibility="gone">
+        </com.google.android.material.textfield.TextInputLayout>
 
         <ImageView
+            android:id="@+id/searchPlaceholder"
             android:layout_width="wrap_content"
-            android:layout_height="224dp"
-            android:src="@drawable/empty_state"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:text="@string/failed_to_get_vacancies_list"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_marginTop="16dp"
-            android:layout_marginHorizontal="48dp"
-            style="@style/title_text_style"/>
-    </LinearLayout>
-
-    <!-- Страница Ошибка интернет-соединения -->
-    <LinearLayout
-        android:id="@+id/internet_error"
-        style="@style/search_linear_layout"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:visibility="gone">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="224dp"
-            android:src="@drawable/internet_error"/>
-
-        <TextView
-            android:layout_width="268dp"
-            android:text="@string/no_internet"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_marginTop="16dp"
-            style="@style/title_text_style"/>
-    </LinearLayout>
-
-    <!-- Страница Ошибка сервера -->
-    <LinearLayout
-        android:id="@+id/server_error"
-        style="@style/search_linear_layout"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:visibility="gone">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="224dp"
-            android:src="@drawable/server_error"/>
-
-        <TextView
-            android:layout_width="268dp"
-            android:text="@string/server_error"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_marginTop="16dp"
-            style="@style/title_text_style"/>
-    </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="48dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:indeterminateTint="#3772E7"
-        android:visibility="gone" />
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/searchResultRecyclerView"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/search_result"
-            android:paddingTop="30dp"
-            android:clipToPadding="false"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/no_search_yet"
             android:visibility="visible"/>
 
-        <TextView
-            android:id="@+id/vacancyCount"
-            style="@style/text_style"
-            android:layout_height="27dp"
-            android:textColor="@color/yp_white"
-            android:background="@drawable/blue_rectangle"
-            android:gravity="center"
-            android:layout_gravity="center_horizontal"
-            android:paddingHorizontal="12dp"
-            android:visibility="gone" />
-    </FrameLayout>
+        <!-- Страница Ошибка интернет-соединения -->
+        <LinearLayout
+            android:id="@+id/internet_error"
+            style="@style/search_linear_layout"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/error_image_height_224dp"
+                android:src="@drawable/internet_error"/>
+
+            <TextView
+                android:layout_width="268dp"
+                android:text="@string/no_internet"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/dimen_16"
+                style="@style/title_text_style"/>
+        </LinearLayout>
+
+        <!-- Страница Ошибка сервера -->
+        <LinearLayout
+            android:id="@+id/server_error"
+            style="@style/search_linear_layout"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/error_image_height_224dp"
+                android:src="@drawable/server_error"/>
+
+            <TextView
+                android:layout_width="268dp"
+                android:text="@string/server_error"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/dimen_16"
+                style="@style/title_text_style"/>
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/searchResultRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/search_result"
+                android:paddingTop="30dp"
+                android:paddingBottom="80dp"
+                android:clipToPadding="false"
+                android:visibility="visible"/>
+
+            <TextView
+                android:id="@+id/vacancyCount"
+                style="@style/text_style"
+                android:layout_height="27dp"
+                android:textColor="@color/yp_white"
+                android:background="@drawable/blue_rectangle"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:paddingHorizontal="12dp"
+                android:visibility="gone" />
+
+            <!-- Страница "Не найдено" -->
+            <LinearLayout
+                android:id="@+id/not_found"
+                style="@style/search_linear_layout"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/error_image_height_224dp"
+                    android:src="@drawable/empty_state"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="@string/failed_to_get_vacancies_list"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginTop="@dimen/dimen_16"
+                    android:layout_marginHorizontal="48dp"
+                    style="@style/title_text_style"/>
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
 
     <ProgressBar
-        android:id="@+id/progressBarPagination"
-        android:layout_width="48dp"
-        android:layout_height="80dp"
-        android:layout_gravity="center"
-        android:indeterminateTint="@color/yp_blue"
-        android:visibility="gone"/>
-</LinearLayout>
+    android:id="@+id/progressBarContent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:indeterminateTint="@color/yp_blue"
+    android:visibility="gone" />
+
+    <ProgressBar
+    android:id="@+id/progressBarPagination"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center|bottom"
+    android:layout_marginBottom="@dimen/dimen_16"
+    android:indeterminateTint="@color/yp_blue"
+    android:visibility="gone" />
+
+</FrameLayout>
+

@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.interactor.SearchVacanciesInteractor
 import ru.practicum.android.diploma.domain.interactor.SearchVacanciesResult
+import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.presentation.state.VacanciesScreenState
 import ru.practicum.android.diploma.util.Constants
 
@@ -25,14 +26,16 @@ class SearchViewModel(
     private var lastSearchText: String = ""
     private var isNextPageLoading = false
 
-    private val searchScreenState = MutableLiveData<VacanciesScreenState>()
-    fun observeScreenState(): LiveData<VacanciesScreenState> = searchScreenState
+    private val _searchScreenState = MutableLiveData<VacanciesScreenState>()
+    val searchScreenState: LiveData<VacanciesScreenState> = _searchScreenState
+    private var oldList = listOf<Vacancy>()
 
     fun searchVacancies(searchedText: String) {
         if (searchedText.isEmpty() or (searchedText == lastSearchText)) {
             return
         }
 
+        oldList = emptyList()
         lastSearchText = searchedText
         currentPage = 0
         searchJob?.cancel()
@@ -51,7 +54,7 @@ class SearchViewModel(
     }
 
     fun getNextPartOfVacancies() {
-        if (lastSearchText.isEmpty() or (searchJob?.isActive == true) or (currentPage + 1 > totalPages)) {
+        if (lastSearchText.isEmpty() or (searchJob?.isActive == true) or (currentPage + 1 > totalPages - 1)) {
             return
         }
 
@@ -76,7 +79,7 @@ class SearchViewModel(
     }
 
     private fun setScreenState(newState: VacanciesScreenState) {
-        searchScreenState.postValue(newState)
+        _searchScreenState.postValue(newState)
     }
 
     private fun handleState(
@@ -96,8 +99,9 @@ class SearchViewModel(
 
                 is SearchVacanciesResult.Success -> {
                     totalPages = searchVacanciesResult.vacanciesFound.maxPages
+                    oldList = oldList + searchVacanciesResult.vacanciesFound.vacanciesList
                     VacanciesScreenState.Content(
-                        vacancyList = searchVacanciesResult.vacanciesFound.vacanciesList,
+                        vacancyList = oldList,
                         foundVacanciesCount = searchVacanciesResult.vacanciesFound.found
                     )
                 }
