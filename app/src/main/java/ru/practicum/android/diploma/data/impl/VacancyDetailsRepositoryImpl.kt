@@ -31,7 +31,9 @@ class VacancyDetailsRepositoryImpl(
                 )
             }
 
-            val response = kotlin.runCatching { apiService.getVacancyDetails(vacancyId).call() }.getOrNull()
+            val response = kotlin.runCatching {
+                apiService.getVacancyDetails(vacancyId).call()
+            }.getOrNull()
 
             val state = when (response) {
                 null -> VacancyDetailsStateLoad(isNetworkError = true)
@@ -57,13 +59,19 @@ class VacancyDetailsRepositoryImpl(
 
                 is Response.Success -> {
                     val vacancyDomain = response.data.toDomain()
-                    val oldVacancy = appDatabase.vacancyDao().getVacancyById(vacancyId).firstOrNull()
-                    val oldIsFavorite = oldVacancy?.isFavorite ?: false
-                    val vacancyEntity = vacancyDomain.toEntity().copy(isFavorite = oldIsFavorite)
-                    appDatabase.vacancyDao().insertVacancy(vacancyEntity)
+                    val oldVacancy = cachedVacancy
+                    val wasFavorite = oldVacancy?.isFavorite ?: false
+                    val vacancyEntity = vacancyDomain.toEntity().copy(isFavorite = wasFavorite)
+                    if (oldVacancy != null) {
+                        appDatabase.vacancyDao().updateVacancy(vacancyEntity)
+                    } else {
+                        appDatabase.vacancyDao().insertVacancy(vacancyEntity)
+                    }
+
                     VacancyDetailsStateLoad(vacancy = vacancyDomain)
                 }
             }
+
             emit(state)
         }
     }
