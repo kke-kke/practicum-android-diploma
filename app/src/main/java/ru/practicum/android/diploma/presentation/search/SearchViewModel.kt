@@ -54,7 +54,7 @@ class SearchViewModel(
     }
 
     fun getNextPartOfVacancies() {
-        if (lastSearchText.isEmpty() or (searchJob?.isActive == true) or (currentPage + 1 > totalPages)) {
+        if (lastSearchText.isEmpty() or (searchJob?.isActive == true) or (currentPage + 1 > totalPages-1)) {
             return
         }
 
