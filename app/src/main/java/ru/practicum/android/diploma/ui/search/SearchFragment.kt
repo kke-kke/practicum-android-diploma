@@ -232,5 +232,4 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         }
         showCustomSnackBar(errorMessage, binding.root, requireContext())
     }
-
 }
