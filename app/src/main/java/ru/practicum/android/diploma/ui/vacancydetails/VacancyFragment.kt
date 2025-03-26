@@ -79,11 +79,15 @@ class VacancyFragment : BaseFragment<FragmentVacancyBinding>() {
             employmentForm.text = vacancy.employment?.name
             descriptionValue.text = Html.fromHtml(vacancy.description, Html.FROM_HTML_MODE_COMPACT)
 
-            if (vacancy.keySkills.isNotEmpty()) {
+            if (!vacancy.keySkills.isNullOrEmpty()) {
                 keySkills.text = vacancy.keySkills.joinToString(", ") { it.name }
             } else {
-                keySkills.isVisible = false
-                keySkillsTitle.isVisible = false
+                keySkillsTitle.post {
+                    keySkillsTitle.visibility = View.GONE
+                }
+                keySkills.post {
+                    keySkills.visibility = View.GONE
+                }
             }
 
             Glide.with(binding.companyImage)
