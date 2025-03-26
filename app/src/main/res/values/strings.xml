@@ -28,11 +28,12 @@
     <string name="server_error">Ошибка сервера</string>
     <string name="no_internet">Нет интернета</string>
     <string name="unknown_error">Произошла неизвестная ошибка</string>
+    <string name="toast_error">Произошла ошибка</string>
     <string name="toast_no_internet">Проверьте подключение к интернету</string>
 
     <!-- Сообщения -->
     <string name="list_is_empty">Список пуст</string>
-    <string name="no_results">Таких вакансий не найдено</string>
+    <string name="no_results">Таких вакансий нет</string>
     <string name="vacancy_not_found">Вакансия не найдена или удалена</string>
     <!-- Экран вакансии -->
     <string name="job_name">Android-разработчик</string>
@@ -52,5 +53,6 @@
         <item quantity="one">вакансия</item>
         <item quantity="few">вакансии</item>
         <item quantity="many">вакансий</item>
+        <item quantity="other">вакансий</item>
     </plurals>
 </resources>

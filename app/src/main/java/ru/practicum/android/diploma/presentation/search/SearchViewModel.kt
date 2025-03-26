@@ -80,7 +80,6 @@ class SearchViewModel(
     }
 
     private fun setScreenState(newState: VacanciesScreenState) {
-        Log.e("1!!!!!!!!!!!", newState.toString())
         _searchScreenState.postValue(newState)
     }
 

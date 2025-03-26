@@ -228,7 +228,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     ) {
         val errorMessage = when {
             isShowNetworkError -> getString(R.string.toast_no_internet)
-            else -> getString(R.string.unknown_error)
+            else -> getString(R.string.toast_error)
         }
         showCustomSnackBar(errorMessage, binding.root, requireContext())
     }
