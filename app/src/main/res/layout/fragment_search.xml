@@ -11,8 +11,7 @@
     <LinearLayout
         style="@style/linear_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.search.SearchFragment">
+        android:layout_height="match_parent">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/searchToolbar"
@@ -65,49 +64,17 @@
             android:src="@drawable/no_search_yet"
             android:visibility="visible"/>
 
-        <TextView
-            android:id="@+id/vacancyCount"
-            style="@style/text_style"
-            android:layout_height="27dp"
-            android:textColor="@color/yp_white"
-            android:background="@drawable/blue_rectangle"
-            android:gravity="center"
-            android:layout_gravity="center_horizontal"
-            android:paddingHorizontal="12dp"
-            android:visibility="gone" />
-
-        <!-- Страница "Не найдено" -->
-        <LinearLayout
-            android:id="@+id/not_found"
-            style="@style/search_linear_layout"
-            android:visibility="gone">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="224dp"
-                android:layout_marginTop="132dp"
-                android:src="@drawable/empty_state"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:text="@string/failed_to_get_vacancies_list"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_marginTop="16dp"
-                android:layout_marginHorizontal="48dp"
-                style="@style/title_text_style"/>
-        </LinearLayout>
-
         <!-- Страница Ошибка интернет-соединения -->
         <LinearLayout
             android:id="@+id/internet_error"
             style="@style/search_linear_layout"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
             android:visibility="gone">
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="224dp"
-                android:layout_marginTop="132dp"
+                android:layout_height="@dimen/error_image_height_224dp"
                 android:src="@drawable/internet_error"/>
 
             <TextView
@@ -115,7 +82,7 @@
                 android:text="@string/no_internet"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/dimen_16"
                 style="@style/title_text_style"/>
         </LinearLayout>
 
@@ -123,12 +90,13 @@
         <LinearLayout
             android:id="@+id/server_error"
             style="@style/search_linear_layout"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
             android:visibility="gone">
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="224dp"
-                android:layout_marginTop="132dp"
+                android:layout_height="@dimen/error_image_height_224dp"
                 android:src="@drawable/server_error"/>
 
             <TextView
@@ -136,11 +104,9 @@
                 android:text="@string/server_error"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/dimen_16"
                 style="@style/title_text_style"/>
         </LinearLayout>
-
-
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -158,26 +124,59 @@
                 android:clipToPadding="false"
                 android:visibility="visible"/>
 
-        </FrameLayout>
+            <TextView
+                android:id="@+id/vacancyCount"
+                style="@style/text_style"
+                android:layout_height="27dp"
+                android:textColor="@color/yp_white"
+                android:background="@drawable/blue_rectangle"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:paddingHorizontal="12dp"
+                android:visibility="gone" />
 
+            <!-- Страница "Не найдено" -->
+            <LinearLayout
+                android:id="@+id/not_found"
+                style="@style/search_linear_layout"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/error_image_height_224dp"
+                    android:src="@drawable/empty_state"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="@string/failed_to_get_vacancies_list"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginTop="@dimen/dimen_16"
+                    android:layout_marginHorizontal="48dp"
+                    style="@style/title_text_style"/>
+            </LinearLayout>
+
+        </FrameLayout>
 
     </LinearLayout>
 
     <ProgressBar
     android:id="@+id/progressBarContent"
-    android:layout_width="48dp"
-    android:layout_height="48dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:indeterminateTint="#3772E7"
+    android:indeterminateTint="@color/yp_blue"
     android:visibility="gone" />
 
     <ProgressBar
     android:id="@+id/progressBarPagination"
-    android:layout_width="48dp"
-    android:layout_height="48dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_gravity="center|bottom"
-        android:layout_marginBottom="@dimen/dimen_16"
-    android:indeterminateTint="#3772E7"
+    android:layout_marginBottom="@dimen/dimen_16"
+    android:indeterminateTint="@color/yp_blue"
     android:visibility="gone" />
 
 </FrameLayout>
