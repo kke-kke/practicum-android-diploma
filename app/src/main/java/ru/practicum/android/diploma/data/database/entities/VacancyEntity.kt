@@ -3,6 +3,7 @@ package ru.practicum.android.diploma.data.database.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import ru.practicum.android.diploma.domain.models.Salary
 
 @Entity(tableName = "vacancies")
 data class VacancyEntity(
@@ -10,7 +11,7 @@ data class VacancyEntity(
     val id: String,
     val name: String,
     val departmentName: String,
-    val salary: String?,
+    val salary: Salary?,
     val experience: String?,
     val employment: String?,
     val workFormat: String?,

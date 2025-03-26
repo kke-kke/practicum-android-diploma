@@ -9,14 +9,13 @@ import ru.practicum.android.diploma.domain.models.KeySkill
 import ru.practicum.android.diploma.domain.models.Salary
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.util.VacancyUtils
-import ru.practicum.android.diploma.util.VacancyUtils.toSalaryString
 
 fun VacancyEntity.toDomain(): Vacancy {
     return Vacancy(
         id = id,
         name = name,
         vacancyUrl = alternateUrl ?: "",
-        salary = salary?.toSalary(),
+        salary = salary,
         address = null,
         employer = Employer(
             name = companyName ?: "",
@@ -37,7 +36,7 @@ fun Vacancy.toEntity(): VacancyEntity {
         id = id,
         name = name,
         departmentName = area.name,
-        salary = salary?.toSalaryString(),
+        salary = salary,
         experience = experience?.name,
         employment = employment?.name,
         workFormat = null,
