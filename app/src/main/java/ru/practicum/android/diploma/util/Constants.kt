@@ -6,4 +6,5 @@ object Constants {
     const val VACANCIES_PER_PAGE = 20
     const val START_SERVER_ERROR_CODE = 500
     const val NOT_FOUND_ERROR_CODE = 404
+    const val NO_SALARY = "Зарплата не указана"
 }

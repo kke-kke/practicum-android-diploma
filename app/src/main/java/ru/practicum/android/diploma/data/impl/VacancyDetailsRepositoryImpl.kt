@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import ru.practicum.android.diploma.data.database.AppDatabase
+import ru.practicum.android.diploma.data.database.entities.VacancyEntity
 import ru.practicum.android.diploma.data.mappers.toDomain
 import ru.practicum.android.diploma.data.network.ApiService
 import ru.practicum.android.diploma.data.network.call
@@ -43,36 +44,38 @@ class VacancyDetailsRepositoryImpl(
                     }
                 }
 
-                is Response.Error -> {
-                    when {
-                        response.errorCode == Constants.NOT_FOUND_ERROR_CODE -> {
-                            appDatabase.vacancyDao().deleteVacancyById(vacancyId)
-                            VacancyDetailsStateLoad(isNotFoundError = true)
-                        }
-                        response.errorCode >= Constants.START_SERVER_ERROR_CODE -> {
-                            if (cachedVacancy != null) {
-                                VacancyDetailsStateLoad(vacancy = cachedVacancy.toDomain())
-                            } else {
-                                VacancyDetailsStateLoad(isOtherError = true, errorMessage = response.errorMessage)
-                            }
-                        }
-                        else -> {
-                            if (cachedVacancy != null) {
-                                VacancyDetailsStateLoad(vacancy = cachedVacancy.toDomain())
-                            } else {
-                                VacancyDetailsStateLoad(isNetworkError = true)
-                            }
-                        }
-                    }
-                }
-
-                is Response.Success -> {
-                    val vacancyDomain = response.data.toDomain()
-                    VacancyDetailsStateLoad(vacancy = vacancyDomain)
-                }
+                is Response.Error -> handleErrorResponse(response, vacancyId, cachedVacancy)
+                is Response.Success -> VacancyDetailsStateLoad(vacancy = response.data.toDomain())
             }
 
             emit(newState)
+        }
+    }
+
+    private suspend fun handleErrorResponse(
+        response: Response.Error,
+        vacancyId: String,
+        cachedVacancy: VacancyEntity?
+    ): VacancyDetailsStateLoad {
+        return when {
+            response.errorCode == Constants.NOT_FOUND_ERROR_CODE -> {
+                appDatabase.vacancyDao().deleteVacancyById(vacancyId)
+                VacancyDetailsStateLoad(isNotFoundError = true)
+            }
+            response.errorCode >= Constants.START_SERVER_ERROR_CODE -> {
+                if (cachedVacancy != null) {
+                    VacancyDetailsStateLoad(vacancy = cachedVacancy.toDomain())
+                } else {
+                    VacancyDetailsStateLoad(isOtherError = true, errorMessage = response.errorMessage)
+                }
+            }
+            else -> {
+                if (cachedVacancy != null) {
+                    VacancyDetailsStateLoad(vacancy = cachedVacancy.toDomain())
+                } else {
+                    VacancyDetailsStateLoad(isNetworkError = true)
+                }
+            }
         }
     }
 }
