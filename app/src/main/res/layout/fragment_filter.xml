@@ -1,14 +1,190 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.filters.FilterFragment">
+    android:paddingHorizontal="16dp"
+    android:orientation="vertical"
+    android:background="?attr/background">
+
+    <TextView
+        android:layout_height="@dimen/navbar_height"
+        android:text="@string/filter_settings"
+        android:gravity="center_vertical"
+        android:drawablePadding="20dp"
+        style="@style/title_text_style"
+        app:drawableStartCompat="@drawable/arrow_back" />
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/filters"
-        android:textAppearance="@style/title_text_style" />
+        style="@style/text_view_for_choose"
+        android:text="@string/workplace"
+        android:gravity="center_vertical"
+        tools:ignore="RtlSymmetry" />
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <TextView
+                style="@style/small_text_style"
+                android:text="@string/workplace"
+                android:textColor="?attr/colorOnBackground"/>
+
+            <TextView
+                android:id="@+id/tv_workplace"
+                style="@style/text_style"
+                tools:text="Россия, Москва"/>
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_close"
+            app:tint="?attr/colorOnBackground"
+            android:layout_gravity="center_vertical"
+            tools:ignore="ContentDescription" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        style="@style/text_view_for_choose"
+        android:text="@string/industry"
+        android:gravity="center_vertical"
+        tools:ignore="RtlSymmetry" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <TextView
+                style="@style/small_text_style"
+                android:text="@string/industry"
+                android:textColor="?attr/colorOnBackground"/>
+
+            <TextView
+                android:id="@+id/tv_industry"
+                style="@style/text_style"
+                tools:text="Телеведущий"/>
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_close"
+            app:tint="?attr/colorOnBackground"
+            android:layout_gravity="center_vertical"
+            tools:ignore="ContentDescription" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/expected_salary"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            style="@style/small_text_style"
+            android:elevation="2dp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="51dp"
+            style="@style/edit_text_style"
+            android:hint="@string/enter_amount"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:textColor="@color/yp_black"
+            android:gravity="bottom"
+            android:paddingBottom="8dp"
+            android:maxLines="1"
+            android:textCursorDrawable="@drawable/custom_cursor"/>
+
+        <ImageView
+            android:id="@+id/img_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_close"
+            app:tint="?attr/colorOnBackground"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="20dp"
+            tools:ignore="ContentDescription"
+            android:visibility="gone"/>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="4dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            style="@style/text_style"
+            android:text="Не показывать без зарплаты"
+            android:gravity="center_vertical"
+            android:layout_weight="1"/>
+
+        <CheckBox
+            android:id="@+id/cb_dont_show_without_salary"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:buttonTint="@color/yp_blue" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+    </View>
+
+    <Button
+        android:id="@+id/btn_apply"
+        android:layout_height="60dp"
+        android:layout_width="match_parent"
+        style="@style/button_style"
+        android:text="@string/apply"/>
+
+    <TextView
+        android:id="@+id/tv_reset"
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        style="@style/text_style"
+        android:text="@string/reset"
+        android:textColor="@color/yp_red"
+        android:fontFamily="@font/ys_display_medium"
+        android:layout_marginTop="28dp"
+        android:layout_marginBottom="44dp"/>
+
+</LinearLayout>
