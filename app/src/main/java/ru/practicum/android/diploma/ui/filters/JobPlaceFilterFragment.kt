@@ -56,7 +56,7 @@ class JobPlaceFilterFragment : BaseFragment<FragmentJobPlaceFilterBinding>() {
     private fun setArrowIcon(textInputLayout: TextInputLayout, onClickAction: () -> Unit) {
         textInputLayout.endIconMode = TextInputLayout.END_ICON_NONE
         textInputLayout.endIconMode = TextInputLayout.END_ICON_CUSTOM
-        textInputLayout.setEndIconDrawable(R.drawable.ic_arrow_forward)
+        textInputLayout.setEndIconDrawable(R.drawable.arrow_forward)
         textInputLayout.setEndIconOnClickListener {
             onClickAction()
         }
