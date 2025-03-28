@@ -101,7 +101,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             }
         }
 
-        binding.filterButton.setOnClickListener{
+        binding.filterButton.setOnClickListener {
             findNavController().navigate(R.id.action_searchFragment_to_filterFragment)
         }
 
