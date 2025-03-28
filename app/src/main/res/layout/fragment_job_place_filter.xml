@@ -1,14 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/job_filter_linear_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.filters.JobPlaceFilterFragment">
 
-    <TextView
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/jobPlaceFilterToolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/job_place"
-        android:textAppearance="@style/title_text_style" />
+        android:layout_height="@dimen/navbar_height"
+        android:background="?attr/background"
+        android:elevation="0dp"
+        app:navigationIcon="@drawable/arrow_back"
+        app:title="@string/job_place"
+        app:titleTextAppearance="@style/title_text_style"
+        app:titleTextColor="?attr/colorOnBackground" />
 
-</FrameLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/countryTextInputLayout"
+        style="@style/text_input_no_input_style"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_60"
+        app:endIconDrawable="@drawable/ic_arrow_forward"
+        app:endIconMode="custom"
+        app:hintTextAppearance="@style/hint_text_style">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/countryTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:hint="@string/country"
+            android:inputType="none"
+            android:textAppearance="@style/text_style"
+            android:textColor="?attr/colorOnBackground"
+            android:textColorHint="@color/yp_gray" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/regionTextInputLayout"
+        style="@style/text_input_no_input_style"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_60"
+        app:endIconDrawable="@drawable/ic_arrow_forward"
+        app:endIconMode="custom"
+        app:hintTextAppearance="@style/hint_text_style"
+        app:placeholderTextAppearance="@style/hint_text_style">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/regionTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:hint="@string/region"
+            android:inputType="none"
+            android:textAppearance="@style/text_style"
+            android:textColor="?attr/colorOnBackground"
+            android:textColorHint="@color/yp_gray"
+            android:textCursorDrawable="@drawable/custom_cursor" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/selectFiltersButton"
+        style="@style/button_style"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_60"
+        android:layout_marginHorizontal="@dimen/dimen_16"
+        android:layout_marginBottom="@dimen/dimen_24"
+        android:text="@string/select"
+        android:visibility="gone" />
+
+</LinearLayout>

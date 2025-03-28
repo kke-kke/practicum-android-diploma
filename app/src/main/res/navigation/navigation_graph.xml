@@ -51,10 +51,35 @@
         android:id="@+id/jobPlaceFilterFragment"
         android:name="ru.practicum.android.diploma.ui.filters.JobPlaceFilterFragment"
         android:label="fragment_job_place_filter"
-        tools:layout="@layout/fragment_job_place_filter" />
+        tools:layout="@layout/fragment_job_place_filter" >
+        <action
+            android:id="@+id/action_jobPlaceFilterFragment_to_countryFilterFragment"
+            app:destination="@id/countryFilterFragment" />
+        <action
+            android:id="@+id/action_jobPlaceFilterFragment_to_regionFilterFragment"
+            app:destination="@id/regionFilterFragment" />
+    </fragment>
     <fragment
         android:id="@+id/industryFilterFragment"
         android:name="ru.practicum.android.diploma.ui.filters.IndustryFilterFragment"
         android:label="fragment_industry_filter"
         tools:layout="@layout/fragment_industry_filter" />
+    <fragment
+        android:id="@+id/countryFilterFragment"
+        android:name="ru.practicum.android.diploma.ui.filters.CountryFilterFragment"
+        android:label="fragment_country_filter"
+        tools:layout="@layout/fragment_country_filter" >
+        <action
+            android:id="@+id/action_countryFilterFragment_to_jobPlaceFilterFragment"
+            app:destination="@id/jobPlaceFilterFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/regionFilterFragment"
+        android:name="ru.practicum.android.diploma.ui.filters.RegionFilterFragment"
+        android:label="fragment_region_filter"
+        tools:layout="@layout/fragment_region_filter" >
+        <action
+            android:id="@+id/action_regionFilterFragment_to_jobPlaceFilterFragment"
+            app:destination="@id/jobPlaceFilterFragment" />
+    </fragment>
 </navigation>
