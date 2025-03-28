@@ -57,11 +57,10 @@ class JobPlaceFilterFragment : BaseFragment<FragmentJobPlaceFilterBinding>() {
         textInputLayout.endIconMode = TextInputLayout.END_ICON_NONE
         textInputLayout.endIconMode = TextInputLayout.END_ICON_CUSTOM
         textInputLayout.setEndIconDrawable(R.drawable.ic_arrow_forward)
-        textInputLayout.setEndIconOnClickListener{
+        textInputLayout.setEndIconOnClickListener {
             onClickAction()
         }
     }
-
 
     private fun setClearIcon(textInputLayout: TextInputLayout, textInputEditText: TextInputEditText) {
         textInputLayout.endIconMode = TextInputLayout.END_ICON_NONE

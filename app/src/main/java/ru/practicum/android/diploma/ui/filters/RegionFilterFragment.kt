@@ -40,7 +40,7 @@ class RegionFilterFragment : BaseFragment<FragmentRegionFilterBinding>() {
         binding.regionSearchBarContainer.endIconMode = TextInputLayout.END_ICON_NONE
         binding.regionSearchBarContainer.endIconMode = TextInputLayout.END_ICON_CUSTOM
         binding.regionSearchBarContainer.setEndIconDrawable(R.drawable.ic_arrow_forward)
-        binding.regionSearchBarContainer.setEndIconOnClickListener{
+        binding.regionSearchBarContainer.setEndIconOnClickListener {
             goToJobPlaceFilterFragment()
         }
     }
