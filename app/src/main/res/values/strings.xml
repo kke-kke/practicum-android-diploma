@@ -40,6 +40,14 @@
     <string name="description">Описание вакансии</string>
     <string name="key_skills">Ключевые навыки</string>
     <string name="share_vacancy">Поделиться вакансией</string>
+    <string name="filter_settings">Настройки фильтрации</string>
+    <string name="workplace">Место работы</string>
+    <string name="industry">Отрасль</string>
+    <string name="reset">Сбросить</string>
+    <string name="apply">Применить</string>
+    <string name="expected_salary">Ожидаемая зарплата</string>
+    <string name="enter_amount">Введите сумму</string>
+    <string name="dont_show_without_salary">Не показывать без зарплаты</string>
 
     <plurals name="vacancy_count">
         <item quantity="one">вакансия</item>
