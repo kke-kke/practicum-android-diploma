@@ -19,6 +19,7 @@
         app:titleTextAppearance="@style/title_text_style"/>
 
     <TextView
+        android:id="@+id/tv_wpl_choose"
         style="@style/text_view_for_choose"
         android:layout_width="match_parent"
         android:gravity="center_vertical"
@@ -33,6 +34,7 @@
         android:layout_marginHorizontal="16dp">
 
         <LinearLayout
+            android:id="@+id/view_wpl_choose"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -52,6 +54,7 @@
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/img_clear_wpl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -62,6 +65,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tv_industry_choose"
         style="@style/text_view_for_choose"
         android:layout_width="match_parent"
         android:gravity="center_vertical"
@@ -76,6 +80,7 @@
         android:layout_marginHorizontal="16dp">
 
         <LinearLayout
+            android:id="@+id/view_industry_choose"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -95,6 +100,7 @@
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/img_clear_industry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
