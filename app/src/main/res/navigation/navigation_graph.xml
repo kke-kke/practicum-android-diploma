@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_searchFragment_to_vacancyFragment"
             app:destination="@id/vacancyFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_jobPlaceFilterFragment"
+            app:destination="@id/jobPlaceFilterFragment" />
     </fragment>
     <fragment
         android:id="@+id/filterFragment"
