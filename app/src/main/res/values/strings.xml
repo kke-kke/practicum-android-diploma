@@ -7,7 +7,9 @@
     <string name="team">Команда</string>
     <string name="job_search">Поиск вакансий</string>
     <string name="filters">Настройки фильтрации</string>
-    <string name="job_place">Место работы</string>
+    <string name="job_place">Выбор места работы</string>
+    <string name="choose_country">Выбор страны</string>
+    <string name="choose_region">Выбор региона</string>
     <string name="industry_filter">Выбор отрасли</string>
     <string name="job">Вакансия</string>
     <!-- Экран команды -->
@@ -30,7 +32,8 @@
     <string name="unknown_error">Произошла неизвестная ошибка</string>
     <string name="toast_error">Произошла ошибка</string>
     <string name="toast_no_internet">Проверьте подключение к интернету</string>
-
+    <string name="failed_to_get_list">Не удалось получить список</string>
+    <string name="no_region">Такого региона нет</string>
     <!-- Сообщения -->
     <string name="list_is_empty">Список пуст</string>
     <string name="no_results">Таких вакансий нет</string>
@@ -48,6 +51,11 @@
     <string name="expected_salary">Ожидаемая зарплата</string>
     <string name="enter_amount">Введите сумму</string>
     <string name="dont_show_without_salary">Не показывать без зарплаты</string>
+    <!-- Экран выбора региона -->
+    <string name="region">Регион</string>
+    <string name="country">Страна</string>
+    <string name="select">Выбрать</string>
+    <string name="type_in_region">Введите регион</string>
 
     <plurals name="vacancy_count">
         <item quantity="one">вакансия</item>

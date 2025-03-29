@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/job_filter_linear_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.filters.RegionFilterFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/countryFilterToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navbar_height"
+        android:background="?attr/background"
+        android:elevation="0dp"
+        app:navigationIcon="@drawable/arrow_back"
+        app:title="@string/choose_region"
+        app:titleTextAppearance="@style/title_text_style"
+        app:titleTextColor="?attr/colorOnBackground" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/regionSearchBarContainer"
+        style="@style/search_text_input_style"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_text_height"
+        android:layout_margin="@dimen/dimen_16">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/regionSearchBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/type_in_region"
+            android:inputType="text"
+            android:maxLines="1"
+            android:padding="@dimen/dimen_8"
+            android:singleLine="true"
+            android:textAppearance="@style/text_style"
+            android:textColorHint="?attr/colorOnSecondary"
+            android:textCursorDrawable="@drawable/custom_cursor" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/countriesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:paddingBottom="80dp"
+        android:visibility="visible"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/area_view" />
+
+    <!-- Страница Такого региона нет -->
+    <LinearLayout
+        android:id="@+id/internet_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/error_image_height_224dp"
+            android:src="@drawable/empty_state" />
+
+        <TextView
+            style="@style/title_text_style"
+            android:layout_width="268dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dimen_16"
+            android:gravity="center"
+            android:text="@string/no_region" />
+    </LinearLayout>
+
+    <!-- Страница Не удалось получить список -->
+    <LinearLayout
+        android:id="@+id/no_region_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/error_image_height_224dp"
+            android:src="@drawable/no_region_list" />
+
+        <TextView
+            style="@style/title_text_style"
+            android:layout_width="268dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dimen_16"
+            android:gravity="center"
+            android:text="@string/failed_to_get_list" />
+    </LinearLayout>
+
+</LinearLayout>
