@@ -61,11 +61,6 @@ class SearchVacanciesRepositoryImpl(
         }
     }
 
-    /**
-     * В HH.ru "area" может быть либо страна, либо регион. Если пользователь
-     * выбрал регион, используем regionId, иначе countryId, если оно есть.
-     * Или вовсе null, если ничего не выбрано.
-     */
     private fun decideAreaId(filters: ru.practicum.android.diploma.domain.models.FilterParameters): String? {
         return when {
             !filters.regionId.isNullOrBlank() -> filters.regionId
