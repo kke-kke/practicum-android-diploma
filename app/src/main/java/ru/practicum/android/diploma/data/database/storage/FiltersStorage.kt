@@ -1,11 +1,8 @@
-package ru.practicum.android.diploma.data.storage
+package ru.practicum.android.diploma.data.database.storage
 
 import android.content.SharedPreferences
 import ru.practicum.android.diploma.domain.models.FilterParameters
 
-/**
- * класс-обёртка для чтения/записи настроек фильтра (SharedPreferences)
- */
 class FiltersStorage(
     private val sharedPreferences: SharedPreferences
 ) {
@@ -48,9 +45,6 @@ class FiltersStorage(
         )
     }
 
-    /**
-     * сброс всех параметров
-     */
     fun clearFilterParameters() {
         sharedPreferences.edit()
             .remove(KEY_SALARY_FROM)

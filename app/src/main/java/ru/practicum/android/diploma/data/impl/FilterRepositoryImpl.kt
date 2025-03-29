@@ -1,6 +1,6 @@
 package ru.practicum.android.diploma.data.impl
 
-import ru.practicum.android.diploma.data.storage.FiltersStorage
+import ru.practicum.android.diploma.data.database.storage.FiltersStorage
 import ru.practicum.android.diploma.domain.api.FilterRepository
 import ru.practicum.android.diploma.domain.models.FilterParameters
 

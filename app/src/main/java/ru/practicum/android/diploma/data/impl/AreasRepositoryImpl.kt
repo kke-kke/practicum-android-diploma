@@ -19,7 +19,9 @@ class AreasRepositoryImpl(
                 val response = apiService.getAreas().call()
                 when (response) {
                     is Response.Success -> response.data.toDomainList()
-                    is Response.Error -> throw Exception("Ошибка загрузки региона: ${response.errorMessage}")
+                    is Response.Error -> {
+                        throw IllegalStateException("Ошибка загрузки региона: ${response.errorMessage}")
+                    }
                 }
             }
         }
