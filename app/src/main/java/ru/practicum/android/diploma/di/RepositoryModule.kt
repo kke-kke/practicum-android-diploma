@@ -8,10 +8,19 @@ import ru.practicum.android.diploma.domain.api.FavoritesRepository
 import ru.practicum.android.diploma.domain.api.SearchVacanciesRepository
 import ru.practicum.android.diploma.domain.api.VacancyDetailsRepository
 
+// NEW
+import ru.practicum.android.diploma.domain.api.FilterRepository
+import ru.practicum.android.diploma.data.impl.FilterRepositoryImpl
+import ru.practicum.android.diploma.domain.api.IndustryRepository
+import ru.practicum.android.diploma.data.impl.IndustryRepositoryImpl
+import ru.practicum.android.diploma.domain.api.AreasRepository
+import ru.practicum.android.diploma.data.impl.AreasRepositoryImpl
+
 val repositoryModule = module {
     single<SearchVacanciesRepository> {
         SearchVacanciesRepositoryImpl(
-            apiService = get()
+            apiService = get(),
+            filterRepository = get()
         )
     }
 
@@ -21,5 +30,17 @@ val repositoryModule = module {
 
     single<FavoritesRepository> {
         FavoritesRepositoryImpl(get())
+    }
+
+    single<FilterRepository> {
+        FilterRepositoryImpl(get())
+    }
+
+    single<IndustryRepository> {
+        IndustryRepositoryImpl(get())
+    }
+
+    single<AreasRepository> {
+        AreasRepositoryImpl(get())
     }
 }
