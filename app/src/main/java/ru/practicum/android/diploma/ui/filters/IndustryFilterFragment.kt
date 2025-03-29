@@ -26,7 +26,7 @@ class IndustryFilterFragment : BaseFragment<FragmentIndustryFilterBinding>() {
         }
 
         binding.searchIndustryBar.addTextChangedListener(
-            afterTextChanged = {s ->
+            afterTextChanged = { s ->
                 if (s.isNullOrEmpty()) {
                     setSearchIcon()
                 } else {
