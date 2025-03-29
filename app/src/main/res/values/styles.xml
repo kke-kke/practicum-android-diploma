@@ -46,4 +46,37 @@
         <item name="android:fontFamily">@font/ys_display_medium</item>
         <item name="android:layout_marginTop">18dp</item>
     </style>
+    <style name="linear_layout">
+        <item name="android:orientation">vertical</item>
+        <item name="android:background">?attr/background</item>
+        <item name="android:paddingHorizontal">16dp</item>
+    </style>
+    <style name="text_input_style">
+        <item name="boxBackgroundColor">?attr/backgroundColor</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/button_corner_radius</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/button_corner_radius</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/button_corner_radius</item>
+        <item name="boxCornerRadiusTopStart">@dimen/button_corner_radius</item>
+        <item name="boxStrokeColor">@android:color/transparent</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="cursorColor">@color/yp_blue</item>
+    </style>
+    <style name="search_text_input_style" parent="text_input_style">
+        <item name="endIconDrawable">@drawable/ic_search</item>
+        <item name="endIconMode">custom</item>
+        <item name="endIconTint">@color/yp_black</item>
+        <item name="hintEnabled">false</item>
+    </style>
+    <style name="search_linear_layout">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+    <!-- Экран вакансии -->
+    <style name="company_linear_layout" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/rounded_bg</item>
+        <item name="android:padding">20dp</item>
+    </style>
 </resources>

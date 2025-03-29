@@ -18,4 +18,33 @@
     <string name="member4">Анастасия Сорокина</string>
     <string name="member5">Ксения Ковалева</string>
     <string name="member6">Наталья Нестерова</string>
+    <!-- Экран поиска -->
+    <string name="type_in_query">Введите запрос</string>
+    <string name="vacancy_name">Название вакансии</string>
+    <string name="vacancy_employer">Компания</string>
+    <string name="vacancy_salary">Зарплата не указана</string>
+    <!-- Ошибки -->
+    <string name="failed_to_get_vacancies_list">Не удалось получить список вакансий</string>
+    <string name="server_error">Ошибка сервера</string>
+    <string name="no_internet">Нет интернета</string>
+    <string name="unknown_error">Произошла неизвестная ошибка</string>
+    <string name="toast_error">Произошла ошибка</string>
+    <string name="toast_no_internet">Проверьте подключение к интернету</string>
+
+    <!-- Сообщения -->
+    <string name="list_is_empty">Список пуст</string>
+    <string name="no_results">Таких вакансий нет</string>
+    <string name="vacancy_not_found">Вакансия не найдена или удалена</string>
+    <!-- Экран вакансии -->
+    <string name="experience">Требуемый опыт</string>
+    <string name="description">Описание вакансии</string>
+    <string name="key_skills">Ключевые навыки</string>
+    <string name="share_vacancy">Поделиться вакансией</string>
+
+    <plurals name="vacancy_count">
+        <item quantity="one">вакансия</item>
+        <item quantity="few">вакансии</item>
+        <item quantity="many">вакансий</item>
+        <item quantity="other">вакансий</item>
+    </plurals>
 </resources>
