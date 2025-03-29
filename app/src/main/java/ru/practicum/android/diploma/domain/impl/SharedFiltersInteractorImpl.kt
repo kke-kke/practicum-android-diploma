@@ -1,4 +1,8 @@
-package ru.practicum.android.diploma.domain
+package ru.practicum.android.diploma.domain.impl
+
+import ru.practicum.android.diploma.domain.models.FilterParameters
+import ru.practicum.android.diploma.domain.storage.SharedFiltersInteractor
+import ru.practicum.android.diploma.domain.storage.SharedFiltersRepository
 
 class SharedFiltersInteractorImpl(
     private val filtersRepository: SharedFiltersRepository

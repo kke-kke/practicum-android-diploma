@@ -1,6 +1,6 @@
-package ru.practicum.android.diploma.data
+package ru.practicum.android.diploma.data.storage
 
-import ru.practicum.android.diploma.domain.FilterParameters
+import ru.practicum.android.diploma.domain.models.FilterParameters
 
 interface FiltersStorage {
     fun getFilters(): FilterParameters?

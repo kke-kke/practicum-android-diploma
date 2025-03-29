@@ -1,9 +1,10 @@
-package ru.practicum.android.diploma.data
+package ru.practicum.android.diploma.data.impl
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import ru.practicum.android.diploma.domain.FilterParameters
-import ru.practicum.android.diploma.domain.SharedFiltersRepository
+import ru.practicum.android.diploma.data.storage.FiltersStorage
+import ru.practicum.android.diploma.domain.models.FilterParameters
+import ru.practicum.android.diploma.domain.storage.SharedFiltersRepository
 
 class SharedFiltersRepositoryImpl(
     private val filtersStorage: FiltersStorage

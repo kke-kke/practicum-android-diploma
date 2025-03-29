@@ -1,4 +1,6 @@
-package ru.practicum.android.diploma.domain
+package ru.practicum.android.diploma.domain.storage
+
+import ru.practicum.android.diploma.domain.models.FilterParameters
 
 interface SharedFiltersRepository {
     suspend fun getCurrentFilters(): FilterParameters?
