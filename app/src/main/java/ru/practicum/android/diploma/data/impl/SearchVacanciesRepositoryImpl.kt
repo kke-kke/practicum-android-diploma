@@ -13,7 +13,7 @@ import ru.practicum.android.diploma.domain.api.FilterRepository // NEW CODE
 
 class SearchVacanciesRepositoryImpl(
     private val apiService: ApiService,
-    private val filterRepository: FilterRepository // NEW CODE
+    private val filterRepository: FilterRepository
 ) : SearchVacanciesRepository {
 
     override fun searchVacancies(

@@ -23,7 +23,7 @@ class IndustryRepositoryImpl(
                         data
                     }
                     is Response.Error -> {
-                        throw Exception("Error loading industries: ${response.errorMessage}")
+                        throw Exception("Ошибка загрузки списка индустрий: ${response.errorMessage}")
                     }
                 }
             }
