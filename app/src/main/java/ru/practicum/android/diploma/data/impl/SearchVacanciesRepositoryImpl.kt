@@ -9,10 +9,13 @@ import ru.practicum.android.diploma.domain.api.SearchVacanciesRepository
 import ru.practicum.android.diploma.domain.models.Response
 import ru.practicum.android.diploma.domain.models.VacanciesStateLoad
 import ru.practicum.android.diploma.util.Constants
+import ru.practicum.android.diploma.domain.api.FilterRepository // NEW CODE
 
 class SearchVacanciesRepositoryImpl(
-    private val apiService: ApiService
+    private val apiService: ApiService,
+    private val filterRepository: FilterRepository // NEW CODE
 ) : SearchVacanciesRepository {
+
     override fun searchVacancies(
         text: String,
         page: Int,
@@ -20,13 +23,20 @@ class SearchVacanciesRepositoryImpl(
     ): Flow<VacanciesStateLoad> {
         return flow {
             emit(VacanciesStateLoad(isLoading = true))
+            val filters = filterRepository.getFilterParameters()
+
             val response = kotlin.runCatching {
                 apiService.searchVacancies(
                     text = text,
                     page = page,
-                    perPage = perPage
+                    perPage = perPage,
+                    salaryFrom = filters.salaryFrom,
+                    onlyWithSalary = if (filters.excludeNoSalary) true else null,
+                    industryId = filters.industryId,
+                    areaId = decideAreaId(filters)
                 ).call()
             }.getOrNull()
+
             emit(
                 when (response) {
                     null -> {
@@ -34,7 +44,6 @@ class SearchVacanciesRepositoryImpl(
                             isNetworkError = true,
                         )
                     }
-
                     is Response.Error -> {
                         val isServerError = response.errorCode >= Constants.START_SERVER_ERROR_CODE
 
@@ -44,12 +53,24 @@ class SearchVacanciesRepositoryImpl(
                             errorMessage = response.errorMessage
                         )
                     }
-
                     is Response.Success -> VacanciesStateLoad(
                         vacanciesFound = response.data.toDomain()
                     )
                 }
             )
+        }
+    }
+
+    /**
+     * В HH.ru "area" может быть либо страна, либо регион. Если пользователь
+     * выбрал регион, используем regionId, иначе countryId, если оно есть.
+     * Или вовсе null, если ничего не выбрано.
+     */
+    private fun decideAreaId(filters: ru.practicum.android.diploma.domain.models.FilterParameters): String? {
+        return when {
+            !filters.regionId.isNullOrBlank() -> filters.regionId
+            !filters.countryId.isNullOrBlank() -> filters.countryId
+            else -> null
         }
     }
 }
