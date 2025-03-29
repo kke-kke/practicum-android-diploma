@@ -9,4 +9,17 @@ data class FilterParameters(
     val salary: Int,
     val currency: String,
     val onlyWithSalary: Boolean
-)
+){
+    companion object {
+        val defaultFilters = FilterParameters(
+            areaId = "",
+            areaParentId = "",
+            areaName = "",
+            industryId = "",
+            industryName = "",
+            salary = 0,
+            currency = "RUR",
+            onlyWithSalary = false
+        )
+    }
+}
