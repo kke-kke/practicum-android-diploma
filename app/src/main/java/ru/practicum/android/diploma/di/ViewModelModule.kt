@@ -31,7 +31,6 @@ val viewModelModule = module {
         )
     }
 
-    // NEW CODE:
     viewModel {
         FilterViewModel(
             filterInteractor = get()
