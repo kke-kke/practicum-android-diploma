@@ -15,13 +15,6 @@ import ru.practicum.android.diploma.domain.interactor.FilterInteractor
 import ru.practicum.android.diploma.domain.interactor.IndustryInteractor
 import ru.practicum.android.diploma.domain.interactor.AreasInteractor
 
-import ru.practicum.android.diploma.domain.api.FavoritesRepository
-import ru.practicum.android.diploma.domain.api.SearchVacanciesRepository
-import ru.practicum.android.diploma.domain.api.VacancyDetailsRepository
-import ru.practicum.android.diploma.domain.api.FilterRepository
-import ru.practicum.android.diploma.domain.api.IndustryRepository
-import ru.practicum.android.diploma.domain.api.AreasRepository
-
 val interactorModule = module {
     factory<SearchVacanciesInteractor> {
         SearchVacanciesInteractorImpl(
