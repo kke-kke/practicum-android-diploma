@@ -43,7 +43,7 @@ class SharedFiltersStorage(
     }
 
     companion object {
-        private const val PREFERENCES = "app_preferences_filters"
+        private const val PREFERENCES = "app_preferences"
         private const val FILTERS = "filters"
     }
 }

@@ -9,6 +9,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.R
+import ru.practicum.android.diploma.domain.SharedFiltersInteractor
 import ru.practicum.android.diploma.domain.interactor.SearchVacanciesInteractor
 import ru.practicum.android.diploma.domain.interactor.SearchVacanciesResult
 import ru.practicum.android.diploma.domain.models.Vacancy
@@ -17,7 +18,8 @@ import ru.practicum.android.diploma.util.Constants
 
 class SearchViewModel(
     private val searchVacanciesInteractor: SearchVacanciesInteractor,
-    private val context: Application
+    private val context: Application,
+    private val filtersInteractor: SharedFiltersInteractor
 ) : ViewModel() {
 
     private var searchJob: Job? = null

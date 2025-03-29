@@ -11,13 +11,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.data.network.ApiService
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.presentation.search.SearchViewModel
@@ -108,13 +103,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
         binding.filterButton.setOnClickListener {
             findNavController().navigate(R.id.action_searchFragment_to_filterFragment)
-        }
-
-        CoroutineScope(Dispatchers.IO).launch {
-            val apiService by inject<ApiService> ()
-            val result = apiService.getAreas()
-            println("!!!!!!!! $result")
-
         }
 
 

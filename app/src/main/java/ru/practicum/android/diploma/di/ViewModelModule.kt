@@ -11,7 +11,8 @@ val viewModelModule = module {
     viewModel {
         SearchViewModel(
             searchVacanciesInteractor = get(),
-            context = androidApplication()
+            context = androidApplication(),
+            filtersInteractor = get(),
         )
     }
 
