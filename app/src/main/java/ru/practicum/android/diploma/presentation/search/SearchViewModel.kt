@@ -70,7 +70,6 @@ class SearchViewModel(
         if (!isNextPageLoading) {
             isNextPageLoading = true
             searchJob = viewModelScope.launch {
-
                 val currentFilter = filtersInteractor.getCurrentFilters()
 
                 searchVacanciesInteractor.searchVacancies(

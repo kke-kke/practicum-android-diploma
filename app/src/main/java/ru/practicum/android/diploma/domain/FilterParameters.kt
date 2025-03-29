@@ -8,7 +8,7 @@ data class FilterParameters(
     val industryName: String,
     val salary: Int?,
     val onlyWithSalary: Boolean
-){
+) {
     companion object {
         val defaultFilters = FilterParameters(
             areaId = null,
