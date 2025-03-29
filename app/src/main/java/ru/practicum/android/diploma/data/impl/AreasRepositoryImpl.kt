@@ -15,12 +15,12 @@ class AreasRepositoryImpl(
 
     override suspend fun getAllAreas(): Result<List<AreaExtended>> {
         return withContext(Dispatchers.IO) {
-            kotlin.runCatching {
+            runCatching {
                 val response = apiService.getAreas().call()
                 when (response) {
                     is Response.Success -> response.data.toDomainList()
                     is Response.Error -> {
-                        throw IllegalStateException("Ошибка загрузки региона: ${response.errorMessage}")
+                        error("Ошибка загрузки региона: ${response.errorMessage}")
                     }
                 }
             }

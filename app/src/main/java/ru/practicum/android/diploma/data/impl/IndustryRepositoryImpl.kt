@@ -15,7 +15,7 @@ class IndustryRepositoryImpl(
 
     override suspend fun getIndustries(): Result<List<Industry>> {
         return withContext(Dispatchers.IO) {
-            kotlin.runCatching {
+            runCatching {
                 val response = apiService.getIndustries().call()
                 when (response) {
                     is Response.Success -> {
@@ -23,7 +23,7 @@ class IndustryRepositoryImpl(
                         data
                     }
                     is Response.Error -> {
-                        throw IllegalStateException("Ошибка загрузки списка индустрий: ${response.errorMessage}")
+                        error("Ошибка загрузки списка индустрий: ${response.errorMessage}")
                     }
                 }
             }
