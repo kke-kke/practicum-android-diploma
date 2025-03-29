@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="?attr/background"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/industryName"
+        style="@style/text_style"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:text="@string/industry"
+        android:layout_marginEnd="@dimen/dimen_8"/>
+
+    <RadioButton
+        android:id="@+id/radioButton"
+        android:layout_width="30dp"
+        android:layout_height="48dp"
+        android:gravity="center"
+        app:buttonTint="@color/yp_blue" />
+</LinearLayout>
