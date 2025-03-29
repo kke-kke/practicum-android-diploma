@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/job_filter_linear_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.filters.CountryFilterFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/countryFilterToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navbar_height"
+        android:background="?attr/background"
+        android:elevation="0dp"
+        app:navigationIcon="@drawable/arrow_back"
+        app:title="@string/choose_country"
+        app:titleTextAppearance="@style/title_text_style"
+        app:titleTextColor="?attr/colorOnBackground" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/countriesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/dimen_16"
+        android:paddingBottom="80dp"
+        android:visibility="visible"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/area_view" />
+
+</LinearLayout>
