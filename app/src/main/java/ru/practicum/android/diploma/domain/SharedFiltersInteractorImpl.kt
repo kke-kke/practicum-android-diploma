@@ -7,7 +7,7 @@ class SharedFiltersInteractorImpl(
         return filtersRepository.getCurrentFilters() ?: FilterParameters.defaultFilters
     }
 
-    override suspend fun saveAreaFilter(areaId: String, areaParentId: String, areaName: String) {
+    override suspend fun saveAreaFilter(areaId: Int?, areaParentId: String, areaName: String) {
         filtersRepository.updateFilters { current ->
             (current ?: FilterParameters.defaultFilters).copy(
                 areaId = areaId,
@@ -17,7 +17,7 @@ class SharedFiltersInteractorImpl(
         }
     }
 
-    override suspend fun saveIndustryFilter(industryId: String, industryName: String) {
+    override suspend fun saveIndustryFilter(industryId: Int?, industryName: String) {
         filtersRepository.updateFilters { current ->
             (current ?: FilterParameters.defaultFilters).copy(
                 industryId = industryId,
@@ -26,11 +26,10 @@ class SharedFiltersInteractorImpl(
         }
     }
 
-    override suspend fun saveSalary(salary: Int, currency: String) {
+    override suspend fun saveSalary(salary: Int?) {
         filtersRepository.updateFilters { current ->
             (current ?: FilterParameters.defaultFilters).copy(
-                salary = salary,
-                currency = currency
+                salary = salary
             )
         }
     }

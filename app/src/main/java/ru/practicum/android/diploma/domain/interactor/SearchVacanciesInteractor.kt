@@ -6,6 +6,10 @@ interface SearchVacanciesInteractor {
     fun searchVacancies(
         text: String,
         page: Int,
-        perPage: Int
+        perPage: Int,
+        areaId: Int?,
+        industryId: Int?,
+        salary: Int?,
+        onlyWithSalary: Boolean
     ): Flow<SearchVacanciesResult>?
 }

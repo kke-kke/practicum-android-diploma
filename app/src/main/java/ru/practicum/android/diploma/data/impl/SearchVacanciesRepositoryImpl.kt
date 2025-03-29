@@ -16,7 +16,11 @@ class SearchVacanciesRepositoryImpl(
     override fun searchVacancies(
         text: String,
         page: Int,
-        perPage: Int
+        perPage: Int,
+        areaId: Int?,
+        industryId: Int?,
+        salary: Int?,
+        onlyWithSalary: Boolean
     ): Flow<VacanciesStateLoad> {
         return flow {
             emit(VacanciesStateLoad(isLoading = true))
@@ -24,7 +28,11 @@ class SearchVacanciesRepositoryImpl(
                 apiService.searchVacancies(
                     text = text,
                     page = page,
-                    perPage = perPage
+                    perPage = perPage,
+                    areaId = areaId,
+                    industryId = industryId,
+                    salary = salary,
+                    onlyWithSalary = onlyWithSalary,
                 ).call()
             }.getOrNull()
             emit(

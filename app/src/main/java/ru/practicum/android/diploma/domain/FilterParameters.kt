@@ -1,24 +1,22 @@
 package ru.practicum.android.diploma.domain
 
 data class FilterParameters(
-    val areaId: String,
+    val areaId: Int?,
     val areaParentId: String,
     val areaName: String,
-    val industryId: String,
+    val industryId: Int?,
     val industryName: String,
-    val salary: Int,
-    val currency: String,
+    val salary: Int?,
     val onlyWithSalary: Boolean
 ){
     companion object {
         val defaultFilters = FilterParameters(
-            areaId = "",
+            areaId = null,
             areaParentId = "",
             areaName = "",
-            industryId = "",
+            industryId = null,
             industryName = "",
-            salary = 0,
-            currency = "RUR",
+            salary = null,
             onlyWithSalary = false
         )
     }

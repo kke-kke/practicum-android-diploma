@@ -44,10 +44,17 @@ class SearchViewModel(
 
         searchJob = viewModelScope.launch {
             delay(SEARCH_DEBOUNCE_DELAY_IN_MLS)
+
+            val currentFilter = filtersInteractor.getCurrentFilters()
+
             searchVacanciesInteractor.searchVacancies(
                 text = lastSearchText,
                 page = currentPage,
-                perPage = Constants.VACANCIES_PER_PAGE
+                perPage = Constants.VACANCIES_PER_PAGE,
+                areaId = currentFilter.areaId,
+                industryId = currentFilter.industryId,
+                salary = currentFilter.salary,
+                onlyWithSalary = currentFilter.onlyWithSalary,
             )?.collect { searchVacanciesResult ->
                 val state: VacanciesScreenState = handleState(searchVacanciesResult)
                 setScreenState(state)
@@ -63,10 +70,17 @@ class SearchViewModel(
         if (!isNextPageLoading) {
             isNextPageLoading = true
             searchJob = viewModelScope.launch {
+
+                val currentFilter = filtersInteractor.getCurrentFilters()
+
                 searchVacanciesInteractor.searchVacancies(
                     text = lastSearchText,
                     page = currentPage + 1,
-                    perPage = Constants.VACANCIES_PER_PAGE
+                    perPage = Constants.VACANCIES_PER_PAGE,
+                    areaId = currentFilter.areaId,
+                    industryId = currentFilter.industryId,
+                    salary = currentFilter.salary,
+                    onlyWithSalary = currentFilter.onlyWithSalary,
                 )?.collect { searchVacanciesResult ->
                     val state: VacanciesScreenState = handleState(searchVacanciesResult)
                     setScreenState(state)
