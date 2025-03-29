@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.data
 
 import android.content.Context
+import androidx.core.content.edit
 import com.google.gson.Gson
 import ru.practicum.android.diploma.domain.FilterParameters
 import ru.practicum.android.diploma.util.deserialize
@@ -8,7 +9,6 @@ import ru.practicum.android.diploma.util.serialize
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.concurrent.read
 import kotlin.concurrent.write
-import androidx.core.content.edit
 
 class SharedFiltersStorage(
     private val context: Context,
@@ -46,6 +46,4 @@ class SharedFiltersStorage(
         private const val PREFERENCES = "app_preferences_filters"
         private const val FILTERS = "filters"
     }
-
-
 }

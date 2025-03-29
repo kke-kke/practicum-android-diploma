@@ -1,6 +1,6 @@
 package ru.practicum.android.diploma.domain
 
-data class FilterParameters (
+data class FilterParameters(
     val areaId: String,
     val areaParentId: String,
     val areaName: String,
