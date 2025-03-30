@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFilterBinding
 import ru.practicum.android.diploma.ui.BaseFragment
@@ -57,6 +58,10 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
                     requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
                 inputMethodManager?.hideSoftInputFromWindow(it.windowToken, 0)
                 etSalary.clearFocus()
+            }
+
+            tvIndustryChoose.setOnClickListener {
+                findNavController().navigate(R.id.action_filterFragment_to_industryFilterFragment)
             }
         }
     }

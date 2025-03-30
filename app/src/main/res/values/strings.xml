@@ -56,6 +56,9 @@
     <string name="country">Страна</string>
     <string name="select">Выбрать</string>
     <string name="type_in_region">Введите регион</string>
+    <!-- Экран отрасли -->
+    <string name="enter_industry">Введите отрасль</string>
+    <string name="no_industries">Такой отрасли нет</string>
 
     <plurals name="vacancy_count">
         <item quantity="one">вакансия</item>
