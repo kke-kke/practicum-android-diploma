@@ -17,41 +17,6 @@ class SharedFiltersInteractorImpl(
         }
     }
 
-    override fun saveAreaFilter(areaId: String?, areaParentId: String, areaName: String) {
-        filtersRepository.updateFilters { current ->
-            (current ?: FilterParameters.defaultFilters).copy(
-                areaId = areaId,
-                areaParentId = areaParentId,
-                areaName = areaName
-            )
-        }
-    }
-
-    override fun saveIndustryFilter(industryId: String?, industryName: String) {
-        filtersRepository.updateFilters { current ->
-            (current ?: FilterParameters.defaultFilters).copy(
-                industryId = industryId,
-                industryName = industryName
-            )
-        }
-    }
-
-    override fun saveSalary(salary: Int?) {
-        filtersRepository.updateFilters { current ->
-            (current ?: FilterParameters.defaultFilters).copy(
-                salary = salary
-            )
-        }
-    }
-
-    override fun setOnlyWithSalary(onlyWithSalary: Boolean) {
-        filtersRepository.updateFilters { current ->
-            (current ?: FilterParameters.defaultFilters).copy(
-                onlyWithSalary = onlyWithSalary
-            )
-        }
-    }
-
     override fun clearFilters() {
         filtersRepository.clearFilters()
     }
