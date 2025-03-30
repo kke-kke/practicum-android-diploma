@@ -72,6 +72,14 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">vertical</item>
     </style>
+    <style name="job_filter_linear_layout">
+        <item name="android:orientation">vertical</item>
+        <item name="android:background">?attr/background</item>
+    </style>
+    <style name="text_input_no_input_style">
+        <item name="boxStrokeColor">@android:color/transparent</item>
+        <item name="boxStrokeWidth">0dp</item>
+    </style>
     <!-- Экран вакансии -->
     <style name="company_linear_layout" >
         <item name="android:layout_width">match_parent</item>
