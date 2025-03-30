@@ -7,17 +7,17 @@ import ru.practicum.android.diploma.domain.storage.SharedFiltersRepository
 class SharedFiltersInteractorImpl(
     private val filtersRepository: SharedFiltersRepository
 ) : SharedFiltersInteractor {
-    override suspend fun getCurrentFilters(): FilterParameters {
+    override fun getCurrentFilters(): FilterParameters {
         return filtersRepository.getCurrentFilters() ?: FilterParameters.defaultFilters
     }
 
-    override suspend fun saveAllFilters(filters: FilterParameters) {
+    override fun saveAllFilters(filters: FilterParameters) {
         filtersRepository.updateFilters {
             filters
         }
     }
 
-    override suspend fun saveAreaFilter(areaId: String?, areaParentId: String, areaName: String) {
+    override fun saveAreaFilter(areaId: String?, areaParentId: String, areaName: String) {
         filtersRepository.updateFilters { current ->
             (current ?: FilterParameters.defaultFilters).copy(
                 areaId = areaId,
@@ -27,7 +27,7 @@ class SharedFiltersInteractorImpl(
         }
     }
 
-    override suspend fun saveIndustryFilter(industryId: String?, industryName: String) {
+    override fun saveIndustryFilter(industryId: String?, industryName: String) {
         filtersRepository.updateFilters { current ->
             (current ?: FilterParameters.defaultFilters).copy(
                 industryId = industryId,
@@ -36,7 +36,7 @@ class SharedFiltersInteractorImpl(
         }
     }
 
-    override suspend fun saveSalary(salary: Int?) {
+    override fun saveSalary(salary: Int?) {
         filtersRepository.updateFilters { current ->
             (current ?: FilterParameters.defaultFilters).copy(
                 salary = salary
@@ -44,7 +44,7 @@ class SharedFiltersInteractorImpl(
         }
     }
 
-    override suspend fun setOnlyWithSalary(onlyWithSalary: Boolean) {
+    override fun setOnlyWithSalary(onlyWithSalary: Boolean) {
         filtersRepository.updateFilters { current ->
             (current ?: FilterParameters.defaultFilters).copy(
                 onlyWithSalary = onlyWithSalary
@@ -52,7 +52,7 @@ class SharedFiltersInteractorImpl(
         }
     }
 
-    override suspend fun clearFilters() {
+    override fun clearFilters() {
         filtersRepository.clearFilters()
     }
 
