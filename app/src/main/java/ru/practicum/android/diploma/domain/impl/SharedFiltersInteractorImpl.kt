@@ -11,6 +11,12 @@ class SharedFiltersInteractorImpl(
         return filtersRepository.getCurrentFilters() ?: FilterParameters.defaultFilters
     }
 
+    override suspend fun saveAllFilters(filters: FilterParameters) {
+        filtersRepository.updateFilters {
+            filters
+        }
+    }
+
     override suspend fun saveAreaFilter(areaId: String?, areaParentId: String, areaName: String) {
         filtersRepository.updateFilters { current ->
             (current ?: FilterParameters.defaultFilters).copy(
