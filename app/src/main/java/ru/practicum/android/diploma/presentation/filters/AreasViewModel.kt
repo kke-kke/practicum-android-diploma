@@ -44,17 +44,22 @@ class AreasViewModel(
 
     fun searchRegions(query: String) {
         viewModelScope.launch {
-            try {
-                val filteredRegions = currentRegions.filter { it.name.contains(query, ignoreCase = true) }
-
-                _screenState.value = if (filteredRegions.isEmpty()) {
-                    AreasScreenState.Error
-                } else {
-                    AreasScreenState.Success(filteredRegions)
+            Result.success(currentRegions)
+                .map { regions ->
+                    regions.filter { it.name.contains(query, ignoreCase = true) }
                 }
-            } catch (e: Exception) {
-                _screenState.value = AreasScreenState.Error
-            }
+                .fold(
+                    onSuccess = { filteredRegions ->
+                        _screenState.value = if (filteredRegions.isEmpty()) {
+                            AreasScreenState.Error
+                        } else {
+                            AreasScreenState.Success(filteredRegions)
+                        }
+                    },
+                    onFailure = {
+                        _screenState.value = AreasScreenState.Error
+                    }
+                )
         }
     }
 }
