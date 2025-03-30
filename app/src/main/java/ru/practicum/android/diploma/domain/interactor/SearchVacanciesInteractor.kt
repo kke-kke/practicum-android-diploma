@@ -7,8 +7,8 @@ interface SearchVacanciesInteractor {
         text: String,
         page: Int,
         perPage: Int,
-        areaId: Int?,
-        industryId: Int?,
+        areaId: String?,
+        industryId: String?,
         salary: Int?,
         onlyWithSalary: Boolean
     ): Flow<SearchVacanciesResult>?
