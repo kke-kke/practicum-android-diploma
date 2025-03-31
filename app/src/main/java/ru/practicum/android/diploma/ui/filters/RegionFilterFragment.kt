@@ -27,7 +27,7 @@ class RegionFilterFragment : BaseFragment<FragmentRegionFilterBinding>() {
 
             override fun afterTextChanged(s: Editable?) {
                 if (s.isNullOrEmpty()) {
-                    setArrowIcon()
+                    setSearchIcon()
                 } else {
                     setClearIcon()
                 }
@@ -36,21 +36,23 @@ class RegionFilterFragment : BaseFragment<FragmentRegionFilterBinding>() {
         })
     }
 
-    private fun setArrowIcon() {
-        binding.regionSearchBarContainer.endIconMode = TextInputLayout.END_ICON_NONE
-        binding.regionSearchBarContainer.endIconMode = TextInputLayout.END_ICON_CUSTOM
-        binding.regionSearchBarContainer.setEndIconDrawable(R.drawable.arrow_forward)
-        binding.regionSearchBarContainer.setEndIconOnClickListener {
-            goToJobPlaceFilterFragment()
+    private fun setSearchIcon() {
+        with(binding) {
+            regionSearchBarContainer.endIconMode = TextInputLayout.END_ICON_NONE
+            regionSearchBarContainer.endIconMode = TextInputLayout.END_ICON_CUSTOM
+            regionSearchBarContainer.setEndIconDrawable(R.drawable.ic_search)
+            regionSearchBarContainer.setEndIconOnClickListener(null)
         }
     }
 
     private fun setClearIcon() {
-        binding.regionSearchBarContainer.endIconMode = TextInputLayout.END_ICON_NONE
-        binding.regionSearchBarContainer.endIconMode = TextInputLayout.END_ICON_CUSTOM
-        binding.regionSearchBarContainer.setEndIconDrawable(R.drawable.ic_close)
-        binding.regionSearchBarContainer.setEndIconOnClickListener {
-            binding.regionSearchBar.text?.clear()
+        with(binding) {
+            regionSearchBarContainer.endIconMode = TextInputLayout.END_ICON_NONE
+            regionSearchBarContainer.endIconMode = TextInputLayout.END_ICON_CUSTOM
+            regionSearchBarContainer.setEndIconDrawable(R.drawable.ic_close)
+            regionSearchBarContainer.setEndIconOnClickListener {
+                regionSearchBar.text?.clear()
+            }
         }
     }
 

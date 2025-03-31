@@ -65,8 +65,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                     adapter.updateVacancyList(emptyList())
                     errorMessageVisibility()
                     vacancyCountVisibility()
-                    viewModel.searchVacancies(searchedText = s.toString())
                 }
+                viewModel.searchVacancies(searchedText = s.toString())
             }
         })
 
@@ -104,7 +104,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         binding.filterButton.setOnClickListener {
             findNavController().navigate(R.id.action_searchFragment_to_filterFragment)
         }
-
     }
 
     private fun showServerError() {

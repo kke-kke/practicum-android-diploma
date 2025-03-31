@@ -3,36 +3,27 @@ package ru.practicum.android.diploma.presentation.filters
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import ru.practicum.android.diploma.domain.interactor.FilterInteractor
 import ru.practicum.android.diploma.domain.models.FilterParameters
+import ru.practicum.android.diploma.domain.storage.SharedFiltersInteractor
 
 class FilterViewModel(
-    private val filterInteractor: FilterInteractor
+    private val filtersInteractor: SharedFiltersInteractor
 ) : ViewModel() {
 
     private val _filterParameters = MutableLiveData<FilterParameters>()
     val filterParameters: LiveData<FilterParameters> = _filterParameters
 
     init {
-        _filterParameters.value = filterInteractor.getCurrentFilter()
+        _filterParameters.value = filtersInteractor.getCurrentFilters()
     }
 
     fun updateFilter(updated: FilterParameters) {
         _filterParameters.value = updated
-        filterInteractor.saveFilter(updated)
+        filtersInteractor.saveAllFilters(updated)
     }
 
     fun clearFilter() {
-        filterInteractor.clearFilter()
-        _filterParameters.value = FilterParameters(
-            salaryFrom = null,
-            excludeNoSalary = false,
-            industryId = null,
-            industryName = null,
-            countryId = null,
-            countryName = null,
-            regionId = null,
-            regionName = null
-        )
+        filtersInteractor.clearFilters()
+        _filterParameters.value = FilterParameters.defaultFilters
     }
 }

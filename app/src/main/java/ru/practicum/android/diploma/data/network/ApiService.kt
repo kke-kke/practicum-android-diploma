@@ -15,14 +15,15 @@ interface ApiService {
         "HH-User-Agent: Pocket Job (kovaleva.ksenia.e@gmail.com)"
     )
     @GET("vacancies")
+
     suspend fun searchVacancies(
         @Query("text") text: String,
         @Query("page") page: Int,
         @Query("per_page") perPage: Int,
-        @Query("salary_from") salaryFrom: Int? = null,
-        @Query("only_with_salary") onlyWithSalary: Boolean? = null,
-        @Query("industry") industryId: String? = null,
         @Query("area") areaId: String? = null,
+        @Query("industry") industryId: String? = null,
+        @Query("salary") salary: Int? = null,
+        @Query("only_with_salary") onlyWithSalary: Boolean = false,
     ): Response<VacanciesResponse>
 
     @Headers(
