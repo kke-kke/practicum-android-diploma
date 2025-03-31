@@ -104,7 +104,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         binding.filterButton.setOnClickListener {
             findNavController().navigate(R.id.action_searchFragment_to_filterFragment)
         }
-
     }
 
     private fun showServerError() {

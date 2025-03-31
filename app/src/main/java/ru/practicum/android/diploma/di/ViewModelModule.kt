@@ -14,7 +14,8 @@ val viewModelModule = module {
     viewModel {
         SearchViewModel(
             searchVacanciesInteractor = get(),
-            context = androidApplication()
+            context = androidApplication(),
+            filtersInteractor = get(),
         )
     }
 
@@ -33,7 +34,7 @@ val viewModelModule = module {
 
     viewModel {
         FilterViewModel(
-            filterInteractor = get()
+            filtersInteractor = get()
         )
     }
 
