@@ -7,7 +7,6 @@ import ru.practicum.android.diploma.databinding.IndustryItemBinding
 import ru.practicum.android.diploma.domain.models.Industry
 import ru.practicum.android.diploma.presentation.filters.IndustryViewModel
 
-
 class IndustryAdapter(
     private val viewModel: IndustryViewModel,
     private var industries: MutableList<Industry> = mutableListOf(),

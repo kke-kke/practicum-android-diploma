@@ -23,10 +23,11 @@ import ru.practicum.android.diploma.util.showCustomSnackBar
 class IndustryFilterFragment : BaseFragment<FragmentIndustryFilterBinding>() {
 
     private val viewModel by viewModel<IndustryViewModel>()
-    
+
     private val adapter: IndustryAdapter by lazy {
         IndustryAdapter(viewModel, clickListener = { industry -> showIndustryDetail(industry) })
     }
+
     private fun showIndustryDetail(industry: Industry) {
         binding.selectButton.isVisible = true
         val result = Bundle().apply {
@@ -93,10 +94,6 @@ class IndustryFilterFragment : BaseFragment<FragmentIndustryFilterBinding>() {
                 hideKeyboard()
             }
         }
-    }
-
-    private fun recyclerViewVisibility(isShown: Boolean = false) {
-        binding.searchIndustryRecyclerView.isVisible = isShown
     }
 
     private fun showLoading() {

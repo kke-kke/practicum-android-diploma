@@ -9,7 +9,6 @@ import ru.practicum.android.diploma.domain.interactor.IndustryInteractor
 import ru.practicum.android.diploma.domain.models.Industry
 import ru.practicum.android.diploma.presentation.state.IndustryScreenState
 
-
 class IndustryViewModel(
     private val industryInteractor: IndustryInteractor
 ) : ViewModel() {
