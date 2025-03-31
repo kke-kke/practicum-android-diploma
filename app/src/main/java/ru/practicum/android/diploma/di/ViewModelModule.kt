@@ -4,11 +4,12 @@ import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import ru.practicum.android.diploma.presentation.favourites.FavouritesViewModel
-import ru.practicum.android.diploma.presentation.filters.AreasViewModel
+import ru.practicum.android.diploma.presentation.filters.CountryViewModel
 import ru.practicum.android.diploma.presentation.search.SearchViewModel
 import ru.practicum.android.diploma.presentation.vacancydetails.VacancyDetailsViewModel
 import ru.practicum.android.diploma.presentation.filters.FilterViewModel
 import ru.practicum.android.diploma.presentation.filters.IndustryViewModel
+import ru.practicum.android.diploma.presentation.filters.RegionViewModel
 
 val viewModelModule = module {
 
@@ -46,7 +47,13 @@ val viewModelModule = module {
     }
 
     viewModel {
-        AreasViewModel(
+        CountryViewModel(
+            areasInteractor = get()
+        )
+    }
+
+    viewModel {
+        RegionViewModel(
             areasInteractor = get()
         )
     }
