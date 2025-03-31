@@ -31,7 +31,12 @@ class SearchViewModel(
     private var oldList = listOf<Vacancy>()
 
     fun searchVacancies(searchedText: String) {
-        if (searchedText.isEmpty() or (searchedText == lastSearchText)) {
+        if (searchedText.isEmpty()) {
+            searchJob?.cancel()
+            return
+        }
+
+        if (searchedText == lastSearchText) {
             return
         }
 
