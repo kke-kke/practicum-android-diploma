@@ -60,6 +60,10 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
                 etSalary.clearFocus()
             }
 
+            tvWplChoose.setOnClickListener {
+                findNavController().navigate(R.id.action_filterFragment_to_jobPlaceFragment)
+            }
+
             tvIndustryChoose.setOnClickListener {
                 findNavController().navigate(R.id.action_filterFragment_to_industryFilterFragment)
             }

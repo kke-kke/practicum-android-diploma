@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentJobPlaceFilterBinding
@@ -22,6 +21,26 @@ class JobPlaceFilterFragment : BaseFragment<FragmentJobPlaceFilterBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initClickListeners()
+        initTextChangeListeners()
+
+    }
+
+    private fun initClickListeners() {
+        binding.jobPlaceFilterToolbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
+
+        binding.countryTextView.setOnClickListener {
+            goToCountryFilterFragment()
+        }
+
+        binding.regionTextView.setOnClickListener {
+            goToRegionFilterFragment()
+        }
+    }
+
+    private fun initTextChangeListeners() {
         binding.countryTextView.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
 
@@ -31,7 +50,7 @@ class JobPlaceFilterFragment : BaseFragment<FragmentJobPlaceFilterBinding>() {
                 if (s.isNullOrEmpty()) {
                     setArrowIcon(binding.countryTextInputLayout, onClickAction = ::goToCountryFilterFragment)
                 } else {
-                    setClearIcon(binding.countryTextInputLayout, binding.countryTextView)
+                    setClearIcon(binding.countryTextInputLayout)
                 }
             }
 
@@ -46,7 +65,7 @@ class JobPlaceFilterFragment : BaseFragment<FragmentJobPlaceFilterBinding>() {
                 if (s.isNullOrEmpty()) {
                     setArrowIcon(binding.regionTextInputLayout, onClickAction = ::goToRegionFilterFragment)
                 } else {
-                    setClearIcon(binding.regionTextInputLayout, binding.regionTextView)
+                    setClearIcon(binding.regionTextInputLayout)
                 }
             }
 
@@ -54,20 +73,20 @@ class JobPlaceFilterFragment : BaseFragment<FragmentJobPlaceFilterBinding>() {
     }
 
     private fun setArrowIcon(textInputLayout: TextInputLayout, onClickAction: () -> Unit) {
-        textInputLayout.endIconMode = TextInputLayout.END_ICON_NONE
-        textInputLayout.endIconMode = TextInputLayout.END_ICON_CUSTOM
-        textInputLayout.setEndIconDrawable(R.drawable.arrow_forward)
-        textInputLayout.setEndIconOnClickListener {
-            onClickAction()
+        textInputLayout.apply {
+            endIconMode = TextInputLayout.END_ICON_NONE
+            endIconMode = TextInputLayout.END_ICON_CUSTOM
+            setEndIconDrawable(R.drawable.arrow_forward)
+            setEndIconOnClickListener { onClickAction() }
         }
     }
 
-    private fun setClearIcon(textInputLayout: TextInputLayout, textInputEditText: TextInputEditText) {
-        textInputLayout.endIconMode = TextInputLayout.END_ICON_NONE
-        textInputLayout.endIconMode = TextInputLayout.END_ICON_CUSTOM
-        textInputLayout.setEndIconDrawable(R.drawable.ic_close)
-        textInputLayout.setEndIconOnClickListener {
-            textInputEditText.text?.clear()
+    private fun setClearIcon(textInputLayout: TextInputLayout) {
+        textInputLayout.apply {
+            endIconMode = TextInputLayout.END_ICON_NONE
+            endIconMode = TextInputLayout.END_ICON_CUSTOM
+            setEndIconDrawable(R.drawable.ic_close)
+            setEndIconOnClickListener { editText?.text?.clear() }
         }
     }
 

@@ -35,6 +35,7 @@
             android:padding="@dimen/dimen_8"
             android:singleLine="true"
             android:textAppearance="@style/text_style"
+            android:textColor="@color/yp_black"
             android:textColorHint="?attr/colorOnSecondary"
             android:textCursorDrawable="@drawable/custom_cursor" />
 
