@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.interactor.AreasInteractor
 import ru.practicum.android.diploma.domain.models.AreaExtended
+import ru.practicum.android.diploma.presentation.state.CountryScreenState
 
 class CountryViewModel(
     private val areasInteractor: AreasInteractor

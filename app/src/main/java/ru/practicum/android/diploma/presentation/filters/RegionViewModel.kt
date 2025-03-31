@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ru.practicum.android.diploma.domain.interactor.AreasInteractor
 import ru.practicum.android.diploma.domain.models.AreaExtended
+import ru.practicum.android.diploma.presentation.state.RegionScreenState
 
 class RegionViewModel(
     private val areasInteractor: AreasInteractor
