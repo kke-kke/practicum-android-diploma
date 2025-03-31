@@ -7,12 +7,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.interactor.IndustryInteractor
 import ru.practicum.android.diploma.domain.models.Industry
+import ru.practicum.android.diploma.presentation.state.IndustryScreenState
 
-sealed class IndustryScreenState {
-    object Loading : IndustryScreenState()
-    data class Success(val industries: List<Industry>) : IndustryScreenState()
-    object Error : IndustryScreenState()
-}
 
 class IndustryViewModel(
     private val industryInteractor: IndustryInteractor
@@ -25,6 +21,13 @@ class IndustryViewModel(
 
     init {
         loadIndustries()
+    }
+
+    private val _selectedIndustryId = MutableLiveData<String?>()
+    val selectedIndustryId: LiveData<String?> get() = _selectedIndustryId
+
+    fun selectIndustry(id: String?) {
+        _selectedIndustryId.value = id
     }
 
     private fun loadIndustries() {

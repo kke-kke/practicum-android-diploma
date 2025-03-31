@@ -4,15 +4,36 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.textfield.TextInputLayout
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentIndustryFilterBinding
+import ru.practicum.android.diploma.domain.models.Industry
+import ru.practicum.android.diploma.presentation.state.IndustryScreenState
+import ru.practicum.android.diploma.presentation.filters.IndustryViewModel
 import ru.practicum.android.diploma.ui.BaseFragment
 import ru.practicum.android.diploma.util.hideKeyboard
+import ru.practicum.android.diploma.util.showCustomSnackBar
 
 class IndustryFilterFragment : BaseFragment<FragmentIndustryFilterBinding>() {
+
+    private val viewModel by viewModel<IndustryViewModel>()
+    
+    private val adapter: IndustryAdapter by lazy {
+        IndustryAdapter(viewModel, clickListener = { industry -> showIndustryDetail(industry) })
+    }
+    private fun showIndustryDetail(industry: Industry) {
+        binding.selectButton.isVisible = true
+        val result = Bundle().apply {
+            putSerializable("industry", industry)
+        }
+        setFragmentResult("industryKey", result)
+    }
 
     override fun onCreateBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentIndustryFilterBinding {
         return FragmentIndustryFilterBinding.inflate(inflater, container, false)
@@ -20,6 +41,9 @@ class IndustryFilterFragment : BaseFragment<FragmentIndustryFilterBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.searchIndustryRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.searchIndustryRecyclerView.adapter = adapter
 
         binding.industryFilterToolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
@@ -32,8 +56,21 @@ class IndustryFilterFragment : BaseFragment<FragmentIndustryFilterBinding>() {
                 } else {
                     setClearIcon()
                 }
+                viewModel.filterIndustries(s.toString())
             }
         )
+
+        viewModel.screenState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is IndustryScreenState.Loading -> showLoading()
+                is IndustryScreenState.Success -> showContent(industryList = state.industries)
+                is IndustryScreenState.Error -> errorMessageVisibility(isShowUnknownError = true)
+            }
+        }
+
+        binding.selectButton.setOnClickListener {
+            findNavController().navigateUp()
+        }
 
     }
 
@@ -55,6 +92,43 @@ class IndustryFilterFragment : BaseFragment<FragmentIndustryFilterBinding>() {
                 binding.searchIndustryBar.text?.clear()
                 hideKeyboard()
             }
+        }
+    }
+
+    private fun recyclerViewVisibility(isShown: Boolean = false) {
+        binding.searchIndustryRecyclerView.isVisible = isShown
+    }
+
+    private fun showLoading() {
+        progressBarVisibility(isShown = true)
+        errorMessageVisibility()
+    }
+
+    private fun progressBarVisibility(isShown: Boolean = false) {
+        binding.progressBarContent.isVisible = isShown
+    }
+
+    private fun showContent(industryList: List<Industry>) {
+        adapter.setItems(industryList.toMutableList())
+
+        progressBarVisibility()
+        if (industryList.isEmpty()) {
+            errorMessageVisibility(isShowNothingFound = true)
+        } else { errorMessageVisibility() }
+    }
+
+    private fun errorMessageVisibility(
+        isShowNothingFound: Boolean = false,
+        isShowUnknownError: Boolean = false
+    ) {
+        binding.notFound.isVisible = isShowNothingFound
+        binding.unknownError.isVisible = isShowUnknownError
+        if (isShowUnknownError) {
+            showCustomSnackBar(
+                getString(R.string.toast_error) + ". " + getString(R.string.failed_to_get_list),
+                binding.root,
+                requireContext()
+            )
         }
     }
 
