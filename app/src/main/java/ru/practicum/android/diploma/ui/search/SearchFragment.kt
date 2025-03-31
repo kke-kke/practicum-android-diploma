@@ -65,8 +65,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                     adapter.updateVacancyList(emptyList())
                     errorMessageVisibility()
                     vacancyCountVisibility()
-                    viewModel.searchVacancies(searchedText = s.toString())
                 }
+                viewModel.searchVacancies(searchedText = s.toString())
             }
         })
 
