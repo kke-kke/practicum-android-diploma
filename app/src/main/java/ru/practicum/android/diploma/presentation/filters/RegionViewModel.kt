@@ -3,8 +3,6 @@ package ru.practicum.android.diploma.presentation.filters
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.interactor.AreasInteractor
 import ru.practicum.android.diploma.domain.models.AreaExtended
 
