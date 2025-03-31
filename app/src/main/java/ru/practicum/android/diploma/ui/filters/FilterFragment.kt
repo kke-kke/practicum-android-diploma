@@ -11,9 +11,11 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFilterBinding
+import ru.practicum.android.diploma.domain.models.Industry
 import ru.practicum.android.diploma.ui.BaseFragment
 
 class FilterFragment : BaseFragment<FragmentFilterBinding>() {
@@ -62,6 +64,20 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
 
             tvIndustryChoose.setOnClickListener {
                 findNavController().navigate(R.id.action_filterFragment_to_industryFilterFragment)
+            }
+
+            viewIndustryChoose.setOnClickListener {
+                findNavController().navigate(R.id.action_filterFragment_to_industryFilterFragment)
+            }
+
+            // Получение результата выбора с экрана "Отрасль"
+            setFragmentResultListener("industryKey") { _, bundle ->
+                val industry = bundle.getSerializable("industry") as? Industry
+                if (industry != null) {
+                    tvIndustryChoose.visibility = View.GONE
+                    viewIndustryChoose.visibility = View.VISIBLE
+                    tvIndustry.text = industry.name
+                }
             }
         }
     }
