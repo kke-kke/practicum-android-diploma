@@ -13,15 +13,18 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFilterBinding
 import ru.practicum.android.diploma.domain.models.FilterParameters
 import ru.practicum.android.diploma.domain.models.Industry
+import ru.practicum.android.diploma.presentation.filters.FilterViewModel
 import ru.practicum.android.diploma.ui.BaseFragment
 
 class FilterFragment : BaseFragment<FragmentFilterBinding>() {
 
     private var textWatcher: TextWatcher? = null
+    private val viewModel: FilterViewModel by viewModel()
 
     override fun onCreateBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentFilterBinding {
         return FragmentFilterBinding.inflate(inflater, container, false)
@@ -29,7 +32,16 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.draftFilters.observe(viewLifecycleOwner) { filters ->
+            binding.cbDontShowWithoutSalary.isChecked = filters.onlyWithSalary
+        }
+
         with(binding) {
+            toolbar.setNavigationOnClickListener {
+                findNavController().navigateUp()
+            }
+
             etSalary.setOnFocusChangeListener { _, hasFocus ->
                 val color = if (hasFocus) {
                     ContextCompat.getColor(requireContext(), R.color.yp_blue)
@@ -70,6 +82,104 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
             tvIndustryChoose.setOnClickListener {
                 findNavController().navigate(R.id.action_filterFragment_to_industryFilterFragment)
             }
+            viewIndustryChoose.setOnClickListener {
+                val bundle = Bundle()
+                bundle.putSerializable(
+                    "industry",
+                    Industry(viewModel.draftFilters.value?.industryId, viewModel.draftFilters.value?.industryName)
+                )
+                findNavController().navigate(R.id.action_filterFragment_to_industryFilterFragment, bundle)
+            }
+
+            imgClearIndustry.setOnClickListener {
+                tvIndustryChoose.visibility = View.VISIBLE
+                viewIndustryChoose.visibility = View.GONE
+
+                viewModel.updateFilter(
+                    viewModel.draftFilters.value?.copy(industryId = null, industryName = "")
+                        ?: FilterParameters.defaultFilters.copy(
+                            industryId = null,
+                            industryName = ""
+                        )
+                )
+            }
+
+            // Получение результата выбора с экрана "Отрасль"
+            setFragmentResultListener("industryKey") { _, bundle ->
+                val industry = bundle.getSerializable("industry") as? Industry
+                if (industry != null) {
+                    tvIndustryChoose.visibility = View.GONE
+                    viewIndustryChoose.visibility = View.VISIBLE
+                    tvIndustry.text = industry.name
+
+                    viewModel.updateFilter(
+                        viewModel.draftFilters.value?.copy(industryId = industry.id, industryName = industry.name)
+                            ?: FilterParameters.defaultFilters.copy(
+                                industryId = industry.id,
+                                industryName = industry.name
+                            )
+                    )
+                }
+            }
+
+            cbDontShowWithoutSalary.setOnCheckedChangeListener { _, isChecked ->
+                viewModel.updateFilter(
+                    viewModel.draftFilters.value?.copy(onlyWithSalary = isChecked)
+                        ?: FilterParameters.defaultFilters.copy(onlyWithSalary = isChecked)
+                )
+            }
+
+            tvReset.setOnClickListener {
+                viewModel.clearDraft()
+            }
+
+            btnApply.setOnClickListener {
+                viewModel.applyFilters()
+                findNavController().navigateUp()
+            }
+
+            setupObservers()
+        }
+    }
+
+    private fun setupObservers() {
+        viewModel.draftFilters.observe(viewLifecycleOwner) { filters ->
+            val hasCountry = filters.areaName.isNotEmpty()
+            val hasRegion = filters.areaParentName.isNotEmpty()
+            val isWorkPlaceChosen = hasCountry || hasRegion
+
+            val isIndustryChosen = filters.industryName.isNotEmpty()
+
+            val hasChanges = filters != FilterParameters.defaultFilters
+
+            with(binding) {
+                tvWplChoose.isVisible = !isWorkPlaceChosen
+                chosenPlaceOfWork.isVisible = isWorkPlaceChosen
+                if (isWorkPlaceChosen) {
+                    tvWorkplace.text = buildWorkplaceText(filters)
+                }
+
+                tvIndustryChoose.isVisible = !isIndustryChosen
+                chosenIndustry.isVisible = isIndustryChosen
+                if (isIndustryChosen) {
+                    tvIndustry.text = filters.industryName
+                }
+
+                tvReset.isVisible = hasChanges
+            }
+        }
+
+        viewModel.showApplyButton.observe(viewLifecycleOwner) { show ->
+            binding.btnApply.isVisible = show
+        }
+    }
+
+    private fun buildWorkplaceText(filters: FilterParameters): String {
+        return when {
+            filters.areaParentName.isNotEmpty() && filters.areaName.isNotEmpty() ->
+                "${filters.areaParentName}, ${filters.areaName}"
+            filters.areaName.isNotEmpty() -> filters.areaName
+            else -> filters.areaParentName
 
             viewIndustryChoose.setOnClickListener {
                 val bundle = Bundle()
@@ -119,5 +229,4 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
         }
         super.onDestroyView()
     }
-
 }

@@ -21,4 +21,8 @@ class SharedFiltersInteractorImpl(
         filtersRepository.clearFilters()
     }
 
+    override fun getDraftFilters() = filtersRepository.getDraftFilters() ?: FilterParameters.defaultFilters
+    override fun saveDraftFilters(filters: FilterParameters) = filtersRepository.saveDraftFilters(filters)
+    override fun clearDraftFilters() = filtersRepository.clearDraftFilters()
+
 }

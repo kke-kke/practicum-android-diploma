@@ -42,8 +42,31 @@ class SharedFiltersStorage(
         }
     }
 
+    override fun getDraftFilters(): FilterParameters? {
+        return prefLock.read {
+            sharedPref.getString(DRAFT_FILTERS, null)
+                ?.deserialize<FilterParameters>(gson)
+        }
+    }
+
+    override fun putDraftFilters(filters: FilterParameters) {
+        val filtersToPut: String = filters.serialize(gson)
+        prefLock.write {
+            sharedPref.edit {
+                putString(DRAFT_FILTERS, filtersToPut)
+            }
+        }
+    }
+
+    override fun clearDraftFilters() {
+        prefLock.write {
+            sharedPref.edit { remove(DRAFT_FILTERS) }
+        }
+    }
+
     companion object {
         private const val PREFERENCES = "app_preferences"
         private const val FILTERS = "filters"
+        private const val DRAFT_FILTERS = "draft_filters"
     }
 }
