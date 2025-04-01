@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.setFragmentResult
@@ -28,12 +29,12 @@ class IndustryFilterFragment : BaseFragment<FragmentIndustryFilterBinding>() {
         IndustryAdapter(viewModel, clickListener = { industry -> showIndustryDetail(industry) })
     }
 
+    private var resultBundle: Bundle? = null
     private fun showIndustryDetail(industry: Industry) {
         binding.selectButton.isVisible = true
-        val result = Bundle().apply {
+        resultBundle = Bundle().apply {
             putSerializable("industry", industry)
         }
-        setFragmentResult("industryKey", result)
     }
 
     override fun onCreateBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentIndustryFilterBinding {
@@ -70,9 +71,20 @@ class IndustryFilterFragment : BaseFragment<FragmentIndustryFilterBinding>() {
         }
 
         binding.selectButton.setOnClickListener {
+            resultBundle?.let { setFragmentResult("industryKey", it) }
             findNavController().navigateUp()
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
     }
 
     private fun setSearchIcon() {
