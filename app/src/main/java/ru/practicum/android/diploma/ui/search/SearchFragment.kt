@@ -44,8 +44,11 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
         viewModel.isFiltersApplied.observe(viewLifecycleOwner) { isApplied ->
             binding.filterButton.setImageResource(
-                if (isApplied) R.drawable.ic_filter_on
-                else R.drawable.ic_filter_off
+                if (isApplied) {
+                    R.drawable.ic_filter_on
+                } else {
+                    R.drawable.ic_filter_off
+                }
             )
         }
 
