@@ -56,8 +56,4 @@ class RegionFilterFragment : BaseFragment<FragmentRegionFilterBinding>() {
         }
     }
 
-    private fun goToJobPlaceFilterFragment() {
-        findNavController().navigate(R.id.action_regionFilterFragment_to_jobPlaceFilterFragment)
-    }
-
 }
