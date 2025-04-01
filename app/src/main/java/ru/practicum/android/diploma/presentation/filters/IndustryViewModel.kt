@@ -10,6 +10,7 @@ import ru.practicum.android.diploma.domain.models.Industry
 import ru.practicum.android.diploma.presentation.state.IndustryScreenState
 
 class IndustryViewModel(
+    private val industryName: Industry,
     private val industryInteractor: IndustryInteractor
 ) : ViewModel() {
 
@@ -37,6 +38,7 @@ class IndustryViewModel(
                 onSuccess = { list ->
                     originalList = list
                     _screenState.value = IndustryScreenState.Success(list)
+                    industryName.id?.let { selectIndustry(it) }
                 },
                 onFailure = {
                     _screenState.value = IndustryScreenState.Error

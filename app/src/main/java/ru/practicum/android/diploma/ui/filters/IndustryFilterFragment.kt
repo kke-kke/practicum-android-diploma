@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.textfield.TextInputLayout
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentIndustryFilterBinding
 import ru.practicum.android.diploma.domain.models.Industry
@@ -23,7 +24,10 @@ import ru.practicum.android.diploma.util.showCustomSnackBar
 
 class IndustryFilterFragment : BaseFragment<FragmentIndustryFilterBinding>() {
 
-    private val viewModel by viewModel<IndustryViewModel>()
+    private val industryName: Industry by lazy {
+        arguments?.getSerializable("industry") as Industry
+    }
+    private val viewModel: IndustryViewModel by viewModel { parametersOf(industryName) }
 
     private val adapter: IndustryAdapter by lazy {
         IndustryAdapter(viewModel, clickListener = { industry -> showIndustryDetail(industry) })
