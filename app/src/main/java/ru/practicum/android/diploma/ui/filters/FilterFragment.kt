@@ -83,14 +83,14 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
                 findNavController().navigate(R.id.action_filterFragment_to_industryFilterFragment)
             }
 
-
             viewIndustryChoose.setOnClickListener {
                 val bundle = Bundle()
                 bundle.putSerializable(
                     "industry",
-                    viewModel.draftFilters.value?.industryName?.let { it1 ->
-                        Industry(viewModel.draftFilters.value?.industryId,
-                            it1
+                    viewModel.draftFilters.value?.industryName?.let { name ->
+                        Industry(
+                            id = viewModel.draftFilters.value?.industryId,
+                            name = name
                         )
                     }
                 )

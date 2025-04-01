@@ -41,7 +41,7 @@ val viewModelModule = module {
         )
     }
 
-    viewModel {(industryName: Industry) ->
+    viewModel { (industryName: Industry) ->
         IndustryViewModel(
             industryName = industryName,
             industryInteractor = get()
