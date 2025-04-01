@@ -82,11 +82,17 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
             tvIndustryChoose.setOnClickListener {
                 findNavController().navigate(R.id.action_filterFragment_to_industryFilterFragment)
             }
+
+
             viewIndustryChoose.setOnClickListener {
                 val bundle = Bundle()
                 bundle.putSerializable(
                     "industry",
-                    Industry(viewModel.draftFilters.value?.industryId, viewModel.draftFilters.value?.industryName)
+                    viewModel.draftFilters.value?.industryName?.let { it1 ->
+                        Industry(viewModel.draftFilters.value?.industryId,
+                            it1
+                        )
+                    }
                 )
                 findNavController().navigate(R.id.action_filterFragment_to_industryFilterFragment, bundle)
             }
@@ -180,46 +186,6 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
                 "${filters.areaParentName}, ${filters.areaName}"
             filters.areaName.isNotEmpty() -> filters.areaName
             else -> filters.areaParentName
-
-            viewIndustryChoose.setOnClickListener {
-                val bundle = Bundle()
-                bundle.putSerializable(
-                    "industry",
-                    Industry(viewModel.draftFilters.value?.industryId, viewModel.draftFilters.value?.industryName)
-                )
-                findNavController().navigate(R.id.action_filterFragment_to_industryFilterFragment, bundle)
-            }
-
-            imgClearIndustry.setOnClickListener {
-                tvIndustryChoose.visibility = View.VISIBLE
-                viewIndustryChoose.visibility = View.GONE
-
-                viewModel.updateFilter(
-                    viewModel.draftFilters.value?.copy(industryId = null, industryName = "")
-                        ?: FilterParameters.defaultFilters.copy(
-                            industryId = null,
-                            industryName = ""
-                        )
-                )
-            }
-
-            // Получение результата выбора с экрана "Отрасль"
-            setFragmentResultListener("industryKey") { _, bundle ->
-                val industry = bundle.getSerializable("industry") as? Industry
-                if (industry != null) {
-                    tvIndustryChoose.visibility = View.GONE
-                    viewIndustryChoose.visibility = View.VISIBLE
-                    tvIndustry.text = industry.name
-
-                    viewModel.updateFilter(
-                        viewModel.draftFilters.value?.copy(industryId = industry.id, industryName = industry.name)
-                            ?: FilterParameters.defaultFilters.copy(
-                                industryId = industry.id,
-                                industryName = industry.name
-                            )
-                    )
-                }
-            }
         }
     }
 

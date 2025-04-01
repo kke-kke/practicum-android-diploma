@@ -24,8 +24,8 @@ import ru.practicum.android.diploma.util.showCustomSnackBar
 
 class IndustryFilterFragment : BaseFragment<FragmentIndustryFilterBinding>() {
 
-    private val industryName: Industry by lazy {
-        arguments?.getSerializable("industry") as Industry
+    private val industryName: Industry? by lazy {
+        arguments?.getSerializable("industry") as? Industry ?: Industry("", "")
     }
     private val viewModel: IndustryViewModel by viewModel { parametersOf(industryName) }
 
