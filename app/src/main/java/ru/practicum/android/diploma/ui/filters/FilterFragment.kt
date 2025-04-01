@@ -103,13 +103,7 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
             findNavController().navigateUp()
         }
 
-        binding.imgClear.setOnClickListener {
-            binding.etSalary.setText("")
-            val inputMethodManager =
-                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-            inputMethodManager?.hideSoftInputFromWindow(it.windowToken, 0)
-            binding.etSalary.clearFocus()
-        }
+        industryKeyboard()
 
         binding.tvWplChoose.setOnClickListener {
             findNavController().navigate(R.id.action_filterFragment_to_jobPlaceFragment)
@@ -133,6 +127,28 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
             findNavController().navigate(R.id.action_filterFragment_to_industryFilterFragment, bundle)
         }
 
+        industryVisibility()
+
+        binding.tvReset.setOnClickListener {
+            viewModel.clearDraft()
+        }
+        binding.btnApply.setOnClickListener {
+            viewModel.applyFilters()
+            findNavController().navigateUp()
+        }
+    }
+
+    private fun industryKeyboard() {
+        binding.imgClear.setOnClickListener {
+            binding.etSalary.setText("")
+            val inputMethodManager =
+                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            inputMethodManager?.hideSoftInputFromWindow(it.windowToken, 0)
+            binding.etSalary.clearFocus()
+        }
+    }
+
+    private fun industryVisibility() {
         binding.imgClearIndustry.setOnClickListener {
             binding.tvIndustryChoose.visibility = View.VISIBLE
             binding.viewIndustryChoose.visibility = View.GONE
@@ -144,15 +160,6 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
                         industryName = ""
                     )
             )
-        }
-
-        binding.tvReset.setOnClickListener {
-            viewModel.clearDraft()
-        }
-
-        binding.btnApply.setOnClickListener {
-            viewModel.applyFilters()
-            findNavController().navigateUp()
         }
     }
 
