@@ -97,6 +97,31 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
                 findNavController().navigateUp()
             }
 
+            imgClearWpl.setOnClickListener {
+                viewModel.updateFilter(
+                    viewModel.draftFilters.value?.copy(
+                        areaId = null,
+                        areaName = "",
+                        areaParentName = ""
+                    ) ?: FilterParameters.defaultFilters.copy(
+                        areaId = null,
+                        areaName = "",
+                        areaParentName = ""
+                    )
+                )
+            }
+
+            imgClearIndustry.setOnClickListener {
+                viewModel.updateFilter(
+                    viewModel.draftFilters.value?.copy(
+                        industryId = null,
+                        industryName = ""
+                    ) ?: FilterParameters.defaultFilters.copy(
+                        industryId = null,
+                        industryName = ""
+                    )
+                )
+            }
             setupObservers()
         }
     }
@@ -125,6 +150,9 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
                 }
 
                 tvReset.isVisible = hasChanges
+
+                imgClearWpl.isVisible = isWorkPlaceChosen
+                imgClearIndustry.isVisible = isIndustryChosen
             }
         }
 
