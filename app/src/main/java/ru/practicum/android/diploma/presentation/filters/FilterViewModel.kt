@@ -10,20 +10,41 @@ class FilterViewModel(
     private val filtersInteractor: SharedFiltersInteractor
 ) : ViewModel() {
 
-    private val _filterParameters = MutableLiveData<FilterParameters>()
-    val filterParameters: LiveData<FilterParameters> = _filterParameters
+    private val _draftFilters = MutableLiveData<FilterParameters>()
+    private val _currentFilters = MutableLiveData<FilterParameters>()
+    private val _showApplyButton = MutableLiveData<Boolean>()
+
+    val draftFilters: LiveData<FilterParameters> = _draftFilters
+    val showApplyButton: LiveData<Boolean> = _showApplyButton
 
     init {
-        _filterParameters.value = filtersInteractor.getCurrentFilters()
+        val savedFilters = filtersInteractor.getCurrentFilters()
+        val draftFilters = filtersInteractor.getDraftFilters()
+
+        _currentFilters.value = savedFilters
+        _draftFilters.value = draftFilters
+        updateApplyButtonState()
     }
 
     fun updateFilter(updated: FilterParameters) {
-        _filterParameters.value = updated
-        filtersInteractor.saveAllFilters(updated)
+        _draftFilters.value = updated
+        filtersInteractor.saveDraftFilters(updated)
+        updateApplyButtonState()
     }
 
-    fun clearFilter() {
-        filtersInteractor.clearFilters()
-        _filterParameters.value = FilterParameters.defaultFilters
+    fun applyFilters() {
+        val draft = _draftFilters.value ?: return
+        filtersInteractor.saveAllFilters(draft)
+        _currentFilters.value = filtersInteractor.getCurrentFilters()
+    }
+
+    private fun updateApplyButtonState() {
+        val areDifferent = _draftFilters.value != _currentFilters.value
+        _showApplyButton.value = areDifferent
+    }
+
+    fun clearDraft() {
+        filtersInteractor.clearDraftFilters()
+        _draftFilters.value = FilterParameters.defaultFilters
     }
 }

@@ -7,4 +7,7 @@ interface SharedFiltersRepository {
     fun saveFilters(filters: FilterParameters)
     fun updateFilters(updateBlock: (FilterParameters?) -> FilterParameters)
     fun clearFilters()
+    fun getDraftFilters(): FilterParameters?
+    fun saveDraftFilters(filters: FilterParameters)
+    fun clearDraftFilters()
 }
