@@ -16,8 +16,8 @@ import org.koin.core.parameter.parametersOf
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentIndustryFilterBinding
 import ru.practicum.android.diploma.domain.models.Industry
-import ru.practicum.android.diploma.presentation.state.IndustryScreenState
 import ru.practicum.android.diploma.presentation.filters.IndustryViewModel
+import ru.practicum.android.diploma.presentation.state.IndustryScreenState
 import ru.practicum.android.diploma.ui.BaseFragment
 import ru.practicum.android.diploma.util.hideKeyboard
 import ru.practicum.android.diploma.util.showCustomSnackBar
