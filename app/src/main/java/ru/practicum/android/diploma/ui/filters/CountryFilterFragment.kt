@@ -8,13 +8,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.databinding.FragmentCountryFilterBinding
 import ru.practicum.android.diploma.domain.models.AreaExtended
+import ru.practicum.android.diploma.domain.models.FilterParameters
 import ru.practicum.android.diploma.presentation.filters.CountryViewModel
+import ru.practicum.android.diploma.presentation.filters.FilterViewModel
 import ru.practicum.android.diploma.presentation.state.CountryScreenState
 import ru.practicum.android.diploma.ui.BaseFragment
 
 class CountryFilterFragment : BaseFragment<FragmentCountryFilterBinding>() {
 
     private val viewModel: CountryViewModel by viewModel()
+    private val filterViewModel: FilterViewModel by viewModel()
     private lateinit var countriesAdapter: CountriesAdapter
     override fun onCreateBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentCountryFilterBinding {
         return FragmentCountryFilterBinding.inflate(inflater, container, false)
@@ -31,11 +34,23 @@ class CountryFilterFragment : BaseFragment<FragmentCountryFilterBinding>() {
 
     private fun setupRecyclerView() {
         countriesAdapter = CountriesAdapter { country ->
+            saveSelectedCountry(country)
         }
         binding.countriesRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = countriesAdapter
         }
+    }
+
+    private fun saveSelectedCountry(country: AreaExtended) {
+        val currentFilters = filterViewModel.draftFilters.value ?: FilterParameters.defaultFilters
+
+        val updatedFilters = currentFilters.copy(
+            areaId = country.id,
+            areaName = country.name
+        )
+        filterViewModel.updateFilter(updatedFilters)
+        requireActivity().onBackPressedDispatcher.onBackPressed()
     }
 
     private fun observeViewModel() {

@@ -103,9 +103,7 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
 
     private fun setupObservers() {
         viewModel.draftFilters.observe(viewLifecycleOwner) { filters ->
-            val hasCountry = filters.areaName.isNotEmpty()
-            val hasRegion = filters.areaParentName.isNotEmpty()
-            val isWorkPlaceChosen = hasCountry || hasRegion
+            val isWorkPlaceChosen = filters.areaName.isNotEmpty() || filters.areaParentName.isNotEmpty()
 
             val isIndustryChosen = filters.industryName.isNotEmpty()
 
@@ -114,12 +112,14 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
             with(binding) {
                 tvWplChoose.isVisible = !isWorkPlaceChosen
                 chosenPlaceOfWork.isVisible = isWorkPlaceChosen
+
                 if (isWorkPlaceChosen) {
                     tvWorkplace.text = buildWorkplaceText(filters)
                 }
 
                 tvIndustryChoose.isVisible = !isIndustryChosen
                 chosenIndustry.isVisible = isIndustryChosen
+
                 if (isIndustryChosen) {
                     tvIndustry.text = filters.industryName
                 }
@@ -140,6 +140,11 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
             filters.areaName.isNotEmpty() -> filters.areaName
             else -> filters.areaParentName
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.reloadDraftFilters()
     }
 
     override fun onDestroyView() {

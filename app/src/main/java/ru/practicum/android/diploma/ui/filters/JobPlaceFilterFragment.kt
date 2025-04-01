@@ -8,11 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputLayout
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentJobPlaceFilterBinding
+import ru.practicum.android.diploma.presentation.filters.FilterViewModel
 import ru.practicum.android.diploma.ui.BaseFragment
 
 class JobPlaceFilterFragment : BaseFragment<FragmentJobPlaceFilterBinding>() {
+
+    private val filterViewModel: FilterViewModel by viewModel()
 
     override fun onCreateBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentJobPlaceFilterBinding {
         return FragmentJobPlaceFilterBinding.inflate(inflater, container, false)
@@ -20,6 +24,11 @@ class JobPlaceFilterFragment : BaseFragment<FragmentJobPlaceFilterBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        filterViewModel.draftFilters.observe(viewLifecycleOwner) { filters ->
+            binding.countryTextView.setText(filters.areaName)
+            binding.regionTextView.setText(filters.areaParentName)
+        }
 
         initClickListeners()
         initTextChangeListeners()
@@ -98,4 +107,8 @@ class JobPlaceFilterFragment : BaseFragment<FragmentJobPlaceFilterBinding>() {
         findNavController().navigate(R.id.action_jobPlaceFilterFragment_to_regionFilterFragment)
     }
 
+    override fun onResume() {
+        super.onResume()
+        filterViewModel.reloadDraftFilters()
+    }
 }
