@@ -12,6 +12,7 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.storage.SharedFiltersInteractor
 import ru.practicum.android.diploma.domain.interactor.SearchVacanciesInteractor
 import ru.practicum.android.diploma.domain.interactor.SearchVacanciesResult
+import ru.practicum.android.diploma.domain.models.FilterParameters
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.presentation.state.VacanciesScreenState
 import ru.practicum.android.diploma.util.Constants
@@ -32,15 +33,27 @@ class SearchViewModel(
     val searchScreenState: LiveData<VacanciesScreenState> = _searchScreenState
     private var oldList = listOf<Vacancy>()
 
+    private val _isFiltersApplied = MutableLiveData<Boolean>()
+    val isFiltersApplied: LiveData<Boolean> = _isFiltersApplied
+
+    init {
+        checkFilters()
+    }
+
+    fun checkFilters() {
+        val currentFilters = filtersInteractor.getCurrentFilters()
+        _isFiltersApplied.value = currentFilters != FilterParameters.defaultFilters
+    }
+
     fun searchVacancies(searchedText: String) {
         if (searchedText.isEmpty()) {
             searchJob?.cancel()
             return
         }
 
-        if (searchedText == lastSearchText) {
+        /*if (searchedText == lastSearchText) {
             return
-        }
+        }*/
 
         oldList = emptyList()
         lastSearchText = searchedText

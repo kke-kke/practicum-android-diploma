@@ -25,5 +25,15 @@ class SharedFiltersRepositoryImpl(
     override fun clearFilters() {
         filtersStorage.clear()
     }
+    override fun getDraftFilters(): FilterParameters? {
+        return filtersStorage.getDraftFilters()
+    }
 
+    override fun saveDraftFilters(filters: FilterParameters) {
+        filtersStorage.putDraftFilters(filters)
+    }
+
+    override fun clearDraftFilters() {
+        filtersStorage.clearDraftFilters()
+    }
 }

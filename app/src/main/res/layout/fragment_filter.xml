@@ -8,6 +8,7 @@
     android:orientation="vertical">
 
     <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/navbar_height"
         android:gravity="center_vertical|start"
@@ -28,6 +29,7 @@
         tools:ignore="RtlSymmetry" />
 
     <LinearLayout
+        android:id="@+id/chosen_place_of_work"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:orientation="horizontal"
@@ -74,6 +76,7 @@
         tools:ignore="RtlSymmetry" />
 
     <LinearLayout
+        android:id="@+id/chosen_industry"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:orientation="horizontal"
@@ -203,5 +206,4 @@
         android:text="@string/reset"
         android:textColor="@color/yp_red"
         android:layout_marginHorizontal="16dp"/>
-
 </LinearLayout>
