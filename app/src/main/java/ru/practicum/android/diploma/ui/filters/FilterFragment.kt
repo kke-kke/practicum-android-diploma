@@ -166,11 +166,18 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
     private fun setupTextWatcher() {
         textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 binding.imgClear.isVisible = !s.isNullOrEmpty()
             }
 
-            override fun afterTextChanged(s: Editable?) = Unit
+            override fun afterTextChanged(s: Editable?) {
+                val salary = s?.toString()?.toIntOrNull()
+                viewModel.updateFilter(
+                    viewModel.draftFilters.value?.copy(salary = salary)
+                        ?: FilterParameters.defaultFilters.copy(salary = salary)
+                )
+            }
         }
         binding.etSalary.addTextChangedListener(textWatcher)
     }
