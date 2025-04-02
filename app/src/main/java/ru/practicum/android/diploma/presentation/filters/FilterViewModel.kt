@@ -38,6 +38,12 @@ class FilterViewModel(
         _currentFilters.value = filtersInteractor.getCurrentFilters()
     }
 
+    fun reloadDraftFilters() {
+        val filters = filtersInteractor.getDraftFilters()
+        _draftFilters.value = filters
+        updateApplyButtonState()
+    }
+
     private fun updateApplyButtonState() {
         val areDifferent = _draftFilters.value != _currentFilters.value
         _showApplyButton.value = areDifferent
