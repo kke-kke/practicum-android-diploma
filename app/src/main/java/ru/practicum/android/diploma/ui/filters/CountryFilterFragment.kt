@@ -18,7 +18,10 @@ class CountryFilterFragment : BaseFragment<FragmentCountryFilterBinding>() {
 
     private val viewModel: CountryViewModel by viewModel()
     private val filterViewModel: FilterViewModel by viewModel()
-    private lateinit var countriesAdapter: CountriesAdapter
+    private val countriesAdapter: CountriesAdapter by lazy {
+        CountriesAdapter { country -> saveSelectedCountry(country) }
+    }
+
     override fun onCreateBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentCountryFilterBinding {
         return FragmentCountryFilterBinding.inflate(inflater, container, false)
     }
@@ -33,9 +36,6 @@ class CountryFilterFragment : BaseFragment<FragmentCountryFilterBinding>() {
     }
 
     private fun setupRecyclerView() {
-        countriesAdapter = CountriesAdapter { country ->
-            saveSelectedCountry(country)
-        }
         binding.countriesRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = countriesAdapter
@@ -44,7 +44,6 @@ class CountryFilterFragment : BaseFragment<FragmentCountryFilterBinding>() {
 
     private fun saveSelectedCountry(country: AreaExtended) {
         val currentFilters = filterViewModel.draftFilters.value ?: FilterParameters.defaultFilters
-
         val updatedFilters = currentFilters.copy(
             areaId = country.id,
             areaName = country.name
@@ -63,9 +62,7 @@ class CountryFilterFragment : BaseFragment<FragmentCountryFilterBinding>() {
                         showCountriesList(state.countries)
                     }
                 }
-                is CountryScreenState.Error -> {
-                    showErrorView()
-                }
+                is CountryScreenState.Error -> showErrorView()
                 else -> Unit
             }
         }
