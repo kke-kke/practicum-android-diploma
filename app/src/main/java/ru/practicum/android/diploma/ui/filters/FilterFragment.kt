@@ -11,11 +11,13 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFilterBinding
 import ru.practicum.android.diploma.domain.models.FilterParameters
+import ru.practicum.android.diploma.domain.models.Industry
 import ru.practicum.android.diploma.presentation.filters.FilterViewModel
 import ru.practicum.android.diploma.ui.BaseFragment
 
@@ -36,10 +38,6 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
         }
 
         with(binding) {
-            toolbar.setNavigationOnClickListener {
-                findNavController().navigateUp()
-            }
-
             etSalary.setOnFocusChangeListener { _, hasFocus ->
                 val color = if (hasFocus) {
                     ContextCompat.getColor(requireContext(), R.color.yp_blue)
@@ -55,83 +53,24 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
                 tvExpectedSalary.setTextColor(color)
             }
 
-            textWatcher = object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    imgClear.isVisible = !s.isNullOrEmpty()
-                }
-
-                override fun afterTextChanged(s: Editable?) = Unit
-            }
-            etSalary.addTextChangedListener(textWatcher)
-
-            imgClear.setOnClickListener {
-                etSalary.setText("")
-                val inputMethodManager =
-                    requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-                inputMethodManager?.hideSoftInputFromWindow(it.windowToken, 0)
-                etSalary.clearFocus()
-            }
-
-            tvWplChoose.setOnClickListener {
-                findNavController().navigate(R.id.action_filterFragment_to_jobPlaceFragment)
-            }
-
-            tvIndustryChoose.setOnClickListener {
-                findNavController().navigate(R.id.action_filterFragment_to_industryFilterFragment)
-            }
-
             cbDontShowWithoutSalary.setOnCheckedChangeListener { _, isChecked ->
                 viewModel.updateFilter(
                     viewModel.draftFilters.value?.copy(onlyWithSalary = isChecked)
                         ?: FilterParameters.defaultFilters.copy(onlyWithSalary = isChecked)
                 )
             }
-
-            tvReset.setOnClickListener {
-                viewModel.clearDraft()
-            }
-
-            btnApply.setOnClickListener {
-                viewModel.applyFilters()
-                findNavController().navigateUp()
-            }
-
-            imgClearWpl.setOnClickListener {
-                viewModel.updateFilter(
-                    viewModel.draftFilters.value?.copy(
-                        areaId = null,
-                        areaName = "",
-                        areaParentName = ""
-                    ) ?: FilterParameters.defaultFilters.copy(
-                        areaId = null,
-                        areaName = "",
-                        areaParentName = ""
-                    )
-                )
-            }
-
-            imgClearIndustry.setOnClickListener {
-                viewModel.updateFilter(
-                    viewModel.draftFilters.value?.copy(
-                        industryId = null,
-                        industryName = ""
-                    ) ?: FilterParameters.defaultFilters.copy(
-                        industryId = null,
-                        industryName = ""
-                    )
-                )
-            }
-            setupObservers()
         }
+
+        initOnClickListeners()
+        setupTextWatcher()
+        setupObservers()
+        getResultFromIndustryFragment()
     }
 
     private fun setupObservers() {
         viewModel.draftFilters.observe(viewLifecycleOwner) { filters ->
             val isWorkPlaceChosen = filters.areaName.isNotEmpty() || filters.areaParentName.isNotEmpty()
-
             val isIndustryChosen = filters.industryName.isNotEmpty()
-
             val hasChanges = filters != FilterParameters.defaultFilters
 
             with(binding) {
@@ -158,6 +97,129 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
 
         viewModel.showApplyButton.observe(viewLifecycleOwner) { show ->
             binding.btnApply.isVisible = show
+        }
+    }
+
+    private fun initOnClickListeners() {
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
+
+        binding.imgClearWpl.setOnClickListener {
+            viewModel.updateFilter(
+                viewModel.draftFilters.value?.copy(
+                    areaId = null,
+                    areaName = "",
+                    areaParentName = ""
+                ) ?: FilterParameters.defaultFilters.copy(
+                    areaId = null,
+                    areaName = "",
+                    areaParentName = ""
+                )
+            )
+        }
+
+        binding.imgClearIndustry.setOnClickListener {
+            viewModel.updateFilter(
+                viewModel.draftFilters.value?.copy(
+                    industryId = null,
+                    industryName = ""
+                ) ?: FilterParameters.defaultFilters.copy(
+                    industryId = null,
+                    industryName = ""
+                )
+            )
+        }
+
+        industryKeyboard()
+
+        binding.tvWplChoose.setOnClickListener {
+            findNavController().navigate(R.id.action_filterFragment_to_jobPlaceFragment)
+        }
+
+        binding.tvIndustryChoose.setOnClickListener {
+            findNavController().navigate(R.id.action_filterFragment_to_industryFilterFragment)
+        }
+
+        binding.viewIndustryChoose.setOnClickListener {
+            val bundle = Bundle().apply {
+                putSerializable(
+                    "industry",
+                    viewModel.draftFilters.value?.industryName?.let { name ->
+                        Industry(
+                            id = viewModel.draftFilters.value?.industryId,
+                            name = name
+                        )
+                    }
+                )
+            }
+            findNavController().navigate(R.id.action_filterFragment_to_industryFilterFragment, bundle)
+        }
+
+        industryVisibility()
+
+        binding.tvReset.setOnClickListener {
+            viewModel.clearDraft()
+        }
+
+        binding.btnApply.setOnClickListener {
+            viewModel.applyFilters()
+            findNavController().navigateUp()
+        }
+    }
+
+    private fun industryKeyboard() {
+        binding.imgClear.setOnClickListener {
+            binding.etSalary.setText("")
+            val inputMethodManager =
+                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            inputMethodManager?.hideSoftInputFromWindow(it.windowToken, 0)
+            binding.etSalary.clearFocus()
+        }
+    }
+
+    private fun industryVisibility() {
+        binding.imgClearIndustry.setOnClickListener {
+            binding.tvIndustryChoose.visibility = View.VISIBLE
+            binding.viewIndustryChoose.visibility = View.GONE
+            viewModel.updateFilter(
+                viewModel.draftFilters.value?.copy(industryId = null, industryName = "")
+                    ?: FilterParameters.defaultFilters.copy(
+                        industryId = null,
+                        industryName = ""
+                    )
+            )
+        }
+    }
+
+    private fun setupTextWatcher() {
+        textWatcher = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                binding.imgClear.isVisible = !s.isNullOrEmpty()
+            }
+            override fun afterTextChanged(s: Editable?) = Unit
+        }
+        binding.etSalary.addTextChangedListener(textWatcher)
+    }
+
+    private fun getResultFromIndustryFragment() {
+        setFragmentResultListener("industryKey") { _, bundle ->
+            val industry = bundle.getSerializable("industry") as? Industry
+            if (industry != null) {
+                binding.tvIndustryChoose.visibility = View.GONE
+                binding.viewIndustryChoose.visibility = View.VISIBLE
+                binding.tvIndustry.text = industry.name
+                viewModel.updateFilter(
+                    viewModel.draftFilters.value?.copy(
+                        industryId = industry.id,
+                        industryName = industry.name
+                    ) ?: FilterParameters.defaultFilters.copy(
+                        industryId = industry.id,
+                        industryName = industry.name
+                    )
+                )
+            }
         }
     }
 
