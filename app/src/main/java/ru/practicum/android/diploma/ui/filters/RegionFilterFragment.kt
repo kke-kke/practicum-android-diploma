@@ -1,17 +1,31 @@
 package ru.practicum.android.diploma.ui.filters
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.android.material.textfield.TextInputLayout
+import android.view.WindowManager
+import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.setFragmentResult
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentRegionFilterBinding
+import ru.practicum.android.diploma.domain.models.AreaExtended
+import ru.practicum.android.diploma.presentation.filters.RegionViewModel
+import ru.practicum.android.diploma.presentation.state.RegionScreenState
 import ru.practicum.android.diploma.ui.BaseFragment
+import ru.practicum.android.diploma.util.hideKeyboard
+import ru.practicum.android.diploma.util.showCustomSnackBar
 
 class RegionFilterFragment : BaseFragment<FragmentRegionFilterBinding>() {
+
+    private val viewModel: RegionViewModel by viewModel()
+    private lateinit var adapter: RegionAdapter
+
     override fun onCreateBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentRegionFilterBinding {
         return FragmentRegionFilterBinding.inflate(inflater, container, false)
     }
@@ -19,40 +33,74 @@ class RegionFilterFragment : BaseFragment<FragmentRegionFilterBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.regionSearchBar.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
-
-            override fun afterTextChanged(s: Editable?) {
-                if (s.isNullOrEmpty()) {
-                    setSearchIcon()
-                } else {
-                    setClearIcon()
-                }
-            }
-
-        })
+        initAdapter()
+        setupObservers()
+        setupToolbar()
+        setupSearch()
     }
 
-    private fun setSearchIcon() {
-        with(binding) {
-            regionSearchBarContainer.endIconMode = TextInputLayout.END_ICON_NONE
-            regionSearchBarContainer.endIconMode = TextInputLayout.END_ICON_CUSTOM
-            regionSearchBarContainer.setEndIconDrawable(R.drawable.ic_search)
-            regionSearchBarContainer.setEndIconOnClickListener(null)
+    private fun initAdapter() {
+        adapter = RegionAdapter(viewModel) { region ->
+            val regionJson = Gson().toJson(region)
+            setFragmentResult("region_key", Bundle().apply {
+                putString("region_json", regionJson)
+            })
+            findNavController().navigateUp()
         }
+
+        binding.countriesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.countriesRecyclerView.adapter = adapter
     }
 
-    private fun setClearIcon() {
-        with(binding) {
-            regionSearchBarContainer.endIconMode = TextInputLayout.END_ICON_NONE
-            regionSearchBarContainer.endIconMode = TextInputLayout.END_ICON_CUSTOM
-            regionSearchBarContainer.setEndIconDrawable(R.drawable.ic_close)
-            regionSearchBarContainer.setEndIconOnClickListener {
-                regionSearchBar.text?.clear()
+    private fun setupObservers() {
+        viewModel.regionsState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is RegionScreenState.Success -> showContent(state.regions)
+                RegionScreenState.Error -> showError()
             }
         }
     }
 
+    private fun setupToolbar() {
+        binding.countryFilterToolbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
+    }
+
+    private fun setupSearch() {
+        binding.regionSearchBar.addTextChangedListener { text ->
+            text?.toString()?.let { query ->
+                viewModel.filterRegions(query)
+                if (query.isEmpty()) hideKeyboard()
+            }
+        }
+    }
+
+    private fun showContent(regions: List<AreaExtended>) {
+        binding.countriesRecyclerView.isVisible = true
+        binding.noRegionList.isVisible = false
+        binding.internetError.isVisible = false
+        adapter.setItems(regions)
+    }
+
+    private fun showError() {
+        binding.countriesRecyclerView.isVisible = false
+        binding.noRegionList.isVisible = true
+        binding.internetError.isVisible = false
+        showCustomSnackBar(
+            getString(R.string.failed_to_get_list),
+            binding.root,
+            requireContext()
+        )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
+    }
 }
