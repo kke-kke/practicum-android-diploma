@@ -59,9 +59,8 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
                         ?: FilterParameters.defaultFilters.copy(onlyWithSalary = isChecked)
                 )
             }
-            
-            setupObservers()
         }
+
         initOnClickListeners()
         setupTextWatcher()
         setupObservers()
@@ -71,9 +70,7 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
     private fun setupObservers() {
         viewModel.draftFilters.observe(viewLifecycleOwner) { filters ->
             val isWorkPlaceChosen = filters.areaName.isNotEmpty() || filters.areaParentName.isNotEmpty()
-
             val isIndustryChosen = filters.industryName.isNotEmpty()
-
             val hasChanges = filters != FilterParameters.defaultFilters
 
             with(binding) {
@@ -107,7 +104,7 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
         binding.toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
-        
+
         binding.imgClearWpl.setOnClickListener {
             viewModel.updateFilter(
                 viewModel.draftFilters.value?.copy(
@@ -145,16 +142,17 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
         }
 
         binding.viewIndustryChoose.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putSerializable(
-                "industry",
-                viewModel.draftFilters.value?.industryName?.let { name ->
-                    Industry(
-                        id = viewModel.draftFilters.value?.industryId,
-                        name = name
-                    )
-                }
-            )
+            val bundle = Bundle().apply {
+                putSerializable(
+                    "industry",
+                    viewModel.draftFilters.value?.industryName?.let { name ->
+                        Industry(
+                            id = viewModel.draftFilters.value?.industryId,
+                            name = name
+                        )
+                    }
+                )
+            }
             findNavController().navigate(R.id.action_filterFragment_to_industryFilterFragment, bundle)
         }
 
@@ -163,6 +161,7 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
         binding.tvReset.setOnClickListener {
             viewModel.clearDraft()
         }
+
         binding.btnApply.setOnClickListener {
             viewModel.applyFilters()
             findNavController().navigateUp()
@@ -183,7 +182,6 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
         binding.imgClearIndustry.setOnClickListener {
             binding.tvIndustryChoose.visibility = View.VISIBLE
             binding.viewIndustryChoose.visibility = View.GONE
-
             viewModel.updateFilter(
                 viewModel.draftFilters.value?.copy(industryId = null, industryName = "")
                     ?: FilterParameters.defaultFilters.copy(
@@ -200,7 +198,6 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 binding.imgClear.isVisible = !s.isNullOrEmpty()
             }
-
             override fun afterTextChanged(s: Editable?) = Unit
         }
         binding.etSalary.addTextChangedListener(textWatcher)
@@ -213,13 +210,14 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
                 binding.tvIndustryChoose.visibility = View.GONE
                 binding.viewIndustryChoose.visibility = View.VISIBLE
                 binding.tvIndustry.text = industry.name
-
                 viewModel.updateFilter(
-                    viewModel.draftFilters.value?.copy(industryId = industry.id, industryName = industry.name)
-                        ?: FilterParameters.defaultFilters.copy(
-                            industryId = industry.id,
-                            industryName = industry.name
-                        )
+                    viewModel.draftFilters.value?.copy(
+                        industryId = industry.id,
+                        industryName = industry.name
+                    ) ?: FilterParameters.defaultFilters.copy(
+                        industryId = industry.id,
+                        industryName = industry.name
+                    )
                 )
             }
         }
