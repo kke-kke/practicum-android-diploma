@@ -61,6 +61,7 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
                 )
             }
         }
+
         initOnClickListeners()
         setupTextWatcher()
         setupObservers()
@@ -69,12 +70,8 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
 
     private fun setupObservers() {
         viewModel.draftFilters.observe(viewLifecycleOwner) { filters ->
-            val hasCountry = filters.areaName.isNotEmpty()
-            val hasRegion = filters.areaParentName.isNotEmpty()
-            val isWorkPlaceChosen = hasCountry || hasRegion
-
+            val isWorkPlaceChosen = filters.areaName.isNotEmpty() || filters.areaParentName.isNotEmpty()
             val isIndustryChosen = filters.industryName.isNotEmpty()
-
             val hasChanges = filters != FilterParameters.defaultFilters
 
             filters.salary?.let { salary ->
@@ -89,17 +86,22 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
             with(binding) {
                 tvWplChoose.isVisible = !isWorkPlaceChosen
                 chosenPlaceOfWork.isVisible = isWorkPlaceChosen
+
                 if (isWorkPlaceChosen) {
                     tvWorkplace.text = buildWorkplaceText(filters)
                 }
 
                 tvIndustryChoose.isVisible = !isIndustryChosen
                 chosenIndustry.isVisible = isIndustryChosen
+
                 if (isIndustryChosen) {
                     tvIndustry.text = filters.industryName
                 }
 
                 tvReset.isVisible = hasChanges
+
+                imgClearWpl.isVisible = isWorkPlaceChosen
+                imgClearIndustry.isVisible = isIndustryChosen
             }
         }
 
@@ -113,6 +115,32 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
             findNavController().navigateUp()
         }
 
+        binding.imgClearWpl.setOnClickListener {
+            viewModel.updateFilter(
+                viewModel.draftFilters.value?.copy(
+                    areaId = null,
+                    areaName = "",
+                    areaParentName = ""
+                ) ?: FilterParameters.defaultFilters.copy(
+                    areaId = null,
+                    areaName = "",
+                    areaParentName = ""
+                )
+            )
+        }
+
+        binding.imgClearIndustry.setOnClickListener {
+            viewModel.updateFilter(
+                viewModel.draftFilters.value?.copy(
+                    industryId = null,
+                    industryName = ""
+                ) ?: FilterParameters.defaultFilters.copy(
+                    industryId = null,
+                    industryName = ""
+                )
+            )
+        }
+
         industryKeyboard()
 
         binding.tvWplChoose.setOnClickListener {
@@ -124,16 +152,17 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
         }
 
         binding.viewIndustryChoose.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putSerializable(
-                "industry",
-                viewModel.draftFilters.value?.industryName?.let { name ->
-                    Industry(
-                        id = viewModel.draftFilters.value?.industryId,
-                        name = name
-                    )
-                }
-            )
+            val bundle = Bundle().apply {
+                putSerializable(
+                    "industry",
+                    viewModel.draftFilters.value?.industryName?.let { name ->
+                        Industry(
+                            id = viewModel.draftFilters.value?.industryId,
+                            name = name
+                        )
+                    }
+                )
+            }
             findNavController().navigate(R.id.action_filterFragment_to_industryFilterFragment, bundle)
         }
 
@@ -142,6 +171,7 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
         binding.tvReset.setOnClickListener {
             viewModel.clearDraft()
         }
+
         binding.btnApply.setOnClickListener {
             viewModel.applyFilters()
             findNavController().navigateUp()
@@ -162,7 +192,6 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
         binding.imgClearIndustry.setOnClickListener {
             binding.tvIndustryChoose.visibility = View.VISIBLE
             binding.viewIndustryChoose.visibility = View.GONE
-
             viewModel.updateFilter(
                 viewModel.draftFilters.value?.copy(industryId = null, industryName = "")
                     ?: FilterParameters.defaultFilters.copy(
@@ -202,13 +231,14 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
                 binding.tvIndustryChoose.visibility = View.GONE
                 binding.viewIndustryChoose.visibility = View.VISIBLE
                 binding.tvIndustry.text = industry.name
-
                 viewModel.updateFilter(
-                    viewModel.draftFilters.value?.copy(industryId = industry.id, industryName = industry.name)
-                        ?: FilterParameters.defaultFilters.copy(
-                            industryId = industry.id,
-                            industryName = industry.name
-                        )
+                    viewModel.draftFilters.value?.copy(
+                        industryId = industry.id,
+                        industryName = industry.name
+                    ) ?: FilterParameters.defaultFilters.copy(
+                        industryId = industry.id,
+                        industryName = industry.name
+                    )
                 )
             }
         }
@@ -221,6 +251,11 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
             filters.areaName.isNotEmpty() -> filters.areaName
             else -> filters.areaParentName
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.reloadDraftFilters()
     }
 
     override fun onDestroyView() {
