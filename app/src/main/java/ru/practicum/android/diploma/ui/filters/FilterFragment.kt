@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.ui.filters
 
+
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
@@ -13,7 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFilterBinding
 import ru.practicum.android.diploma.domain.models.FilterParameters
@@ -21,22 +22,28 @@ import ru.practicum.android.diploma.domain.models.Industry
 import ru.practicum.android.diploma.presentation.filters.FilterViewModel
 import ru.practicum.android.diploma.ui.BaseFragment
 
+
 class FilterFragment : BaseFragment<FragmentFilterBinding>() {
 
+
     private var textWatcher: TextWatcher? = null
-    private val viewModel: FilterViewModel by viewModel()
+    private val viewModel: FilterViewModel by activityViewModel()
     private var isSalaryUpdating = false
+
 
     override fun onCreateBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentFilterBinding {
         return FragmentFilterBinding.inflate(inflater, container, false)
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         viewModel.draftFilters.observe(viewLifecycleOwner) { filters ->
             binding.cbDontShowWithoutSalary.isChecked = filters.onlyWithSalary
         }
+
 
         with(binding) {
             etSalary.setOnFocusChangeListener { _, hasFocus ->
@@ -54,6 +61,7 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
                 tvExpectedSalary.setTextColor(color)
             }
 
+
             cbDontShowWithoutSalary.setOnCheckedChangeListener { _, isChecked ->
                 viewModel.updateFilter(
                     viewModel.draftFilters.value?.copy(onlyWithSalary = isChecked)
@@ -62,17 +70,20 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
             }
         }
 
+
         initOnClickListeners()
         setupTextWatcher()
         setupObservers()
         getResultFromIndustryFragment()
     }
 
+
     private fun setupObservers() {
         viewModel.draftFilters.observe(viewLifecycleOwner) { filters ->
             val isWorkPlaceChosen = filters.areaName.isNotEmpty() || filters.areaParentName.isNotEmpty()
             val isIndustryChosen = filters.industryName.isNotEmpty()
             val hasChanges = filters != FilterParameters.defaultFilters
+
 
             filters.salary?.let { salary ->
                 if (salary > 0 && !isSalaryUpdating) {
@@ -83,37 +94,46 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
                 }
             }
 
+
             with(binding) {
                 tvWplChoose.isVisible = !isWorkPlaceChosen
                 chosenPlaceOfWork.isVisible = isWorkPlaceChosen
+
 
                 if (isWorkPlaceChosen) {
                     tvWorkplace.text = buildWorkplaceText(filters)
                 }
 
+
                 tvIndustryChoose.isVisible = !isIndustryChosen
                 chosenIndustry.isVisible = isIndustryChosen
+
 
                 if (isIndustryChosen) {
                     tvIndustry.text = filters.industryName
                 }
 
+
                 tvReset.isVisible = hasChanges
+
 
                 imgClearWpl.isVisible = isWorkPlaceChosen
                 imgClearIndustry.isVisible = isIndustryChosen
             }
         }
 
+
         viewModel.showApplyButton.observe(viewLifecycleOwner) { show ->
             binding.btnApply.isVisible = show
         }
     }
 
+
     private fun initOnClickListeners() {
         binding.toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
+
 
         binding.imgClearWpl.setOnClickListener {
             viewModel.updateFilter(
@@ -129,6 +149,7 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
             )
         }
 
+
         binding.imgClearIndustry.setOnClickListener {
             viewModel.updateFilter(
                 viewModel.draftFilters.value?.copy(
@@ -141,15 +162,19 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
             )
         }
 
+
         industryKeyboard()
+
 
         binding.tvWplChoose.setOnClickListener {
             findNavController().navigate(R.id.action_filterFragment_to_jobPlaceFragment)
         }
 
+
         binding.tvIndustryChoose.setOnClickListener {
             findNavController().navigate(R.id.action_filterFragment_to_industryFilterFragment)
         }
+
 
         binding.viewIndustryChoose.setOnClickListener {
             val bundle = Bundle().apply {
@@ -166,17 +191,21 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
             findNavController().navigate(R.id.action_filterFragment_to_industryFilterFragment, bundle)
         }
 
+
         industryVisibility()
+
 
         binding.tvReset.setOnClickListener {
             viewModel.clearDraft()
         }
+
 
         binding.btnApply.setOnClickListener {
             viewModel.applyFilters()
             findNavController().navigateUp()
         }
     }
+
 
     private fun industryKeyboard() {
         binding.imgClear.setOnClickListener {
@@ -187,6 +216,7 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
             binding.etSalary.clearFocus()
         }
     }
+
 
     private fun industryVisibility() {
         binding.imgClearIndustry.setOnClickListener {
@@ -202,14 +232,17 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
         }
     }
 
+
     private fun setupTextWatcher() {
         binding.etSalary.setRawInputType(android.text.InputType.TYPE_CLASS_NUMBER)
         textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
 
+
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 binding.imgClear.isVisible = !s.isNullOrEmpty()
             }
+
 
             override fun afterTextChanged(s: Editable?) {
                 if (isSalaryUpdating) return
@@ -223,6 +256,7 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
         }
         binding.etSalary.addTextChangedListener(textWatcher)
     }
+
 
     private fun getResultFromIndustryFragment() {
         setFragmentResultListener("industryKey") { _, bundle ->
@@ -244,6 +278,7 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
         }
     }
 
+
     private fun buildWorkplaceText(filters: FilterParameters): String {
         return when {
             filters.areaParentName.isNotEmpty() && filters.areaName.isNotEmpty() ->
@@ -253,10 +288,6 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.reloadDraftFilters()
-    }
 
     override fun onDestroyView() {
         textWatcher?.let {
