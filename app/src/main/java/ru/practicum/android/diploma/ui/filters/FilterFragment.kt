@@ -25,6 +25,7 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
 
     private var textWatcher: TextWatcher? = null
     private val viewModel: FilterViewModel by viewModel()
+    private var isSalaryUpdating = false
 
     override fun onCreateBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentFilterBinding {
         return FragmentFilterBinding.inflate(inflater, container, false)
@@ -75,6 +76,15 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
             val isIndustryChosen = filters.industryName.isNotEmpty()
 
             val hasChanges = filters != FilterParameters.defaultFilters
+
+            filters.salary?.let { salary ->
+                if (salary > 0 && !isSalaryUpdating) {
+                    isSalaryUpdating = true
+                    binding.etSalary.setText(salary.toString())
+                    binding.etSalary.setSelection(salary.toString().length)
+                    isSalaryUpdating = false
+                }
+            }
 
             with(binding) {
                 tvWplChoose.isVisible = !isWorkPlaceChosen
@@ -164,13 +174,23 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
     }
 
     private fun setupTextWatcher() {
+        binding.etSalary.setRawInputType(android.text.InputType.TYPE_CLASS_NUMBER)
         textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 binding.imgClear.isVisible = !s.isNullOrEmpty()
             }
 
-            override fun afterTextChanged(s: Editable?) = Unit
+            override fun afterTextChanged(s: Editable?) {
+                if (isSalaryUpdating) return
+                val salaryText = s?.toString()?.replace(Regex("[^0-9]"), "")
+                val salary = salaryText?.toIntOrNull()
+                viewModel.updateFilter(
+                    viewModel.draftFilters.value?.copy(salary = salary)
+                        ?: FilterParameters.defaultFilters.copy(salary = salary)
+                )
+            }
         }
         binding.etSalary.addTextChangedListener(textWatcher)
     }
