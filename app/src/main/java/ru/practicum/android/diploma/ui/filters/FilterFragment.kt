@@ -178,7 +178,6 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
         )
     }
 
-
     private fun industryKeyboard() {
         binding.imgClear.setOnClickListener {
             binding.etSalary.setText("")
