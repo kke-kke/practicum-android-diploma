@@ -8,15 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputLayout
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentJobPlaceFilterBinding
 import ru.practicum.android.diploma.presentation.filters.FilterViewModel
 import ru.practicum.android.diploma.ui.BaseFragment
 
 class JobPlaceFilterFragment : BaseFragment<FragmentJobPlaceFilterBinding>() {
-
-    private val filterViewModel: FilterViewModel by viewModel()
+    private val filterViewModel: FilterViewModel by activityViewModel()
 
     override fun onCreateBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentJobPlaceFilterBinding {
         return FragmentJobPlaceFilterBinding.inflate(inflater, container, false)
@@ -32,7 +31,6 @@ class JobPlaceFilterFragment : BaseFragment<FragmentJobPlaceFilterBinding>() {
 
         initClickListeners()
         initTextChangeListeners()
-
     }
 
     private fun initClickListeners() {
@@ -62,7 +60,6 @@ class JobPlaceFilterFragment : BaseFragment<FragmentJobPlaceFilterBinding>() {
                     setClearIcon(binding.countryTextInputLayout)
                 }
             }
-
         })
 
         binding.regionTextView.addTextChangedListener(object : TextWatcher {
@@ -77,7 +74,6 @@ class JobPlaceFilterFragment : BaseFragment<FragmentJobPlaceFilterBinding>() {
                     setClearIcon(binding.regionTextInputLayout)
                 }
             }
-
         })
     }
 

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.databinding.FragmentCountryFilterBinding
 import ru.practicum.android.diploma.domain.models.AreaExtended
@@ -17,7 +18,7 @@ import ru.practicum.android.diploma.ui.BaseFragment
 class CountryFilterFragment : BaseFragment<FragmentCountryFilterBinding>() {
 
     private val viewModel: CountryViewModel by viewModel()
-    private val filterViewModel: FilterViewModel by viewModel()
+    private val filterViewModel: FilterViewModel by activityViewModel()
     private val countriesAdapter: CountriesAdapter by lazy {
         CountriesAdapter { country -> saveSelectedCountry(country) }
     }
@@ -43,8 +44,10 @@ class CountryFilterFragment : BaseFragment<FragmentCountryFilterBinding>() {
     }
 
     private fun saveSelectedCountry(country: AreaExtended) {
-        val currentFilters = filterViewModel.draftFilters.value ?: FilterParameters.defaultFilters
-        val updatedFilters = currentFilters.copy(
+        val updatedFilters = filterViewModel.draftFilters.value?.copy(
+            areaId = country.id,
+            areaName = country.name
+        ) ?: FilterParameters.defaultFilters.copy(
             areaId = country.id,
             areaName = country.name
         )
@@ -62,7 +65,9 @@ class CountryFilterFragment : BaseFragment<FragmentCountryFilterBinding>() {
                         showCountriesList(state.countries)
                     }
                 }
-                is CountryScreenState.Error -> showErrorView()
+                is CountryScreenState.Error -> {
+                    showErrorView()
+                }
                 else -> Unit
             }
         }
