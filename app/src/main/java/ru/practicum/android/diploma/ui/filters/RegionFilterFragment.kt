@@ -7,14 +7,14 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.gson.Gson
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentRegionFilterBinding
 import ru.practicum.android.diploma.domain.models.AreaExtended
+import ru.practicum.android.diploma.presentation.filters.FilterViewModel
 import ru.practicum.android.diploma.presentation.filters.RegionViewModel
 import ru.practicum.android.diploma.presentation.state.RegionScreenState
 import ru.practicum.android.diploma.ui.BaseFragment
@@ -24,6 +24,7 @@ import ru.practicum.android.diploma.util.showCustomSnackBar
 class RegionFilterFragment : BaseFragment<FragmentRegionFilterBinding>() {
 
     private val viewModel: RegionViewModel by viewModel()
+    private val filterViewModel: FilterViewModel by activityViewModel()
     private lateinit var adapter: RegionAdapter
 
     override fun onCreateBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentRegionFilterBinding {
@@ -41,10 +42,7 @@ class RegionFilterFragment : BaseFragment<FragmentRegionFilterBinding>() {
 
     private fun initAdapter() {
         adapter = RegionAdapter(viewModel) { region ->
-            val regionJson = Gson().toJson(region)
-            setFragmentResult("region_key", Bundle().apply {
-                putString("region_json", regionJson)
-            })
+            filterViewModel.updateRegion(region)
             findNavController().navigateUp()
         }
 
