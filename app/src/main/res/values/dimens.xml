@@ -8,6 +8,8 @@
     <dimen name="navbar_height">64dp</dimen>
     <dimen name="subtitle_text_size">24sp</dimen>
     <dimen name="edit_text_height">56dp</dimen>
+    <dimen name="dimen_60">60dp</dimen>
+    <dimen name="dimen_24">24dp</dimen>
     <dimen name="dimen_16">16dp</dimen>
     <dimen name="dimen_8">8dp</dimen>
     <dimen name="dimen_4">4dp</dimen>

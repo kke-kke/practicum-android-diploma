@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/job_filter_linear_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.filters.CountryFilterFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/countryFilterToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navbar_height"
+        android:background="?attr/background"
+        android:elevation="0dp"
+        app:navigationIcon="@drawable/arrow_back"
+        app:title="@string/choose_country"
+        app:titleTextAppearance="@style/title_text_style"
+        app:titleTextColor="?attr/colorOnBackground" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/countriesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/dimen_16"
+        android:visibility="visible"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/area_view" />
+
+    <!-- Страница "Не найдено" -->
+    <LinearLayout
+        android:id="@+id/not_found"
+        style="@style/search_linear_layout"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="224dp"
+            android:layout_marginTop="168dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/no_vacancy"/>
+
+        <TextView
+            style="@style/title_text_style"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="48dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="@string/countries_not_found" />
+    </LinearLayout>
+</LinearLayout>

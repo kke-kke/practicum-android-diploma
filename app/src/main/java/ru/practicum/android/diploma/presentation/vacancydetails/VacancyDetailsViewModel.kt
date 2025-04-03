@@ -11,6 +11,7 @@ import ru.practicum.android.diploma.domain.interactor.FavoritesInteractor
 import ru.practicum.android.diploma.domain.interactor.VacancyDetailsInteractor
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.domain.models.VacancyDetailsStateLoad
+import ru.practicum.android.diploma.presentation.state.VacancyDetailsScreenState
 
 class VacancyDetailsViewModel(
     private val vacancyDetailsInteractor: VacancyDetailsInteractor,

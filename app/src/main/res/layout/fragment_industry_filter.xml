@@ -1,14 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="?attr/background"
     tools:context=".ui.filters.IndustryFilterFragment">
 
-    <TextView
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/industryFilterToolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/industry_filter"
-        android:textAppearance="@style/title_text_style" />
+        android:layout_height="@dimen/navbar_height"
+        android:background="?attr/background"
+        android:elevation="0dp"
+        app:navigationIcon="@drawable/arrow_back"
+        app:title="@string/industry_filter"
+        app:titleTextAppearance="@style/title_text_style"
+        app:titleTextColor="?attr/colorOnBackground" />
 
-</FrameLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/industrySearchBarContainer"
+        style="@style/search_text_input_style"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_text_height"
+        android:layout_marginHorizontal="@dimen/dimen_16"
+        android:layout_marginVertical="@dimen/dimen_8">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/searchIndustryBar"
+            style="@style/text_style"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/enter_industry"
+            android:textColorHint="?attr/colorOnSecondary"
+            android:textCursorDrawable="@drawable/custom_cursor"
+            android:textColor="@color/yp_black"
+            android:inputType="text"
+            android:maxLines="1"
+            android:padding="@dimen/dimen_8"
+            android:singleLine="true" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Страница "Такой отрасли нет" -->
+    <LinearLayout
+        android:id="@+id/not_found"
+        style="@style/search_linear_layout"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/error_image_height_224dp"
+            android:src="@drawable/empty_state"/>
+
+        <TextView
+            style="@style/title_text_style"
+            android:text="@string/no_industries"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/dimen_16"
+            android:layout_marginHorizontal="48dp"/>
+    </LinearLayout>
+
+    <!-- Страница "Не удалось получить список" -->
+    <LinearLayout
+        android:id="@+id/unknown_error"
+        style="@style/search_linear_layout"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/error_image_height_224dp"
+            android:src="@drawable/unknown_error" />
+
+        <TextView
+            style="@style/title_text_style"
+            android:text="@string/failed_to_get_list"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/dimen_16"
+            android:layout_marginHorizontal="48dp" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBarContent"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/yp_blue"
+        android:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/searchIndustryRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="@dimen/dimen_16"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_marginVertical="@dimen/dimen_8"
+        tools:listitem="@layout/industry_item"
+        android:visibility="visible"/>
+
+    <Button
+        android:id="@+id/selectButton"
+        style="@style/button_style"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_60"
+        android:text="@string/select"
+        android:layout_marginBottom="@dimen/dimen_24"
+        android:layout_marginHorizontal="@dimen/dimen_16"
+        android:visibility="gone"/>
+</LinearLayout>
