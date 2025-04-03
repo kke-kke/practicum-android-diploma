@@ -13,7 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFilterBinding
 import ru.practicum.android.diploma.domain.models.FilterParameters
@@ -22,9 +22,8 @@ import ru.practicum.android.diploma.presentation.filters.FilterViewModel
 import ru.practicum.android.diploma.ui.BaseFragment
 
 class FilterFragment : BaseFragment<FragmentFilterBinding>() {
-
     private var textWatcher: TextWatcher? = null
-    private val viewModel: FilterViewModel by viewModel()
+    private val viewModel: FilterViewModel by activityViewModel()
     private var isSalaryUpdating = false
 
     override fun onCreateBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentFilterBinding {
@@ -99,7 +98,6 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
                 }
 
                 tvReset.isVisible = hasChanges
-
                 imgClearWpl.isVisible = isWorkPlaceChosen
                 imgClearIndustry.isVisible = isIndustryChosen
             }
@@ -251,11 +249,6 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
             filters.areaName.isNotEmpty() -> filters.areaName
             else -> filters.areaParentName
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.reloadDraftFilters()
     }
 
     override fun onDestroyView() {

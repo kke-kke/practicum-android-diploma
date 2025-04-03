@@ -3,6 +3,7 @@ package ru.practicum.android.diploma.presentation.filters
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import ru.practicum.android.diploma.domain.models.AreaExtended
 import ru.practicum.android.diploma.domain.models.FilterParameters
 import ru.practicum.android.diploma.domain.storage.SharedFiltersInteractor
 
@@ -30,6 +31,19 @@ class FilterViewModel(
         _draftFilters.value = updated
         filtersInteractor.saveDraftFilters(updated)
         updateApplyButtonState()
+    }
+
+    fun updateRegion(region: AreaExtended) {
+        val updatedFilters = _draftFilters.value?.copy(
+            areaParentId = region.id,
+            areaParentName = region.name
+        ) ?: FilterParameters.defaultFilters.copy(
+            areaParentId = region.id,
+            areaParentName = region.name
+        )
+
+        _draftFilters.value = updatedFilters
+        filtersInteractor.saveDraftFilters(updatedFilters)
     }
 
     fun applyFilters() {
