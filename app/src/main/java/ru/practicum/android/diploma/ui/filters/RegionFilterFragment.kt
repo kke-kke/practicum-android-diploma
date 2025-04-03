@@ -25,7 +25,12 @@ class RegionFilterFragment : BaseFragment<FragmentRegionFilterBinding>() {
 
     private val viewModel: RegionViewModel by viewModel()
     private val filterViewModel: FilterViewModel by activityViewModel()
-    private lateinit var adapter: RegionAdapter
+    private val adapter: RegionAdapter by lazy {
+        RegionAdapter(viewModel) { region ->
+            filterViewModel.updateRegion(region)
+            findNavController().navigateUp()
+        }
+    }
 
     override fun onCreateBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentRegionFilterBinding {
         return FragmentRegionFilterBinding.inflate(inflater, container, false)
@@ -41,11 +46,6 @@ class RegionFilterFragment : BaseFragment<FragmentRegionFilterBinding>() {
     }
 
     private fun initAdapter() {
-        adapter = RegionAdapter(viewModel) { region ->
-            filterViewModel.updateRegion(region)
-            findNavController().navigateUp()
-        }
-
         binding.countriesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.countriesRecyclerView.adapter = adapter
     }
