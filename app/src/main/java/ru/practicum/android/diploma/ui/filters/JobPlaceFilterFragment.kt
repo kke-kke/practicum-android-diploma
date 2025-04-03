@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.ui.filters
 
-
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -15,59 +14,44 @@ import ru.practicum.android.diploma.databinding.FragmentJobPlaceFilterBinding
 import ru.practicum.android.diploma.presentation.filters.FilterViewModel
 import ru.practicum.android.diploma.ui.BaseFragment
 
-
 class JobPlaceFilterFragment : BaseFragment<FragmentJobPlaceFilterBinding>() {
-
-
     private val filterViewModel: FilterViewModel by activityViewModel()
-
 
     override fun onCreateBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentJobPlaceFilterBinding {
         return FragmentJobPlaceFilterBinding.inflate(inflater, container, false)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         filterViewModel.draftFilters.observe(viewLifecycleOwner) { filters ->
             binding.countryTextView.setText(filters.areaName)
             binding.regionTextView.setText(filters.areaParentName)
         }
 
-
         initClickListeners()
         initTextChangeListeners()
-
-
     }
-
 
     private fun initClickListeners() {
         binding.jobPlaceFilterToolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
 
-
         binding.countryTextView.setOnClickListener {
             goToCountryFilterFragment()
         }
-
 
         binding.regionTextView.setOnClickListener {
             goToRegionFilterFragment()
         }
     }
 
-
     private fun initTextChangeListeners() {
         binding.countryTextView.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
 
-
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
-
 
             override fun afterTextChanged(s: Editable?) {
                 if (s.isNullOrEmpty()) {
@@ -76,17 +60,12 @@ class JobPlaceFilterFragment : BaseFragment<FragmentJobPlaceFilterBinding>() {
                     setClearIcon(binding.countryTextInputLayout)
                 }
             }
-
-
         })
-
 
         binding.regionTextView.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
 
-
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
-
 
             override fun afterTextChanged(s: Editable?) {
                 if (s.isNullOrEmpty()) {
@@ -95,11 +74,8 @@ class JobPlaceFilterFragment : BaseFragment<FragmentJobPlaceFilterBinding>() {
                     setClearIcon(binding.regionTextInputLayout)
                 }
             }
-
-
         })
     }
-
 
     private fun setArrowIcon(textInputLayout: TextInputLayout, onClickAction: () -> Unit) {
         textInputLayout.apply {
@@ -110,7 +86,6 @@ class JobPlaceFilterFragment : BaseFragment<FragmentJobPlaceFilterBinding>() {
         }
     }
 
-
     private fun setClearIcon(textInputLayout: TextInputLayout) {
         textInputLayout.apply {
             endIconMode = TextInputLayout.END_ICON_NONE
@@ -120,16 +95,13 @@ class JobPlaceFilterFragment : BaseFragment<FragmentJobPlaceFilterBinding>() {
         }
     }
 
-
     private fun goToCountryFilterFragment() {
         findNavController().navigate(R.id.action_jobPlaceFilterFragment_to_countryFilterFragment)
     }
 
-
     private fun goToRegionFilterFragment() {
         findNavController().navigate(R.id.action_jobPlaceFilterFragment_to_regionFilterFragment)
     }
-
 
     override fun onResume() {
         super.onResume()

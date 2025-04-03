@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.ui.filters
 
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,9 +15,7 @@ import ru.practicum.android.diploma.presentation.filters.FilterViewModel
 import ru.practicum.android.diploma.presentation.state.CountryScreenState
 import ru.practicum.android.diploma.ui.BaseFragment
 
-
 class CountryFilterFragment : BaseFragment<FragmentCountryFilterBinding>() {
-
 
     private val viewModel: CountryViewModel by viewModel()
     private val filterViewModel: FilterViewModel by activityViewModel()
@@ -26,23 +23,18 @@ class CountryFilterFragment : BaseFragment<FragmentCountryFilterBinding>() {
         CountriesAdapter { country -> saveSelectedCountry(country) }
     }
 
-
     override fun onCreateBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentCountryFilterBinding {
         return FragmentCountryFilterBinding.inflate(inflater, container, false)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         setupRecyclerView()
         observeViewModel()
 
-
         viewModel.loadCountries()
     }
-
 
     private fun setupRecyclerView() {
         binding.countriesRecyclerView.apply {
@@ -50,7 +42,6 @@ class CountryFilterFragment : BaseFragment<FragmentCountryFilterBinding>() {
             adapter = countriesAdapter
         }
     }
-
 
     private fun saveSelectedCountry(country: AreaExtended) {
         val updatedFilters = filterViewModel.draftFilters.value?.copy(
@@ -63,7 +54,6 @@ class CountryFilterFragment : BaseFragment<FragmentCountryFilterBinding>() {
         filterViewModel.updateFilter(updatedFilters)
         requireActivity().onBackPressedDispatcher.onBackPressed()
     }
-
 
     private fun observeViewModel() {
         viewModel.countriesState.observe(viewLifecycleOwner) { state ->
@@ -83,13 +73,11 @@ class CountryFilterFragment : BaseFragment<FragmentCountryFilterBinding>() {
         }
     }
 
-
     private fun showCountriesList(countries: List<AreaExtended>) {
         binding.countriesRecyclerView.visibility = View.VISIBLE
         binding.notFound.visibility = View.GONE
         countriesAdapter.submitList(countries)
     }
-
 
     private fun showErrorView() {
         binding.countriesRecyclerView.visibility = View.GONE
