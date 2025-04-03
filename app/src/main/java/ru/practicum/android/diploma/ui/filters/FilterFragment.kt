@@ -119,16 +119,37 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
             viewIndustryChoose.setOnClickListener { navIndustryData() }
             industryVisibility()
             tvReset.setOnClickListener { viewModel.clearDraft() }
-            btnApply.setOnClickListener { viewModel.applyFilters(); findNavController().navigateUp() }
+            btnApply.setOnClickListener {
+                viewModel.applyFilters()
+                findNavController().navigateUp()
+            }
         }
     }
 
     private fun clearWplFilter() {
-        viewModel.updateFilter(wplFilter())
+        viewModel.updateFilter(
+            viewModel.draftFilters.value?.copy(
+                areaId = null,
+                areaName = "",
+                areaParentName = ""
+            ) ?: FilterParameters.defaultFilters.copy(
+                areaId = null,
+                areaName = "",
+                areaParentName = ""
+            )
+        )
     }
 
     private fun clearIndustryFilter() {
-        viewModel.updateFilter(indFilter())
+        viewModel.updateFilter(
+            viewModel.draftFilters.value?.copy(
+                industryId = null,
+                industryName = ""
+            ) ?: FilterParameters.defaultFilters.copy(
+                industryId = null,
+                industryName = ""
+            )
+        )
     }
 
     private fun navJobPlace() {
@@ -140,14 +161,23 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
     }
 
     private fun navIndustryData() {
-        findNavController().navigate(R.id.action_filterFragment_to_industryFilterFragment, indBundle())
+        val bundle = Bundle().apply {
+            putSerializable(
+                "industry",
+                viewModel.draftFilters.value?.industryName?.let { name ->
+                    Industry(
+                        id = viewModel.draftFilters.value?.industryId,
+                        name = name
+                    )
+                }
+            )
+        }
+        findNavController().navigate(
+            R.id.action_filterFragment_to_industryFilterFragment,
+            bundle
+        )
     }
 
-    private fun wplFilter() = viewModel.draftFilters.value?.copy(areaId = null, areaName = "", areaParentName = "") ?: FilterParameters.defaultFilters.copy(areaId = null, areaName = "", areaParentName = "")
-
-    private fun indFilter() = viewModel.draftFilters.value?.copy(industryId = null, industryName = "") ?: FilterParameters.defaultFilters.copy(industryId = null, industryName = "")
-
-    private fun indBundle() = Bundle().apply { putSerializable("industry", viewModel.draftFilters.value?.industryName?.let { Industry(id = viewModel.draftFilters.value?.industryId, name = it) }) }
 
     private fun industryKeyboard() {
         binding.imgClear.setOnClickListener {
