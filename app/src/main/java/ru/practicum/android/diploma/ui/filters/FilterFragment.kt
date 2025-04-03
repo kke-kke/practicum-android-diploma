@@ -109,72 +109,45 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
     }
 
     private fun initOnClickListeners() {
-        binding.toolbar.setNavigationOnClickListener {
-            findNavController().navigateUp()
-        }
-
-        binding.imgClearWpl.setOnClickListener {
-            viewModel.updateFilter(
-                viewModel.draftFilters.value?.copy(
-                    areaId = null,
-                    areaName = "",
-                    areaParentName = ""
-                ) ?: FilterParameters.defaultFilters.copy(
-                    areaId = null,
-                    areaName = "",
-                    areaParentName = ""
-                )
-            )
-        }
-
-        binding.imgClearIndustry.setOnClickListener {
-            viewModel.updateFilter(
-                viewModel.draftFilters.value?.copy(
-                    industryId = null,
-                    industryName = ""
-                ) ?: FilterParameters.defaultFilters.copy(
-                    industryId = null,
-                    industryName = ""
-                )
-            )
-        }
-
-        industryKeyboard()
-
-        binding.tvWplChoose.setOnClickListener {
-            findNavController().navigate(R.id.action_filterFragment_to_jobPlaceFragment)
-        }
-
-        binding.tvIndustryChoose.setOnClickListener {
-            findNavController().navigate(R.id.action_filterFragment_to_industryFilterFragment)
-        }
-
-        binding.viewIndustryChoose.setOnClickListener {
-            val bundle = Bundle().apply {
-                putSerializable(
-                    "industry",
-                    viewModel.draftFilters.value?.industryName?.let { name ->
-                        Industry(
-                            id = viewModel.draftFilters.value?.industryId,
-                            name = name
-                        )
-                    }
-                )
-            }
-            findNavController().navigate(R.id.action_filterFragment_to_industryFilterFragment, bundle)
-        }
-
-        industryVisibility()
-
-        binding.tvReset.setOnClickListener {
-            viewModel.clearDraft()
-        }
-
-        binding.btnApply.setOnClickListener {
-            viewModel.applyFilters()
-            findNavController().navigateUp()
+        with(binding) {
+            toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
+            imgClearWpl.setOnClickListener { clearWplFilter() }
+            imgClearIndustry.setOnClickListener { clearIndustryFilter() }
+            industryKeyboard()
+            tvWplChoose.setOnClickListener { navJobPlace() }
+            tvIndustryChoose.setOnClickListener { navIndustry() }
+            viewIndustryChoose.setOnClickListener { navIndustryData() }
+            industryVisibility()
+            tvReset.setOnClickListener { viewModel.clearDraft() }
+            btnApply.setOnClickListener { viewModel.applyFilters(); findNavController().navigateUp() }
         }
     }
+
+    private fun clearWplFilter() {
+        viewModel.updateFilter(wplFilter())
+    }
+
+    private fun clearIndustryFilter() {
+        viewModel.updateFilter(indFilter())
+    }
+
+    private fun navJobPlace() {
+        findNavController().navigate(R.id.action_filterFragment_to_jobPlaceFragment)
+    }
+
+    private fun navIndustry() {
+        findNavController().navigate(R.id.action_filterFragment_to_industryFilterFragment)
+    }
+
+    private fun navIndustryData() {
+        findNavController().navigate(R.id.action_filterFragment_to_industryFilterFragment, indBundle())
+    }
+
+    private fun wplFilter() = viewModel.draftFilters.value?.copy(areaId = null, areaName = "", areaParentName = "") ?: FilterParameters.defaultFilters.copy(areaId = null, areaName = "", areaParentName = "")
+
+    private fun indFilter() = viewModel.draftFilters.value?.copy(industryId = null, industryName = "") ?: FilterParameters.defaultFilters.copy(industryId = null, industryName = "")
+
+    private fun indBundle() = Bundle().apply { putSerializable("industry", viewModel.draftFilters.value?.industryName?.let { Industry(id = viewModel.draftFilters.value?.industryId, name = it) }) }
 
     private fun industryKeyboard() {
         binding.imgClear.setOnClickListener {
