@@ -140,6 +140,7 @@
             android:inputType="number"
             android:maxLines="1"
             android:paddingBottom="8dp"
+            android:maxLength="9"
             android:textColor="@color/yp_black"
             android:textCursorDrawable="@drawable/custom_cursor" />
 
