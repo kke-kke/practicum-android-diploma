@@ -35,9 +35,9 @@ class IndustryViewModel(
         viewModelScope.launch {
             val result = industryInteractor.loadIndustries()
             result.fold(
-                onSuccess = { list ->
-                    originalList = list
-                    _screenState.value = IndustryScreenState.Success(list)
+                onSuccess = { hierarchicalIndustries ->
+                    originalList = flattenIndustries(hierarchicalIndustries)
+                    _screenState.value = IndustryScreenState.Success(originalList)
                     industryName.id?.let { selectIndustry(it) }
                 },
                 onFailure = {
@@ -45,6 +45,16 @@ class IndustryViewModel(
                 }
             )
         }
+    }
+
+    private fun flattenIndustries(industries: List<Industry>): List<Industry> {
+        val result = mutableListOf<Industry>()
+        fun flatten(industry: Industry) {
+            result.add(industry.copy(industries = emptyList()))
+            industry.industries.forEach { child -> flatten(child) }
+        }
+        industries.forEach { root -> flatten(root) }
+        return result
     }
 
     fun filterIndustries(query: String) {
