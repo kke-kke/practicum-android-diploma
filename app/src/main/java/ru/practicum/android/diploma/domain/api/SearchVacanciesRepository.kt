@@ -7,6 +7,10 @@ interface SearchVacanciesRepository {
     fun searchVacancies(
         text: String,
         page: Int,
-        perPage: Int
+        perPage: Int,
+        areaId: String?,
+        industryId: String?,
+        salary: Int?,
+        onlyWithSalary: Boolean
     ): Flow<VacanciesStateLoad>
 }

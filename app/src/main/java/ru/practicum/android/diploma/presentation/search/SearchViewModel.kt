@@ -9,15 +9,18 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.R
+import ru.practicum.android.diploma.domain.storage.SharedFiltersInteractor
 import ru.practicum.android.diploma.domain.interactor.SearchVacanciesInteractor
 import ru.practicum.android.diploma.domain.interactor.SearchVacanciesResult
+import ru.practicum.android.diploma.domain.models.FilterParameters
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.presentation.state.VacanciesScreenState
 import ru.practicum.android.diploma.util.Constants
 
 class SearchViewModel(
     private val searchVacanciesInteractor: SearchVacanciesInteractor,
-    private val context: Application
+    private val context: Application,
+    private val filtersInteractor: SharedFiltersInteractor
 ) : ViewModel() {
 
     private var searchJob: Job? = null
@@ -30,10 +33,27 @@ class SearchViewModel(
     val searchScreenState: LiveData<VacanciesScreenState> = _searchScreenState
     private var oldList = listOf<Vacancy>()
 
+    private val _isFiltersApplied = MutableLiveData<Boolean>()
+    val isFiltersApplied: LiveData<Boolean> = _isFiltersApplied
+
+    init {
+        checkFilters()
+    }
+
+    fun checkFilters() {
+        val currentFilters = filtersInteractor.getCurrentFilters()
+        _isFiltersApplied.value = currentFilters != FilterParameters.defaultFilters
+    }
+
     fun searchVacancies(searchedText: String) {
-        if (searchedText.isEmpty() or (searchedText == lastSearchText)) {
+        if (searchedText.isEmpty()) {
+            searchJob?.cancel()
             return
         }
+
+        /*if (searchedText == lastSearchText) {
+            return
+        }*/
 
         oldList = emptyList()
         lastSearchText = searchedText
@@ -42,10 +62,17 @@ class SearchViewModel(
 
         searchJob = viewModelScope.launch {
             delay(SEARCH_DEBOUNCE_DELAY_IN_MLS)
+
+            val currentFilter = filtersInteractor.getCurrentFilters()
+
             searchVacanciesInteractor.searchVacancies(
                 text = lastSearchText,
                 page = currentPage,
-                perPage = Constants.VACANCIES_PER_PAGE
+                perPage = Constants.VACANCIES_PER_PAGE,
+                areaId = currentFilter.areaId,
+                industryId = currentFilter.industryId,
+                salary = currentFilter.salary,
+                onlyWithSalary = currentFilter.onlyWithSalary,
             )?.collect { searchVacanciesResult ->
                 val state: VacanciesScreenState = handleState(searchVacanciesResult)
                 setScreenState(state)
@@ -61,10 +88,16 @@ class SearchViewModel(
         if (!isNextPageLoading) {
             isNextPageLoading = true
             searchJob = viewModelScope.launch {
+                val currentFilter = filtersInteractor.getCurrentFilters()
+
                 searchVacanciesInteractor.searchVacancies(
                     text = lastSearchText,
                     page = currentPage + 1,
-                    perPage = Constants.VACANCIES_PER_PAGE
+                    perPage = Constants.VACANCIES_PER_PAGE,
+                    areaId = currentFilter.areaId,
+                    industryId = currentFilter.industryId,
+                    salary = currentFilter.salary,
+                    onlyWithSalary = currentFilter.onlyWithSalary,
                 )?.collect { searchVacanciesResult ->
                     val state: VacanciesScreenState = handleState(searchVacanciesResult)
                     setScreenState(state)

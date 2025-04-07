@@ -42,6 +42,16 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.isFiltersApplied.observe(viewLifecycleOwner) { isApplied ->
+            binding.filterButton.setImageResource(
+                if (isApplied) {
+                    R.drawable.ic_filter_on
+                } else {
+                    R.drawable.ic_filter_off
+                }
+            )
+        }
+
         binding.searchResultRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.searchResultRecyclerView.adapter = adapter
 
@@ -65,8 +75,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                     adapter.updateVacancyList(emptyList())
                     errorMessageVisibility()
                     vacancyCountVisibility()
-                    viewModel.searchVacancies(searchedText = s.toString())
                 }
+                viewModel.searchVacancies(searchedText = s.toString())
             }
         })
 
@@ -101,6 +111,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             }
         }
 
+        binding.filterButton.setOnClickListener {
+            findNavController().navigate(R.id.action_searchFragment_to_filterFragment)
+        }
     }
 
     private fun showServerError() {
@@ -229,5 +242,15 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             else -> getString(R.string.toast_error)
         }
         showCustomSnackBar(errorMessage, binding.root, requireContext())
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.checkFilters()
+
+        val currentQuery = binding.searchBar.text?.toString() ?: ""
+        if (currentQuery.isNotEmpty()) {
+            viewModel.searchVacancies(currentQuery)
+        }
     }
 }

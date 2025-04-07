@@ -12,12 +12,20 @@ class SearchVacanciesInteractorImpl(
     override fun searchVacancies(
         text: String,
         page: Int,
-        perPage: Int
+        perPage: Int,
+        areaId: String?,
+        industryId: String?,
+        salary: Int?,
+        onlyWithSalary: Boolean
     ): Flow<SearchVacanciesResult> {
         val result = searchVacanciesRepository.searchVacancies(
             text = text,
             page = page,
-            perPage = perPage
+            perPage = perPage,
+            areaId = areaId,
+            industryId = industryId,
+            salary = salary,
+            onlyWithSalary = onlyWithSalary,
         ).map { vacancies ->
             when {
                 vacancies.isLoading -> SearchVacanciesResult.Loading

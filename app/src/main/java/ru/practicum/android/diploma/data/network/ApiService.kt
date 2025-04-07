@@ -19,7 +19,11 @@ interface ApiService {
     suspend fun searchVacancies(
         @Query("text") text: String,
         @Query("page") page: Int,
-        @Query("per_page") perPage: Int
+        @Query("per_page") perPage: Int,
+        @Query("area") areaId: String? = null,
+        @Query("industry") industryId: String? = null,
+        @Query("salary") salary: Int? = null,
+        @Query("only_with_salary") onlyWithSalary: Boolean = false,
     ): Response<VacanciesResponse>
 
     @Headers(
