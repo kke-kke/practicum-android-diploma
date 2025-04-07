@@ -80,27 +80,26 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
                     binding.etSalary.setSelection(salary.toString().length)
                     isSalaryUpdating = false
                 }
-            }
-
-            with(binding) {
-                tvWplChoose.isVisible = !isWorkPlaceChosen
-                chosenPlaceOfWork.isVisible = isWorkPlaceChosen
-
-                if (isWorkPlaceChosen) {
-                    tvWorkplace.text = buildWorkplaceText(filters)
+            } ?: run {
+                if (!isSalaryUpdating) {
+                    isSalaryUpdating = true
+                    binding.etSalary.setText("")
+                    isSalaryUpdating = false
                 }
-
-                tvIndustryChoose.isVisible = !isIndustryChosen
-                chosenIndustry.isVisible = isIndustryChosen
-
-                if (isIndustryChosen) {
-                    tvIndustry.text = filters.industryName
-                }
-
-                tvReset.isVisible = hasChanges
-                imgClearWpl.isVisible = isWorkPlaceChosen
-                imgClearIndustry.isVisible = isIndustryChosen
             }
+            binding.tvWplChoose.isVisible = !isWorkPlaceChosen
+            binding.chosenPlaceOfWork.isVisible = isWorkPlaceChosen
+            if (isWorkPlaceChosen) {
+                binding.tvWorkplace.text = buildWorkplaceText(filters)
+            }
+            binding.tvIndustryChoose.isVisible = !isIndustryChosen
+            binding.chosenIndustry.isVisible = isIndustryChosen
+            if (isIndustryChosen) {
+                binding.tvIndustry.text = filters.industryName
+            }
+            binding.tvReset.isVisible = hasChanges
+            binding.imgClearWpl.isVisible = isWorkPlaceChosen
+            binding.imgClearIndustry.isVisible = isIndustryChosen
         }
 
         viewModel.showApplyButton.observe(viewLifecycleOwner) { show ->
