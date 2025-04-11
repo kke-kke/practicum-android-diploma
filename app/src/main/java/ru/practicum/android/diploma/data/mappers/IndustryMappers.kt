@@ -6,7 +6,8 @@ import ru.practicum.android.diploma.domain.models.Industry
 fun IndustryDTO.toDomain(): Industry {
     return Industry(
         id = this.id ?: "",
-        name = this.name ?: ""
+        name = this.name ?: "",
+        industries = this.industries?.map { it.toDomain() } ?: emptyList()
     )
 }
 
